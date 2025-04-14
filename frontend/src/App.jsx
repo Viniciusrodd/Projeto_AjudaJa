@@ -16,7 +16,7 @@ function App() {
 
     return (
         <div>
-            <h1>AjudaJá</h1>
+            <h1 className='title is-1'>AjudaJá</h1>
             <p>Mensagem do backend: { message }</p>
         </div>
     )

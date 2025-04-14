@@ -1,7 +1,7 @@
 
 class User{
     test(req, res){
-        console.log('teste de rota');
+        //console.log('teste de rota');
         res.status(200).send({
             msg: 'teste ok'
         });
