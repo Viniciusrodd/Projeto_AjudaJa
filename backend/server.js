@@ -1,6 +1,6 @@
 
 // modules
-import app from './app.js';
+const app = require('./app.js');
 
 // server opens
 app.listen(2130, () =>{

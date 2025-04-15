@@ -1,8 +1,9 @@
 
 // import modules
-import express from 'express';
-import cors from 'cors';
-import router from './routes/routes.js'; 
+const express = require('express');
+const cors = require('cors');
+const router = require('./routes/routes.js'); 
+const connection = require('./connection/connection.js');
 
 const app = express();
 
@@ -16,7 +17,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+connection.authenticate()
+    .then(() => {
+        console.log('Database authenticated');
+        return connection.sync();
+    })
+    .catch((error) => {
+        console.log('Database error at authenticated', error);
+    });
+
+
 app.use('/', router);
 
 
-export default app;
+module.exports = app;

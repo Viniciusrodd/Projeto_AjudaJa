@@ -8,4 +8,4 @@ class User{
     };
 };
 
-export default new User();
+module.exports = new User();

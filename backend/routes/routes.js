@@ -1,12 +1,12 @@
 
 // import modules
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import userController from '../controller/userController.js';
+const userController = require('../controller/userController.js');
 
 
 // User routes => PORT: 2130
 router.get('/teste', userController.test);
 
 
-export default router;
+module.exports = router;
