@@ -7,3 +7,21 @@ html, body{
     margin: 0;
     padding: 0;
 }
+
+span{
+    color: #00EBC7;
+
+}
+
+.link {
+    transition: all 0.3s ease-out;
+}
+.link:hover {
+    transform: scale(1.02);
+}
+
+.container_images{
+    height: 80px;
+    width: 80px;
+    border-radius: 100px;
+}

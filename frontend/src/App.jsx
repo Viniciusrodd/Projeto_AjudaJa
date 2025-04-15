@@ -3,21 +3,24 @@
 import './App.css'
 
 // hooks
-import { useFetchTest } from './hooks/useFetchTest'
-import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+// components
+import NavBar from './components/NavBar/NavBar'
+
+// pages
+import Home from './pages/HomePage/Home';
+
 
 function App() {
-    const URL = 'http://localhost:2130/teste';
-    const { message } = useFetchTest(URL);
-
-    useEffect(() => {
-        console.log(message)
-    }, [message]);
-
     return (
         <div>
-            <h1 className='title is-1'>AjudaJá</h1>
-            <p>Mensagem do backend: { message }</p>
+            <BrowserRouter>
+                <NavBar />
+                <Routes>
+                    <Route path='/' element={ <Home /> } />
+                </Routes>
+            </BrowserRouter>
         </div>
     )
 }

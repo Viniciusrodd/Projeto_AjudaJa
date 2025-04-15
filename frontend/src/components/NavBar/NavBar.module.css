@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+.nav_bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 15vh;
+    border-bottom: 2px solid #00EBC7;
+}
+
+.nav_bar_container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 12%;
+    margin-left: 5%;
+
+    & .title_navbar{
+        font-size: 30px;
+        color: white;
+        font-weight: bolder;
+        margin: 0;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+    & .title_navbar:hover{
+        transform: scale(1.05);
+    }
+}
+
+.img_container{
+    background-image: url(../../../images/ilustracao-de-ajudando-maos-apoio-icones.png);
+    background-position: center;
+    background-size: cover;
+}
+
+a{
+    margin-right: 5%;
+}
+
+.profile_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5%;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    
+    & span{
+        font-size: 40px;
+    }
+}
+.profile_container:hover{
+    transform: scale(1.15);
+    background-color: #15181d;
+}
