@@ -1,6 +1,18 @@
 
 // modules
 const app = require('./app.js');
+const connection = require('./connection/connection.js');
+
+
+connection.authenticate()
+    .then(() => {
+        console.log('Database authenticated');
+        return connection.sync();
+    })
+    .catch((error) => {
+        console.log('Database error at authenticated', error);
+    });
+
 
 // server opens
 app.listen(2130, () =>{
