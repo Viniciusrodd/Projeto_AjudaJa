@@ -1,13 +1,13 @@
 
 // modules
 const app = require('./app.js');
-const connection = require('./connection/connection.js');
+const Connection = require('./connection/connection.js');
 
 
-connection.authenticate()
+Connection.authenticate()
     .then(() => {
         console.log('Database authenticated');
-        return connection.sync();
+        return Connection.sync();
     })
     .catch((error) => {
         console.log('Database error at authenticated', error);
