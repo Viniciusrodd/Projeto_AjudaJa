@@ -10,6 +10,7 @@ import NavBar from './components/NavBar/NavBar'
 
 // pages
 import Home from './pages/HomePage/Home';
+import Register from './pages/Register/Register';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <NavBar />
                 <Routes>
                     <Route path='/' element={ <Home /> } />
+                    <Route path='/cadastro' element={ <Register /> } />
                 </Routes>
             </BrowserRouter>
         </div>
