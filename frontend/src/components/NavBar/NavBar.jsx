@@ -12,7 +12,7 @@ const NavBar = () => {
                 <Link to='/'>
                     <h1 className={ styles.title_navbar }>Ajuda<span>Já</span></h1>
                 </Link>
-                <div className={ `${styles.img_container} container_images` }></div>
+                <div className='img_container container_images'></div>
             </div>
 
             <div className={ `${styles.profile_container} container_images` }>

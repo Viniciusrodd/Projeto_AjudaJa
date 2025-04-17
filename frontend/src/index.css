@@ -6,11 +6,20 @@
 html, body{
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
-span{
-    color: #00EBC7;
+.app{
+    background-image: url(../../../images/abstract_register.jpg);
+    background-size: cover;
+    background-position: center center;
+}
 
+.align_default{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .link {
@@ -20,9 +29,26 @@ span{
     transform: scale(1.02);
 }
 
+.img_container{
+    background-image: url(../../../images/ilustracao-de-ajudando-maos-apoio-icones.png);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgba(0, 0, 0, 0.215);
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+}
+.img_container:hover{
+    border: 2px solid rgb(0, 0, 0);
+    transform: scale(1.05);
+}
+
 .container_images{
-    height: 80px;
-    width: 80px;
+    height: 70px;
+    width: 70px;
     border-radius: 100px;
     color: rgb(255, 255, 0);
+}
+
+input{
+    background-color: white;
 }

@@ -15,7 +15,7 @@ import Register from './pages/Register/Register';
 
 function App() {
     return (
-        <div>
+        <div className='app'>
             <BrowserRouter>
                 <NavBar />
                 <Routes>
