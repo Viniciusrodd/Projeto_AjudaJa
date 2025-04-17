@@ -1,8 +1,9 @@
 
 // modules
 const app = require('./app.js');
-const Connection = require('./connection/connection.js');
+const Connection = require('./Database/connection/connection.js');
 
+const relations = require('./Database/Relations.js');
 
 Connection.authenticate()
     .then(() => {
