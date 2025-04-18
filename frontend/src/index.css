@@ -10,9 +10,10 @@ html, body{
 }
 
 .app{
-    background-image: url(../../../images/abstract_register.jpg);
+    background-image: url(../../../images/register_4.jpg);
     background-size: cover;
     background-position: center center;
+    padding-bottom: 40px;
 }
 
 .align_default{
@@ -29,16 +30,27 @@ html, body{
     transform: scale(1.02);
 }
 
+.link_login{
+    color: #00D1B2;
+    font-weight: bolder;
+    font-size: 20px;
+    transition: all 0.3s ease-out;
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 1);    
+}
+.link_login:hover{
+    transform: scale(1.04);
+}
+
 .img_container{
     background-image: url(../../../images/ilustracao-de-ajudando-maos-apoio-icones.png);
     background-position: center;
     background-size: cover;
-    border: 2px solid rgba(0, 0, 0, 0.215);
     transition: all 0.3s ease-out;
     cursor: pointer;
+    background-color: #001F1A;
+    border: 2px solid #00D1B2;
 }
 .img_container:hover{
-    border: 2px solid rgb(0, 0, 0);
     transform: scale(1.05);
 }
 
@@ -51,4 +63,11 @@ html, body{
 
 input{
     background-color: white;
+}
+
+.hr{
+    height: 2px;
+    width: 90%;
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0.323);
 }

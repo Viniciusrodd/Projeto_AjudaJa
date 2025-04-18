@@ -2,6 +2,8 @@
 // css
 import styles from './Register.module.css';
 
+// hooks
+import { Link } from 'react-router-dom';
 
 const Register = () => {
     return (
@@ -11,11 +13,13 @@ const Register = () => {
 
                 <h1 className='title is-3 has-text-black'>"Ajuda que conecta"</h1>
 
-                <button className="button is-link is-outlined">
-                    Continue com Google <img src="../../../public/images/google_icon.png"/>
+                <button className="button is-primary is-inverted">
+                    Continue com Google <img src="../../../images/google_icon.png"/>
                 </button>
 
-                <h1 className='title is-6 has-text-black'>Ou</h1>
+                <h1 className={ styles.subtitle }>Ou</h1>
+
+                <hr className='hr' />
 
                 <input type="text" name="name" className={ styles.input_register } 
                 placeholder='Seu nome'/>
@@ -25,6 +29,29 @@ const Register = () => {
 
                 <input type="password" name="password" className={ styles.input_register } 
                 placeholder='Crie uma senha'/>
+
+                <input type="password" name="confirm_password" className={ styles.input_register } 
+                placeholder='Confirme sua senha'/>
+
+                <hr className='hr' />
+
+                {/* image upload */}
+                <h1 className={ styles.subtitle }>Escolha uma foto de perfil (opcional)</h1>
+
+                <div className={ styles.div_imagem_perfil }></div>
+                {/* Formulário de upload de imagem */}
+                <input type="file" name="imageCreate" accept="image/*" className={ styles.input_register } />
+
+                <hr className='hr' />
+
+                <button className="button is-primary is-inverted">
+                    Concluir
+                </button>
+
+                <hr className='hr' />
+
+                <h1 className={ styles.subtitle }>Já tem um perfil ?</h1>
+                <Link className='link_login'>Faça Login</Link>
             </div>
         </div>
     );
