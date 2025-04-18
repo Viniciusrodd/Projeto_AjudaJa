@@ -17,8 +17,7 @@ const ProfileImageSchema = new mongoose.Schema({
         required: true
     }
 }, {
-    timestamps: true,
-    collection: profileImage
+    timestamps: true
 });
 
 const ProfileImage = mongoose.model('ProfileImage', ProfileImageSchema);

@@ -22,23 +22,28 @@ const User = Connection.define('Users', {
     },
     role: {
         type: DataTypes.ENUM('usuario', 'moderador'),
-        allowNull: false
+        allowNull: false,
+        defaultValue: 'usuario'
     },
     street: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: true,
+        defaultValue: ''
     },
     city: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: true,
+        defaultValue: ''
     },
     state: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true,
+        defaultValue: ''
     },
     zip_code: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true,
+        defaultValue: ''
     },
     profile_image_id: {
         type: DataTypes.STRING(24),

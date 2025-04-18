@@ -63,7 +63,7 @@ const Register = () => {
 
                 </div>
                 {/* Formulário de upload de imagem */}
-                <input type="file" name="imageCreate" accept="image/*" className={ styles.input_register } 
+                <input type="file" name="image" accept="image/*" className={ styles.input_register } 
                 onChange={ uploadImage }/>
 
                 <hr className='hr' />

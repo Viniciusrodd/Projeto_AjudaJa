@@ -4,9 +4,15 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controller/userController.js');
 
+const multer = require('multer');
+const storage = multer.memoryStorage(); // files sended are saves temporarily in RAM
+const upload = multer({ storage });
 
-// User routes => PORT: 2130
+//port 2130 //Test
 router.get('/teste', userController.test);
+
+//port 2130 //User
+router.post('/register', upload.single('image'), userController.registerUser);
 
 
 module.exports = router;
