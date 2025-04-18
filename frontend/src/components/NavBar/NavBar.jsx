@@ -17,7 +17,7 @@ const NavBar = () => {
 
             <div className={ `${styles.profile_container} container_images` }>
                 <Link to='/cadastro'>
-                    <span class="material-symbols-outlined" id='person'>person</span>
+                    <span className="material-symbols-outlined" id='person'>person</span>
                 </Link>
             </div>
         </nav>

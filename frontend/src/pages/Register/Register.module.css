@@ -69,19 +69,8 @@
     height: 130px;
     width: 130px;
     margin: 20px;
-    background-color: white;
+    border-radius: 50%;
+    background-image: url(../../../images/user.jpg);
     background-size: cover;
-    background-repeat: no-repeat;
-    border: none;
-    border-radius: 100px;
-}
-
-.imagem-perfil{
-    height: 130px;
-    width: 130px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border: none;
-    border-radius: 100px;
-    margin: 0px;
+    overflow: hidden;
 }
