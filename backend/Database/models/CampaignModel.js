@@ -1,6 +1,6 @@
 
 const { DataTypes } = require('sequelize');
-const Connection = require('../connection/connection');
+const Connection = require('../Connection/connection');
 
 const Campaign = Connection.define('Campaigns', {
     id: {
