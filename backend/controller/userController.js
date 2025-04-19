@@ -15,6 +15,7 @@ class User{
     async registerUser(req, res){
         const { name, email, password } = req.body;
         const image = req.file;
+        //console.log('imagem enviada: ', image);
 
         if(!name, !email, !password){
             return res.status(400).send({
@@ -53,9 +54,9 @@ class User{
             });
         }
         catch(error){
-            console.log('Internal server error at User creation without image', error);
+            console.log('Internal server error at User creation', error);
             return res.status(500).json({
-                msgError: 'Internal server error at User creation without image',
+                msgError: 'Internal server error at User creation',
                 details: error.response?.data || error.message
             });
         };

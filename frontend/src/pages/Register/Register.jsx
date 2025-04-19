@@ -5,7 +5,7 @@ import styles from './Register.module.css';
 // hooks
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { useUserRegister } from '../../hooks/UserFetch/useUserRegister'; // custom hook - create user
+import { userRegister } from '../../hooks/UserFetch/useUserRegister'; // custom hook
 
 const Register = () => {
     const [ name, setName ] = useState('');
@@ -56,28 +56,36 @@ const Register = () => {
         };    
     }, [message]);
 
-    const handleForm = (e) =>{
+    const handleForm = async (e) =>{
         e.preventDefault();
 
         if(password != confirmPassword){
             setMessage('Por favor, confirme a senha correta...');
             return;
         }
-        const data = {
-            name, email, password, image
-        }
 
-        const { success } = useUserRegister(URL, data);
-        if(success){
-            setMessage(success);
-            return;
+        const data = new FormData();
+        data.append('name', name);
+        data.append('email', email);
+        data.append('password', password);
+        if(image) data.append('image', image);
+
+        try{
+            const response = await userRegister(URL, data);
+            if(response.status === 201){
+                setMessage('Usuário criado com sucesso!');
+            }
+        }
+        catch(error){
+            console.log('Error ar register user', error);
+            setMessage('Erro ao criar usuário...');
         }
     };
 
     return (
         <div className={ styles.register_container }>
             { message !== '' && 
-                <p className='subtitle is-3' ref={ messageRef } style={{ color:'red', backgroundColor:'#600000' }}>
+                <p className='subtitle is-3' ref={ messageRef } style={{ backgroundColor:'black' }}>
                     { message }
                 </p> 
             }
