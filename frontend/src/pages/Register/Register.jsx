@@ -4,15 +4,26 @@ import styles from './Register.module.css';
 
 // hooks
 import { Link } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useUserRegister } from '../../hooks/UserFetch/useUserRegister'; // custom hook - create user
 
 const Register = () => {
+    const [ name, setName ] = useState('');
+    const [ email, setEmail ] = useState('');
+    const [ password, setPassword ] = useState('');
+    const [ confirmPassword, setConfirmPassword ] = useState('');
+    const [ image, setImage ] = useState('');
+    const [ message, setMessage ] = useState('');
+
     const divImage = useRef(null);
+    const messageRef = useRef(null);
+    const URL = 'http://localhost:2130/register';
 
     const uploadImage = (e) => {
         const file = e.target.files[0];
         if(file){
             const reader = new FileReader();
+            setImage(file);
 
             reader.onload = (e) => {
                 if(divImage.current){
@@ -27,9 +38,50 @@ const Register = () => {
         }
     };
 
+
+    useEffect(() => {
+        if(message !== ''){
+            messageRef.current.scrollIntoView({
+                behavior: "smooth"
+            });
+            const clearMessage = setTimeout(() => {
+                console.log('clear message executed...');
+                setMessage('');
+            }, 3000);
+
+            return () => {
+                clearTimeout(clearMessage);
+                console.log('clear message remove...');
+            };
+        };    
+    }, [message]);
+
+    const handleForm = (e) =>{
+        e.preventDefault();
+
+        if(password != confirmPassword){
+            setMessage('Por favor, confirme a senha correta...');
+            return;
+        }
+        const data = {
+            name, email, password, image
+        }
+
+        const { success } = useUserRegister(URL, data);
+        if(success){
+            setMessage(success);
+            return;
+        }
+    };
+
     return (
         <div className={ styles.register_container }>
-            <div className={ `align_default ${styles.register_fields_container}` }>
+            { message !== '' && 
+                <p className='subtitle is-3' ref={ messageRef } style={{ color:'red', backgroundColor:'#600000' }}>
+                    { message }
+                </p> 
+            }
+            <form onSubmit={ handleForm } className={ `align_default ${styles.register_fields_container}` }>
                 <div className='img_container container_images'></div>
 
                 <h1 className='title is-3 has-text-black'>"Ajuda que conecta"</h1>
@@ -43,16 +95,16 @@ const Register = () => {
                 <hr className='hr' />
 
                 <input type="text" name="name" className={ styles.input_register } 
-                placeholder='Seu nome'/>
+                placeholder='Seu nome' value={ name } onChange={ (e) => setName(e.target.value) } />
 
                 <input type="email" name="email" className={ styles.input_register } 
-                placeholder='Endereço de Email'/>
+                placeholder='Endereço de Email' value={ email } onChange={ (e) => setEmail(e.target.value) }/>
 
                 <input type="password" name="password" className={ styles.input_register } 
-                placeholder='Crie uma senha'/>
+                placeholder='Crie uma senha' value={ password } onChange={ (e) => setPassword(e.target.value) }/>
 
                 <input type="password" name="confirm_password" className={ styles.input_register } 
-                placeholder='Confirme sua senha'/>
+                placeholder='Confirme sua senha' value={ confirmPassword } onChange={ (e) => setConfirmPassword(e.target.value) }/>
 
                 <hr className='hr' />
 
@@ -76,7 +128,7 @@ const Register = () => {
 
                 <h1 className={ styles.subtitle }>Já tem um perfil ?</h1>
                 <Link className='link_login'>Faça Login</Link>
-            </div>
+            </form>
         </div>
     );
 };
