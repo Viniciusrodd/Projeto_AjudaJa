@@ -6,8 +6,14 @@ import styles from './Register.module.css';
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { userRegister } from '../../hooks/UserFetch/useUserRegister'; // custom hook
+import { useNavigate } from 'react-router-dom';
+
+// components
+import NavBar from '../../components/NavBar/NavBar';
+
 
 const Register = () => {
+    // states
     const [ name, setName ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
@@ -15,10 +21,14 @@ const Register = () => {
     const [ image, setImage ] = useState('');
     const [ message, setMessage ] = useState('');
 
+    // consts
     const divImage = useRef(null);
     const messageRef = useRef(null);
+    const imageInput = useRef(null);
     const URL = 'http://localhost:2130/register';
+    const navigate = useNavigate();
 
+    // upload image
     const uploadImage = (e) => {
         const file = e.target.files[0];
         if(file){
@@ -38,7 +48,7 @@ const Register = () => {
         }
     };
 
-
+    // advice message
     useEffect(() => {
         if(message !== ''){
             messageRef.current.scrollIntoView({
@@ -56,6 +66,7 @@ const Register = () => {
         };    
     }, [message]);
 
+    // create user request
     const handleForm = async (e) =>{
         e.preventDefault();
 
@@ -74,6 +85,15 @@ const Register = () => {
             const response = await userRegister(URL, data);
             if(response.status === 201){
                 setMessage('Usuário criado com sucesso!');
+
+                setName('');
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                divImage.current.style.backgroundImage = `url(../../../images/user.jpg)`
+                imageInput.current.value = ''
+            
+                navigate('/login');
             }
         }
         catch(error){
@@ -83,60 +103,63 @@ const Register = () => {
     };
 
     return (
-        <div className={ styles.register_container }>
-            { message !== '' && 
-                <p className='subtitle is-3' ref={ messageRef } style={{ backgroundColor:'black' }}>
-                    { message }
-                </p> 
-            }
-            <form onSubmit={ handleForm } className={ `align_default ${styles.register_fields_container}` }>
-                <div className='img_container container_images'></div>
+        <div className='app_register_login'>
+            <NavBar condition={ true } />
+            <div className={ styles.register_container }>
+                { message !== '' && 
+                    <p className='subtitle is-3' ref={ messageRef } style={{ backgroundColor:'black' }}>
+                        { message }
+                    </p> 
+                }
+                <form onSubmit={ handleForm } className={ `align_default ${styles.register_fields_container}` }>
+                    <div className='img_container container_images'></div>
 
-                <h1 className='title is-3 has-text-black'>"Ajuda que conecta"</h1>
+                    <h1 className='title is-3 has-text-black'>"Ajuda que conecta"</h1>
 
-                <button className="button is-primary is-inverted">
-                    Continue com Google <img src="../../../images/google_icon.png"/>
-                </button>
+                    <button className="button is-primary is-inverted">
+                        Continue com Google <img src="../../../images/google_icon.png"/>
+                    </button>
 
-                <h1 className={ styles.subtitle }>Ou</h1>
+                    <h1 className={ styles.subtitle }>Ou</h1>
 
-                <hr className='hr' />
+                    <hr className='hr' />
 
-                <input type="text" name="name" className={ styles.input_register } 
-                placeholder='Seu nome' value={ name } onChange={ (e) => setName(e.target.value) } />
+                    <input type="text" name="name" className={ styles.input_register } 
+                    placeholder='Seu nome' value={ name } onChange={ (e) => setName(e.target.value) } />
 
-                <input type="email" name="email" className={ styles.input_register } 
-                placeholder='Endereço de Email' value={ email } onChange={ (e) => setEmail(e.target.value) }/>
+                    <input type="email" name="email" className={ styles.input_register } 
+                    placeholder='Endereço de Email' value={ email } onChange={ (e) => setEmail(e.target.value) }/>
 
-                <input type="password" name="password" className={ styles.input_register } 
-                placeholder='Crie uma senha' value={ password } onChange={ (e) => setPassword(e.target.value) }/>
+                    <input type="password" name="password" className={ styles.input_register } 
+                    placeholder='Crie uma senha' value={ password } onChange={ (e) => setPassword(e.target.value) }/>
 
-                <input type="password" name="confirm_password" className={ styles.input_register } 
-                placeholder='Confirme sua senha' value={ confirmPassword } onChange={ (e) => setConfirmPassword(e.target.value) }/>
+                    <input type="password" name="confirm_password" className={ styles.input_register } 
+                    placeholder='Confirme sua senha' value={ confirmPassword } onChange={ (e) => setConfirmPassword(e.target.value) }/>
 
-                <hr className='hr' />
+                    <hr className='hr' />
 
-                {/* image upload */}
-                <h1 className={ styles.subtitle }>Escolha uma foto de perfil (opcional)</h1>
+                    {/* image upload */}
+                    <h1 className={ styles.subtitle }>Escolha uma foto de perfil (opcional)</h1>
 
-                <div className={ styles.div_imagem_perfil } ref={ divImage }>
+                    <div className={ styles.div_imagem_perfil } ref={ divImage }>
 
-                </div>
-                {/* Formulário de upload de imagem */}
-                <input type="file" name="image" accept="image/*" className={ styles.input_register } 
-                onChange={ uploadImage }/>
+                    </div>
+                    {/* Formulário de upload de imagem */}
+                    <input type="file" name="image" accept="image/*" className={ styles.input_register } 
+                    onChange={ uploadImage } ref={ imageInput }/>
 
-                <hr className='hr' />
+                    <hr className='hr' />
 
-                <button className="button is-primary is-inverted">
-                    Concluir
-                </button>
+                    <button className="button is-primary is-inverted">
+                        Concluir
+                    </button>
 
-                <hr className='hr' />
+                    <hr className='hr' />
 
-                <h1 className={ styles.subtitle }>Já tem um perfil ?</h1>
-                <Link className='link_login'>Faça Login</Link>
-            </form>
+                    <h1 className={ styles.subtitle }>Já tem um perfil ?</h1>
+                    <Link className='link_login'>Faça Login</Link>
+                </form>
+            </div>
         </div>
     );
 };

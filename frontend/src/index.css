@@ -9,10 +9,15 @@ html, body{
     height: 100%;
 }
 
-.app{
+.app_register_login{
     background-image: url(../../../images/register_4.jpg);
     background-size: cover;
     background-position: center center;
+    padding-bottom: 40px;
+}
+
+.app_default{
+    background-color: #14161A;
     padding-bottom: 40px;
 }
 

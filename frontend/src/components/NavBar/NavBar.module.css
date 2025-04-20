@@ -4,12 +4,20 @@ span{
     color: #00EBC7;
 }
 
-.nav_bar{
+.nav_bar_register{
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 16vh;
     background-color: rgba(0, 0, 0, 0.162);
+}
+
+.nav_bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 16vh;
+    background-color: #14161A;
 }
 
 .nav_bar_container{
