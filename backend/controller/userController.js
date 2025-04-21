@@ -3,8 +3,10 @@ const sequelize = require('sequelize');
 const mongoose = require('mongoose');
 const { UserModel } = require('../Database/Relations');
 const profileImage = require('../mongoDatabase/Collections/profileImages');
+const bcrypt = require('bcrypt');
 
 class User{
+    // test
     test(req, res){
         //console.log('teste de rota');
         res.status(200).send({
@@ -12,6 +14,7 @@ class User{
         });
     };
 
+    // register
     async registerUser(req, res){
         const { name, email, password } = req.body;
         const image = req.file;
@@ -24,8 +27,11 @@ class User{
         }
 
         try{
+            let salt = bcrypt.genSaltSync(10);
+            let hash = bcrypt.hashSync(password, salt);
+
             const newUser = await UserModel.create({
-                name, email, password, role: 'usuario'
+                name, email, password: hash, role: 'usuario'
             });
 
             if(!image){
@@ -61,6 +67,25 @@ class User{
             });
         };
     };
+
+
+    /*
+    // login
+    async Login(req, res){
+        const { email, password } = req.body;
+
+        try{
+
+        }
+        catch(error){
+            console.log('Internal server error at Login controller', error);
+            res.status(500).send({
+                msgError: 'Internal server error at Login controller',
+                details: error.response?.data || error.message
+            });
+        };
+    };
+    */
 };
 
 module.exports = new User();

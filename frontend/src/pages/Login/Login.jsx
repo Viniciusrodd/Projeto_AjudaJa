@@ -24,8 +24,8 @@ const Login = () => {
                     
                     <hr className='hr' />
 
-                    <input type="text" name="name" className={ styles.input_register } 
-                    placeholder='Seu nome' />
+                    <input type="email" name="email" className={ styles.input_register } 
+                    placeholder='Seu email' />
 
                     <input type="password" name="password" className={ styles.input_register } 
                     placeholder='Sua senha' />
