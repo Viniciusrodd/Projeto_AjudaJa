@@ -5,9 +5,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 170vh;
+    padding-bottom: 60px;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.162);    
+    background-color: rgba(0, 0, 0, 0.162);
 }
 
 .register_fields_container{
