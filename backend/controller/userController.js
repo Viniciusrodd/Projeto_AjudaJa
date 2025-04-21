@@ -3,7 +3,10 @@ const sequelize = require('sequelize');
 const mongoose = require('mongoose');
 const { UserModel } = require('../Database/Relations');
 const profileImage = require('../mongoDatabase/Collections/profileImages');
+
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const secretToken = 'gbdsajkgabkgbbfdbagkfagfda';
 
 class User{
     // test
@@ -69,13 +72,51 @@ class User{
     };
 
 
-    /*
     // login
     async Login(req, res){
         const { email, password } = req.body;
 
-        try{
+        if(!email || !password){
+            return res.status(400).send({
+                emptyFields: 'Fields for login invalid'
+            });
+        }
 
+        try{
+            const user = await UserModel.findOne({ email });
+            if(!user){
+                return res.status(404).send({
+                    emailNotFound: 'User email data not found...'
+                });
+            }
+
+            const comparePassword = await bcrypt.compare(password, user.password);
+            if(!comparePassword){
+                return res.status(406).send({
+                    status: false,
+                    passwordNotFound: 'User password may wrong...'
+                });
+            }
+
+            let tokenVar = jwt.sign({
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                iat: Math.floor(Date.now() / 1000), // creation data (seconds)
+                exp: Math.floor(Date.now() / 1000) + (10 * 24 * 60 * 60) // 10 days (seconds)
+            }, secretToken);
+
+            res.cookie('token', tokenVar,{
+                httpOnly: true, // preventing access via JavaScript, avoiding XSS, (only server)
+                sameSite: 'Strict', // protects against CSRF
+                maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
+                signed: true // Cookie signed (if using cookie-parser)
+            });
+
+            return res.status(200).send({
+                successMsg: 'User login successfully',
+                user
+            });
         }
         catch(error){
             console.log('Internal server error at Login controller', error);
@@ -85,7 +126,6 @@ class User{
             });
         };
     };
-    */
 };
 
 module.exports = new User();
