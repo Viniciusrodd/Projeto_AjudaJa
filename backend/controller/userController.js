@@ -6,7 +6,8 @@ const profileImage = require('../mongoDatabase/Collections/profileImages');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const secretToken = 'gbdsajkgabkgbbfdbagkfagfda';
+require('dotenv').config();
+const secretToken = process.env.SECRET_TOKEN;
 
 class User{
     // test

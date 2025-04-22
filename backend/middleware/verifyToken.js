@@ -1,11 +1,13 @@
 
 const jwt = require('jsonwebtoken');
-const secretToken = 'gbdsajkgabkgbbfdbagkfagfda';
+require('dotenv').config();
+const secretToken = process.env.SECRET_TOKEN;
 
 
 class Middleware{
     async verifyToken(req, res, next){
-        const token = res.cookies.token;
+        const token = req.cookies.token;
+        console.log('token: ',token)
         if(!token){
             return res.status(401).json({
                 errorVerify: 'User not authenticated'
@@ -14,6 +16,7 @@ class Middleware{
 
         jwt.verify(token, secretToken, (err, data) => {
             if(err){
+                console.log('JWT verification failed:', err);
                 return res.status(403).json({ invalidToken: "Invalid token" });
             }
 
