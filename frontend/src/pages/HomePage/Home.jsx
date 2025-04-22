@@ -4,18 +4,12 @@ import styles from './Home.module.css';
 
 // hooks
 import { useEffect } from 'react';
-import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify';
+import { useNavigate } from 'react-router-dom';
 
 
 const Home = () => {
-
-    useEffect(() => {
-        const fetch = async () => {
-            const res = await useTokenVerify();
-            console.log(res);
-        }
-        fetch();
-    }, []);
+    // consts
+    const navigate = useNavigate();
 
     return (
         <div>

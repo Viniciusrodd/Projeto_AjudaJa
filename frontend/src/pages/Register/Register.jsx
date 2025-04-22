@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { userRegister } from '../../hooks/UserFetch/useRegister'; // custom hook
 import { useNavigate } from 'react-router-dom';
+import useTokenVerify from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // components
 import NavBar from '../../components/NavBar/NavBar';
@@ -20,13 +21,38 @@ const Register = () => {
     const [ confirmPassword, setConfirmPassword ] = useState('');
     const [ image, setImage ] = useState('');
     const [ message, setMessage ] = useState('');
+    const [ messageLogin, setMessageLogin ] = useState('');
 
     // consts
     const divImage = useRef(null);
     const messageRef = useRef(null);
+    const messageLoginRef = useRef(null);
     const imageInput = useRef(null);
     const URL = 'http://localhost:2130/register';
     const navigate = useNavigate();
+
+    
+    // verify token for login
+    const { data } = useTokenVerify();
+    // verify login
+    useEffect(() => {
+        if(data){
+            setMessageLogin('User já logado, você será redirecionado...');
+        }
+    }, [data]);
+    // set messageLogin
+    useEffect(() => {
+        if(messageLogin !== '' && messageLoginRef.current){
+            messageLoginRef.current.scrollIntoView({ behavior: "smooth" });
+            const clearMessage = setTimeout(() => {
+                setMessageLogin('');
+                navigate('/');
+            }, 3000);
+    
+            return () => clearTimeout(clearMessage);
+        }
+    }, [messageLogin]);
+
 
     // upload image
     const uploadImage = (e) => {
@@ -48,6 +74,7 @@ const Register = () => {
         }
     };
 
+
     // advice message
     useEffect(() => {
         if(message !== ''){
@@ -61,8 +88,9 @@ const Register = () => {
             return () => {
                 clearTimeout(clearMessage);
             };
-        };    
+        };
     }, [message]);
+
 
     // create user request
     const handleForm = async (e) =>{
@@ -100,13 +128,20 @@ const Register = () => {
         }
     };
 
+
     return (
         <div className='app_register_login'>
             <NavBar condition={ true } />
+
             <div className={ styles.register_container }>
-                { message !== '' && 
+                { message != '' && 
                     <p className='subtitle is-3' ref={ messageRef } style={{ backgroundColor:'black' }}>
                         { message }
+                    </p> 
+                }
+                { messageLogin != '' && 
+                    <p className='subtitle is-3' ref={ messageLoginRef } style={{ backgroundColor:'black' }}>
+                        { messageLogin }
                     </p> 
                 }
                 <form onSubmit={ handleForm } className={ `align_default ${styles.register_fields_container}` }>

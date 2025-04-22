@@ -7,7 +7,7 @@ const secretToken = process.env.SECRET_TOKEN;
 class Middleware{
     async verifyToken(req, res, next){
         const token = req.cookies.token;
-        console.log('token: ',token)
+
         if(!token){
             return res.status(401).json({
                 errorVerify: 'User not authenticated'
