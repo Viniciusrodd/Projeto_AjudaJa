@@ -110,7 +110,6 @@ class User{
                 httpOnly: true, // preventing access via JavaScript, avoiding XSS, (only server)
                 sameSite: 'Strict', // protects against CSRF
                 maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
-                signed: true // Cookie signed (if using cookie-parser)
             });
 
             return res.status(200).send({

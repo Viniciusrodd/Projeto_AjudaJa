@@ -13,6 +13,7 @@ router.get('/teste', userController.test);
 
 //port 2130 //User
 router.post('/register', upload.single('image'), userController.registerUser);
+router.post('/login', userController.Login);
 
 
 module.exports = router;
