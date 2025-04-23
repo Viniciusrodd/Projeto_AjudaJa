@@ -189,8 +189,10 @@ const Register = () => {
 
                     <hr className='hr' />
 
-                    <h1 className={ styles.subtitle }>Já tem um perfil ?</h1>
-                    <Link className='link_login'>Faça Login</Link>
+                    <h1 className={ styles.subtitle }>Já tem um perfil cadastrado ?</h1>
+                    <Link className='link_login_register' to='/login'>
+                        Faça Login
+                    </Link>
                 </form>
             </div>
         </div>

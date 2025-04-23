@@ -4,8 +4,19 @@ import styles from './NavBar.module.css'
 
 // hooks
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import useTokenVerify from '../../hooks/UserMiddleware/useTokenVerify';
 
 const NavBar = ({ condition }) => {
+    const { data } = useTokenVerify();
+    const [ isLogged, setIsLogged ] = useState(false);
+
+    useEffect(() => {
+        if(data){
+            setIsLogged(true);
+        }
+    }, [data]);
+
     return (
         <nav className={ condition ? styles.nav_bar_register : styles.nav_bar }>
             <div className={ styles.nav_bar_container }>
@@ -15,11 +26,15 @@ const NavBar = ({ condition }) => {
                 <div className='img_container container_images'></div>
             </div>
 
-            <div className={ `${styles.profile_container} container_images` }>
-                <Link to='/cadastro'>
-                    <span className="material-symbols-outlined" id='person'>person</span>
-                </Link>
-            </div>
+            { isLogged ? (
+                <p>Is logged</p>    
+            ) : (       
+                <div className={ `${styles.profile_container} container_images` }>
+                    <Link to='/cadastro'>
+                        <span className="material-symbols-outlined" id='person'>person</span>
+                    </Link>
+                </div>                
+            )}
         </nav>
     );
 };

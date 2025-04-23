@@ -5,7 +5,7 @@ import styles from '../Register/Register.module.css';
 // hooks
 import { useState, useRef, useEffect } from 'react';
 import { useLogin } from '../../hooks/UserFetch/useLogin';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 // components
 import NavBar from '../../components/NavBar/NavBar';
@@ -95,6 +95,13 @@ const Login = () => {
                     <button className="button is-primary is-inverted">
                         Concluir
                     </button>
+
+                    <hr className='hr' />
+
+                    <h1 className={ styles.subtitle }>Não cadastrado ainda ? </h1>
+                    <Link className='link_login_register' to='/cadastro'>
+                        Clique aqui
+                    </Link>
                 </form>
             </div>
         </div>
