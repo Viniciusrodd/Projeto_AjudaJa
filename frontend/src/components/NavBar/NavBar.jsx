@@ -27,11 +27,15 @@ const NavBar = ({ condition }) => {
             </div>
 
             { isLogged ? (
-                <p>Is logged</p>    
+                <div className={ `${styles.profile_container}` }>
+                    <p className={ styles.isLoggedMsg }>
+                        Logado <i class="material-icons">check</i>
+                    </p>
+                </div>    
             ) : (       
                 <div className={ `${styles.profile_container} container_images` }>
                     <Link to='/cadastro'>
-                        <span className="material-symbols-outlined" id='person'>person</span>
+                        <i class="material-icons" id='person'>person</i>
                     </Link>
                 </div>                
             )}

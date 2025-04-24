@@ -22,6 +22,7 @@ const Register = () => {
     const [ image, setImage ] = useState('');
     const [ message, setMessage ] = useState('');
     const [ messageLogin, setMessageLogin ] = useState('');
+    const [ count, setCount ] = useState(3);
 
     // consts
     const divImage = useRef(null);
@@ -37,19 +38,27 @@ const Register = () => {
     // verify login
     useEffect(() => {
         if(data){
-            setMessageLogin('User já logado, você será redirecionado...');
+            setMessageLogin('Usuário já logado, você será redirecionado em...');
         }
     }, [data]);
     // set messageLogin
     useEffect(() => {
         if(messageLogin !== '' && messageLoginRef.current){
             messageLoginRef.current.scrollIntoView({ behavior: "smooth" });
+
+            const clearCount = setInterval(() => {
+                setCount(prevCount => prevCount - 1);
+            }, 1000);
+
             const clearMessage = setTimeout(() => {
                 setMessageLogin('');
                 navigate('/');
             }, 3000);
     
-            return () => clearTimeout(clearMessage);
+            return () => {
+                clearTimeout(clearMessage)
+                clearInterval(clearCount);
+            };
         }
     }, [messageLogin]);
 
@@ -141,7 +150,7 @@ const Register = () => {
                 }
                 { messageLogin != '' && 
                     <p className='subtitle is-3' ref={ messageLoginRef } style={{ backgroundColor:'black' }}>
-                        { messageLogin }
+                        { messageLogin } { count }
                     </p> 
                 }
                 <form onSubmit={ handleForm } className={ `align_default ${styles.register_fields_container}` }>
