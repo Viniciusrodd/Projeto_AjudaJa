@@ -9,6 +9,10 @@ html, body{
     height: 100%;
 }
 
+div#root{
+    background-color: #1a1a1b;
+}
+
 .container_default{
     display: flex;
     justify-content: center;

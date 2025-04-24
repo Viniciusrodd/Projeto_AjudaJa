@@ -61,15 +61,17 @@ const Home = () => {
                 </p> 
             }
             
+            
+            { /* SIDEBAR */ }
             <aside className={ styles.sidebar }>
                 <ul className={ styles.sidebar_items }>
-                    <li> <i class="material-icons">home</i> Página principal </li>
-                    <li> <i class="material-icons">shopping_bag</i> Doações </li>
-                    <li> <i class="material-icons">forum</i> Conversas </li>
-                    <li> <i class="material-icons">notifications</i> Notificações </li>
-                    <li> <i class="material-icons">group</i> Grupos </li>
-                    <li> <i class="material-icons">event_available</i> Eventos </li>
-                    <li> <i class="material-icons">person_add</i> Convide vizinhos </li>
+                    <li> <i className="material-icons">home</i> Página principal </li>
+                    <li> <i className="material-icons">shopping_bag</i> Doações </li>
+                    <li> <i className="material-icons">forum</i> Conversas </li>
+                    <li> <i className="material-icons">notifications</i> Notificações </li>
+                    <li> <i className="material-icons">group</i> Grupos </li>
+                    <li> <i className="material-icons">campaign</i> Campanhas </li>
+                    <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
                 </ul>
 
                 <button className="button is-success is-outlined">
@@ -77,15 +79,19 @@ const Home = () => {
                 </button>
 
                 <ul className={ styles.sidebar_items }>
-                    <li><i class="material-icons">logout</i> Sair </li>
-                    <li><i class="material-icons">settings</i> Configurações </li>
-                    <li><i class="material-icons">help</i> Ajuda com o site </li>
+                    <li><i className="material-icons">logout</i> Sair </li>
+                    <li><i className="material-icons">settings</i> Configurações </li>
+                    <li><i className="material-icons">help</i> Ajuda com o site </li>
                 </ul>
             </aside>
 
+
+            { /* FEED CONTAINER */ }
             <div className={ styles.container_feed }>
+
+                { /* FEED OPTIONS */ }
                 <div className={ styles.feed_options }>
-                    <div class="select is-success">
+                    <div className="select is-success">
                         <select>
                             <option>Filtro</option>
                             <option>Opções aqui...</option>
@@ -96,9 +102,30 @@ const Home = () => {
                     </button>
                 </div>
 
-                <div className={ styles.posts_container }>
-                    <div className={ styles.posts }>
-                        <p>posts here...</p>
+                { /* FEED PUBLICATIONS */ }
+                <div className={ styles.requests_container }>
+                    <div className={ styles.requests }>
+                        <div className={ styles.user_container }>
+                            <div className={ styles.user_image }></div>
+                            
+                            <h1 className='subtitle is-4  has-text-black'>Nome do usuário</h1>
+                        </div>
+            
+                        <div className={ styles.user_requests_container }>
+                            <div className={ styles.user_requests_title }>
+                                title
+                            </div>
+
+                            <div className={ styles.user_requests_description }>
+                                description
+                            </div>
+
+                            <div className={ styles.user_requests_details }>
+                                <div className={ styles.details }>category</div>  
+                                <div className={ styles.details }>urgency</div>  
+                                <div className={ styles.details }>status</div>  
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

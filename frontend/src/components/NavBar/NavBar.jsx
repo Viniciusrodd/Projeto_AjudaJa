@@ -10,10 +10,12 @@ import useTokenVerify from '../../hooks/UserMiddleware/useTokenVerify';
 const NavBar = ({ condition }) => {
     const { data } = useTokenVerify();
     const [ isLogged, setIsLogged ] = useState(false);
+    const [ userName, setUserName ] = useState('');
 
     useEffect(() => {
         if(data){
             setIsLogged(true);
+            setUserName(data.user.name);
         }
     }, [data]);
 
@@ -28,14 +30,15 @@ const NavBar = ({ condition }) => {
 
             { isLogged ? (
                 <div className={ `${styles.profile_container}` }>
+                    <i className="material-icons" id='person'>person</i>
                     <p className={ styles.isLoggedMsg }>
-                        Logado <i class="material-icons">check</i>
+                        Olá, { userName }
                     </p>
                 </div>    
             ) : (       
                 <div className={ `${styles.profile_container} container_images` }>
                     <Link to='/cadastro'>
-                        <i class="material-icons" id='person'>person</i>
+                        <i id='person'>person</i>
                     </Link>
                 </div>                
             )}
