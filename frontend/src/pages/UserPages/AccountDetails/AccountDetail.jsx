@@ -4,17 +4,22 @@ import styles from './AccountDetail.module.css';
 import stylesRegister from '../Register/Register.module.css';
 
 // hooks
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
 
 const AccountDetail = () => {
+    // consts
     const { userID } = useParams();
-    const { userData } = useUserdata(userID);
+    const { userData, userImage } = useUserdata(userID);
     const [ userFields, setUserFields ] = useState({
         id: '', name:'', email:'', role:'', street:'', city:'', zip_code:''
     });
+    const [ imageField, setImageField ] = useState({image_data: null, content_type: ''});
+    const divImageRef = useRef(null);
 
+    
+    // set fields from request
     useEffect(() => {
         if(!userData) return;
 
@@ -27,8 +32,28 @@ const AccountDetail = () => {
             city: userData.city || '',
             zip_code: userData.zip_code || ''
         });
+
+        setImageField({ ...imageField,
+            image_data: userImage.image_data,
+            content_type: userImage.content_type,
+        });
     }, [userData]);
 
+
+    // defining profile background image from request
+    useEffect(() => {
+        if (!divImageRef.current) return;
+
+        if (imageField.image_data) {
+            divImageRef.current.style.backgroundImage = `url(data:${imageField.content_type};base64,${imageField.image_data})`;
+        } else {
+            divImageRef.current.style.backgroundImage = `url('../../../images/user.jpg')`;
+        }
+
+        divImageRef.current.style.backgroundSize = "cover";
+        divImageRef.current.style.backgroundRepeat = "no-repeat";
+        divImageRef.current.style.backgroundPosition = "center";
+    }, [imageField]);
 
     return (
         <div className={ styles.accountDetail_container }>
@@ -36,8 +61,8 @@ const AccountDetail = () => {
 
             <div className={ styles.user_panel_container }>
                 <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
-                <div className={ stylesRegister.div_imagem_perfil }>
-
+                <div className={ stylesRegister.div_imagem_perfil } ref={divImageRef}>
+                    
                 </div>
                 {/* Formulário de upload de imagem */}
                 <input type="file" name="image" accept="image/*" className={ stylesRegister.input_register } 

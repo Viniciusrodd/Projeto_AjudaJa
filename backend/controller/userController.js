@@ -47,7 +47,7 @@ class User{
 
             // mongo creation
             const newImage = await profileImage.create({
-                image_data: image.buffer,
+                image_data: image.buffer.toString('base64'),
                 content_type: image.mimetype,
                 user_id: newUser.id
             });
@@ -144,9 +144,11 @@ class User{
             }
 
             const userData = userFind.dataValues;
+            const userImage = await profileImage.findOne({ user_id: userData.id });
+
             return res.status(200).send({
                 successFind: 'User data find with success',
-                userData
+                userData, userImage
             });
         }
         catch(error){

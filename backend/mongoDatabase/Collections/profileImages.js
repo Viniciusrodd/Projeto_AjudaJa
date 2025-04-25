@@ -5,7 +5,7 @@ const ProfileImageSchema = new mongoose.Schema({
     // _id já vem automático como ObjectId (24 caracteres)
 
     image_data: {
-        type: Buffer,
+        type: String,
         required: true
     },
     content_type: {

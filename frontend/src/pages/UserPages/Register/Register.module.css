@@ -104,3 +104,8 @@
     background-size: cover;
     overflow: hidden;
 }
+
+.image_perfil{
+    height: 100%;
+    width: 100%;
+}
