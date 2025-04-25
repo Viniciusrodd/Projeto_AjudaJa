@@ -55,6 +55,26 @@ const AccountDetail = () => {
         divImageRef.current.style.backgroundPosition = "center";
     }, [imageField]);
 
+
+    // uploading a profile image
+    const uploadImage = (e) => {
+        const file = e.target.files[0];
+        if(file){
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                if(divImageRef.current){
+                    divImageRef.current.style.backgroundImage = `url(${e.target.result})`;
+                    divImageRef.current.style.backgroundSize = "cover";
+                    divImageRef.current.style.backgroundRepeat = "no-repeat";
+                    divImageRef.current.style.backgroundPosition = "center";
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+    };
+
     return (
         <div className={ styles.accountDetail_container }>
             <h1 className='title is-1'>Detalhes de conta</h1>
@@ -66,7 +86,7 @@ const AccountDetail = () => {
                 </div>
                 {/* Formulário de upload de imagem */}
                 <input type="file" name="image" accept="image/*" className={ stylesRegister.input_register } 
-                style={{ marginBottom:'30px' }}/>
+                style={{ marginBottom:'30px' }} onChange={ uploadImage }/>
 
                 <hr className='hr'/>
                 <h1 className="title is-3">Seus dados</h1>
