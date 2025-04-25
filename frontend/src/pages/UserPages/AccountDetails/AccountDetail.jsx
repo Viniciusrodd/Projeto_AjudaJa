@@ -100,8 +100,12 @@ const AccountDetail = () => {
                     <input className="input is-hovered" name='email' type="text" placeholder={ userFields.email }/>
                 </div>
                 <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Senha: </label>
-                    <input className="input is-hovered" name='password' type="text" placeholder="sua senha aqui..."/>
+                    <label className="label title is-5" id="label">Senha Atual: </label>
+                    <input className="input is-hovered" name='actual_password' type="text" placeholder="Senha atual aqui..."/>
+                </div>
+                <div className={ styles.container_input }>
+                    <label className="label title is-5" id="label">Senha Nova: </label>
+                    <input className="input is-hovered" name='new_password' type="text" placeholder="Nova senha aqui..."/>
                 </div>
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Papel: </label>

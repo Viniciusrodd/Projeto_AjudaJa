@@ -159,6 +159,82 @@ class User{
             });
         };
     };
+
+
+    // edit user
+    async editUser(req, res){
+        const userId = req.params.userID;
+        const { name, email, actual_password, new_password, role, street, city, zip_code } = req.body;
+        const userImage = req.file;
+
+        if(!userId){
+            return res.status(400).send({
+                idRequired: 'Bad request, userId requires...'
+            });
+        }
+
+        try{
+            const userExist = await UserModel.findOne({ where: { id: userId } });
+            if(!userExist){
+                return res.status(404).send({
+                    userNotFound: 'User data not found...'
+                });
+            }
+
+            const dinamicData = {};
+            if(name){ dinamicData.name = name }
+            if(email){ dinamicData.email = email }
+            
+            if(actual_password && new_password){ 
+                const comparePass = await bcrypt.compare(actual_password, userExist.password);
+                if(!comparePass){
+                    return res.status(404).send({
+                        errorPass: 'Actual password not found'
+                    });
+                }
+                let salt = bcrypt.genSaltSync(10);
+                let hash = bcrypt.hashSync(new_password, salt);
+                dinamicData.password = hash;
+            }
+
+            if(role){ dinamicData.role = role }
+            if(street){ dinamicData.street = street }
+            if(city){ dinamicData.city = city }
+            if(zip_code){ dinamicData.zip_code = zip_code }
+
+            await UserModel.update(dinamicData, {
+                where: { id: userId }
+            });
+
+            if(!userImage){
+                return res.status(201).send({
+                    successMsg: 'Update user with success (without image)' 
+                });
+            }
+        
+            // mongo update
+            const imageUpdate = await profileImage.findOneAndUpdate({ user_id: userId }, {
+                image_data: userImage.buffer.toString('base64'),
+                content_type: userImage.mimetype
+            }, { new: true }); // "new: true" returns document updated... 
+
+            await UserModel.update(
+                { profile_image_id: imageUpdate._id.toString() },
+                { where: { id: userId } }
+            );
+
+            return res.status(201).send({
+                successMsg: 'Update user with success (with image)' 
+            });
+        }
+        catch(error){
+            console.log('Internal server error at Edit user data controller', error);
+            res.status(500).send({
+                msgError: 'Internal server error at Edit user data controller',
+                details: error.response?.data || error.message
+            });
+        }
+    };
 };
 
 module.exports = new User();

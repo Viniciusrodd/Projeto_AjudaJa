@@ -22,6 +22,7 @@ router.get('/teste', userController.test);
 router.post('/register', upload.single('image'), userController.registerUser);
 router.post('/login', userController.Login);
 router.get('/findUser/:userID', userController.findUser);
+router.post('/updateUser/:userID', userController.editUser);
 
 
 module.exports = router;
