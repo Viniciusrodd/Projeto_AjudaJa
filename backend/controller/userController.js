@@ -138,11 +138,12 @@ class User{
         }
 
         try{
-            const userData = await UserModel.findOne({id: userId});
-            if(!userData){
+            const userFind = await UserModel.findOne({id: userId});
+            if(!userFind){
                 return res.status(404).send({ errorFind: 'Error at find user data...' });
             }
 
+            const userData = userFind.dataValues;
             return res.status(200).send({
                 successFind: 'User data find with success',
                 userData

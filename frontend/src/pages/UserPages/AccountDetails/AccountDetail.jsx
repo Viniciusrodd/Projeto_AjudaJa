@@ -4,10 +4,31 @@ import styles from './AccountDetail.module.css';
 import stylesRegister from '../Register/Register.module.css';
 
 // hooks
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
 
 const AccountDetail = () => {
-    const { id } = useParams();
+    const { userID } = useParams();
+    const { userData } = useUserdata(userID);
+    const [ userFields, setUserFields ] = useState({
+        id: '', name:'', email:'', role:'', street:'', city:'', zip_code:''
+    });
+
+    useEffect(() => {
+        if(!userData) return;
+
+        setUserFields({ ...userFields, 
+            id: userData.id || '',
+            name: userData.name || '',
+            email: userData.email || '',
+            role: userData.role || '',
+            street: userData.street || '',
+            city: userData.city || '',
+            zip_code: userData.zip_code || ''
+        });
+    }, [userData]);
+
 
     return (
         <div className={ styles.accountDetail_container }>
@@ -23,39 +44,39 @@ const AccountDetail = () => {
                 style={{ marginBottom:'30px' }}/>
 
                 <hr className='hr'/>
-                <h1 class="title is-3">Seus dados</h1>
+                <h1 className="title is-3">Seus dados</h1>
 
                 <div className={ styles.container_input }>
-                    <label for="name" class="label title is-5" id="label">Nome: </label>
-                    <input className="input is-hovered" name='name' type="text" placeholder="**Nome**"/>
+                    <label className="label title is-5" id="label">Nome: </label>
+                    <input className="input is-hovered" name='name' type="text" placeholder={ userFields.name }/>
                 </div>
                 <div className={ styles.container_input }>
-                    <label for="email" class="label title is-5" id="label">Email: </label>
-                    <input className="input is-hovered" name='email' type="text" placeholder="**Email**"/>
+                    <label className="label title is-5" id="label">Email: </label>
+                    <input className="input is-hovered" name='email' type="text" placeholder={ userFields.email }/>
                 </div>
                 <div className={ styles.container_input }>
-                    <label for="password" class="label title is-5" id="label">Senha: </label>
-                    <input className="input is-hovered" name='password' type="text" placeholder="**password**"/>
+                    <label className="label title is-5" id="label">Senha: </label>
+                    <input className="input is-hovered" name='password' type="text" placeholder="sua senha aqui..."/>
                 </div>
                 <div className={ styles.container_input }>
-                    <label for="role" class="label title is-5" id="label">Papel: </label>
-                    <input className="input is-hovered" name='role' type="text" placeholder="**role**"/>
+                    <label className="label title is-5" id="label">Papel: </label>
+                    <input className="input is-hovered" name='role' type="text" placeholder={ userFields.role }/>
                 </div>
 
                 <hr className='hr'/>
-                <h1 class="title is-3">Endereço</h1>
+                <h1 className="title is-3">Endereço</h1>
 
                 <div className={ styles.container_input }>
-                    <label for="street" class="label title is-5" id="label">Rua: </label>
-                    <input className="input is-hovered" name='street' type="text" placeholder="**street**"/>
+                    <label className="label title is-5" id="label">Rua: </label>
+                    <input className="input is-hovered" name='street' type="text" placeholder={ userFields.street }/>
                 </div>
                 <div className={ styles.container_input }>
-                    <label for="city" class="label title is-5" id="label">Cidade: </label>
-                    <input className="input is-hovered" name='city' type="text" placeholder="**city**"/>
+                    <label className="label title is-5" id="label">Cidade: </label>
+                    <input className="input is-hovered" name='city' type="text" placeholder={ userFields.city }/>
                 </div>
                 <div className={ styles.container_input }>
-                    <label for="cep" class="label title is-5" id="label">CEP: </label>
-                    <input className="input is-hovered" name='cep' type="text" placeholder="**cep**"/>
+                    <label className="label title is-5" id="label">CEP: </label>
+                    <input className="input is-hovered" name='cep' type="text" placeholder={ userFields.zip_code }/>
                 </div>
 
                 <hr className='hr'/>

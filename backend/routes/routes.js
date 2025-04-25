@@ -21,7 +21,7 @@ router.get('/teste', userController.test);
 //port 2130 //User
 router.post('/register', upload.single('image'), userController.registerUser);
 router.post('/login', userController.Login);
-router.get('/findUser', userController.findUser);
+router.get('/findUser/:userID', userController.findUser);
 
 
 module.exports = router;
