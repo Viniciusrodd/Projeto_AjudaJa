@@ -5,12 +5,12 @@ import styles from './Register.module.css';
 // hooks
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { userRegister } from '../../hooks/UserFetch/useRegister'; // custom hook
+import { userRegister } from '../../../hooks/UserFetch/useRegister'; // custom hook
 import { useNavigate } from 'react-router-dom';
-import useTokenVerify from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+import useTokenVerify from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // components
-import NavBar from '../../components/NavBar/NavBar';
+import NavBar from '../../../components/NavBar/NavBar';
 
 
 const Register = () => {

@@ -11,11 +11,13 @@ const NavBar = ({ condition }) => {
     const { data } = useTokenVerify();
     const [ isLogged, setIsLogged ] = useState(false);
     const [ userName, setUserName ] = useState('');
+    const [ userId, setUserId ] = useState(null);
 
     useEffect(() => {
         if(data){
             setIsLogged(true);
             setUserName(data.user.name);
+            setUserId(data.user.id);
         }
     }, [data]);
 
@@ -31,14 +33,14 @@ const NavBar = ({ condition }) => {
             { isLogged ? (
                 <div className={ `${styles.profile_container}` }>
                     <i className="material-icons" id='person'>person</i>
-                    <p className={ styles.isLoggedMsg }>
-                        Olá, { userName }
-                    </p>
+                    <Link to={`/user/edit/${userId}`} className={ styles.isLoggedMsg }>
+                        Olá, { userName }!
+                    </Link>
                 </div>    
             ) : (       
                 <div className={ `${styles.profile_container} container_images` }>
                     <Link to='/cadastro'>
-                        <i id='person'>person</i>
+                        <i className="material-icons" id='person'>person</i>
                     </Link>
                 </div>                
             )}

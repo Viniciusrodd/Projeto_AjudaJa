@@ -60,7 +60,7 @@ const Home = () => {
                     { message } { count }
                 </p> 
             }
-            
+
             
             { /* SIDEBAR */ }
             <aside className={ styles.sidebar }>
@@ -104,11 +104,12 @@ const Home = () => {
 
                 { /* FEED PUBLICATIONS */ }
                 <div className={ styles.requests_container }>
+                    { /* REQUESTS */ }
                     <div className={ styles.requests }>
                         <div className={ styles.user_container }>
                             <div className={ styles.user_image }></div>
                             
-                            <h1 className='subtitle is-4  has-text-black'>Nome do usuário</h1>
+                            <h1 className='subtitle is-4'>Nome do usuário</h1>
                         </div>
             
                         <div className={ styles.user_requests_container }>

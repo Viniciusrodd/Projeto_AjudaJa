@@ -10,8 +10,9 @@ import NavBar from './components/NavBar/NavBar'
 
 // pages
 import Home from './pages/HomePage/Home';
-import Register from './pages/Register/Register';
-import Login from './pages/Login/Login';
+import Register from './pages/UserPages/Register/Register';
+import Login from './pages/UserPages/Login/Login';
+import EditUser from './pages/UserPages/EditUser/EditUser';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
                 <Route path='/' element={ <Home /> } />
                 <Route path='/cadastro' element={ <Register /> } />
                 <Route path='/login' element={ <Login /> } />
+                <Route path='/user/edit/:id' element={ <EditUser /> } />
             </Routes>
         </div>
     )

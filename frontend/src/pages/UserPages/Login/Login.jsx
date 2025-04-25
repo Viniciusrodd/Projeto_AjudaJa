@@ -4,11 +4,11 @@ import styles from '../Register/Register.module.css';
 
 // hooks
 import { useState, useRef, useEffect } from 'react';
-import { useLogin } from '../../hooks/UserFetch/useLogin';
+import { useLogin } from '../../../hooks/UserFetch/useLogin';
 import { useNavigate, Link } from 'react-router-dom';
 
 // components
-import NavBar from '../../components/NavBar/NavBar';
+import NavBar from '../../../components/NavBar/NavBar';
 
 const Login = () => {
     const [ email, setEmail ] = useState('');
