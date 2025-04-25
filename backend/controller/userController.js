@@ -207,7 +207,7 @@ class User{
             });
 
             if(!userImage){
-                return res.status(201).send({
+                return res.status(200).send({
                     successMsg: 'Update user with success (without image)' 
                 });
             }
@@ -223,7 +223,7 @@ class User{
                 { where: { id: userId } }
             );
 
-            return res.status(201).send({
+            return res.status(200).send({
                 successMsg: 'Update user with success (with image)' 
             });
         }

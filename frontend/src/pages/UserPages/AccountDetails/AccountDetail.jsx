@@ -5,18 +5,27 @@ import stylesRegister from '../Register/Register.module.css';
 
 // hooks
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
+import { useEditUser } from '../../../hooks/UserFetch/useEditUser'; // custom hook
 
 const AccountDetail = () => {
     // consts
     const { userID } = useParams();
     const { userData, userImage } = useUserdata(userID);
+    const divImageRef = useRef(null);
+    const navigate = useNavigate();
+    const messageRef = useRef(null);
+
+
+    // states
     const [ userFields, setUserFields ] = useState({
-        id: '', name:'', email:'', role:'', street:'', city:'', zip_code:''
+        id: '', name:'', email:'', role:'', street:'', 
+        city:'', zip_code:'', actual_password: '', new_password: ''
     });
     const [ imageField, setImageField ] = useState({image_data: null, content_type: ''});
-    const divImageRef = useRef(null);
+    const [ message, setMessage ] = useState('');
+    const [ count, setCount ] = useState(3);
 
     
     // set fields from request
@@ -60,8 +69,9 @@ const AccountDetail = () => {
     const uploadImage = (e) => {
         const file = e.target.files[0];
         if(file){
-            const reader = new FileReader();
+            setImageField(prev => ({ ...prev, file }));
 
+            const reader = new FileReader();
             reader.onload = (e) => {
                 if(divImageRef.current){
                     divImageRef.current.style.backgroundImage = `url(${e.target.result})`;
@@ -75,11 +85,66 @@ const AccountDetail = () => {
         }
     };
 
+
+    // form to update user
+    const handleForm = async (e) => {
+        e.preventDefault();
+
+        try{
+            const formData = new FormData();
+
+            for (const key in userFields) {
+                formData.append(key, userFields[key]);
+            }
+
+            if (imageField.file) {
+                formData.append('image', imageField.file);
+            }    
+
+            const response = await useEditUser(userFields.id, formData);
+            if(response.status === 200){
+                setMessage('Usuário atualizado com sucesso!');   
+            }
+        }
+        catch(error){
+            console.log('Error at update user', error);
+            setMessage('Erro ao atualizar usuário...');
+        }
+    };
+
+
+    // redirect user
+    useEffect(() => {
+        if(message !== '' && messageRef.current){
+            messageRef.current.scrollIntoView({ behavior: "smooth" });
+
+            const clearCount = setInterval(() => {
+                setCount(prevCount => prevCount - 1);
+            }, 1000);
+            
+            const clearMessage = setTimeout(() => {
+                navigate('/');
+            }, 3000);
+            
+            return () => {
+                clearInterval(clearCount);
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [message]);
+
+
     return (
         <div className={ styles.accountDetail_container }>
             <h1 className='title is-1'>Detalhes de conta</h1>
+            { message != '' && 
+                <div className='container_default'>
+                    <p className='subtitle is-3' ref={ messageRef }>{ message }</p>
+                    <p>Você será redirecionado em...{ count }</p>
+                </div>
+            }
 
-            <div className={ styles.user_panel_container }>
+            <form onSubmit={ handleForm } className={ styles.user_panel_container }>
                 <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
                 <div className={ stylesRegister.div_imagem_perfil } ref={divImageRef}>
                     
@@ -93,23 +158,34 @@ const AccountDetail = () => {
 
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Nome: </label>
-                    <input className="input is-hovered" name='name' type="text" placeholder={ userFields.name }/>
+                    <input className="input is-hovered" name='name' type="text" value={ userFields.name }
+                    onChange={ (e) => setUserFields({...userFields, name: e.target.value}) } />
                 </div>
+                
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Email: </label>
-                    <input className="input is-hovered" name='email' type="text" placeholder={ userFields.email }/>
+                    <input className="input is-hovered" name='email' type="text" value={ userFields.email }
+                    onChange={ (e) => setUserFields({...userFields, email: e.target.value}) } />
                 </div>
+
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Senha Atual: </label>
-                    <input className="input is-hovered" name='actual_password' type="text" placeholder="Senha atual aqui..."/>
+                    <input className="input is-hovered" name='actual_password' type="text" value={ userFields.actual_password }
+                    placeholder='Senha atual (opcional)'
+                    onChange={ (e) => setUserFields({...userFields, actual_password: e.target.value}) } />
                 </div>
+
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Senha Nova: </label>
-                    <input className="input is-hovered" name='new_password' type="text" placeholder="Nova senha aqui..."/>
+                    <input className="input is-hovered" name='new_password' type="text" value={ userFields.new_password }
+                    placeholder='Senha nova (opcional)'
+                    onChange={ (e) => setUserFields({...userFields, new_password: e.target.value}) } />
                 </div>
+
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Papel: </label>
-                    <input className="input is-hovered" name='role' type="text" placeholder={ userFields.role }/>
+                    <input className="input is-hovered" name='role' type="text" value={ userFields.role }
+                    onChange={ (e) => setUserFields({...userFields, role: e.target.value}) }/>
                 </div>
 
                 <hr className='hr'/>
@@ -117,22 +193,25 @@ const AccountDetail = () => {
 
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Rua: </label>
-                    <input className="input is-hovered" name='street' type="text" placeholder={ userFields.street }/>
+                    <input className="input is-hovered" name='street' type="text" value={ userFields.street }
+                    onChange={ (e) => setUserFields({...userFields, street: e.target.value}) } />
                 </div>
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Cidade: </label>
-                    <input className="input is-hovered" name='city' type="text" placeholder={ userFields.city }/>
+                    <input className="input is-hovered" name='city' type="text" value={ userFields.city }
+                    onChange={ (e) => setUserFields({...userFields, city: e.target.value}) } />
                 </div>
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">CEP: </label>
-                    <input className="input is-hovered" name='cep' type="text" placeholder={ userFields.zip_code }/>
+                    <input className="input is-hovered" name='cep' type="text" value={ userFields.zip_code }
+                    onChange={ (e) => setUserFields({...userFields, zip_code: e.target.value}) } />
                 </div>
 
                 <hr className='hr'/>
                 <button className="btt button is-primary is-dark">
                     Editar
                 </button>
-            </div>   
+            </form>   
         </div>
     );
 };

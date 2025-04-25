@@ -9,8 +9,8 @@ const app = express();
 
 // cookie parser
 app.use(cookieParser()) // this middleware allow us to read cookies
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' })); // "limit" for receive large datas
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // use modules
 app.use(cors({

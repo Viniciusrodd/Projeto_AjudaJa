@@ -56,7 +56,7 @@ const Register = () => {
             }, 3000);
     
             return () => {
-                clearTimeout(clearMessage)
+                clearTimeout(clearMessage);
                 clearInterval(clearCount);
             };
         }
