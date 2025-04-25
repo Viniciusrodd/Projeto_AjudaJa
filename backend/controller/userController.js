@@ -126,6 +126,36 @@ class User{
             });
         };
     };
+
+
+    // findOne user
+    async findUser(req, res){
+        const userId = req.params.userID;
+        if(!userId){
+            return res.status(400).send({
+                emptyParams: 'Bad request, need send user id params...'
+            });
+        }
+
+        try{
+            const userData = await UserModel.findOne({id: userId});
+            if(!userData){
+                return res.status(404).send({ errorFind: 'Error at find user data...' });
+            }
+
+            return res.status(200).send({
+                successFind: 'User data find with success',
+                userData
+            });
+        }
+        catch(error){
+            console.log('Internal server error at Find user data controller', error);
+            res.status(500).send({
+                msgError: 'Internal server error at Find user data controller',
+                details: error.response?.data || error.message
+            });
+        };
+    };
 };
 
 module.exports = new User();

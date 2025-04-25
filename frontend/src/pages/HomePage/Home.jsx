@@ -74,7 +74,7 @@ const Home = () => {
                     <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
                 </ul>
 
-                <button className="button is-success is-outlined">
+                <button className="button is-primary is-dark">
                     Publique
                 </button>
 
@@ -97,7 +97,7 @@ const Home = () => {
                             <option>Opções aqui...</option>
                         </select>
                     </div>
-                    <button className="button is-success is-outlined">
+                    <button className="button is-primary is-dark">
                         + Publicação
                     </button>
                 </div>

@@ -12,8 +12,7 @@ import NavBar from './components/NavBar/NavBar'
 import Home from './pages/HomePage/Home';
 import Register from './pages/UserPages/Register/Register';
 import Login from './pages/UserPages/Login/Login';
-import EditUser from './pages/UserPages/EditUser/EditUser';
-
+import AccountDetail from './pages/UserPages/AccountDetails/AccountDetail';
 
 function App() {
     const location = useLocation();
@@ -27,7 +26,7 @@ function App() {
                 <Route path='/' element={ <Home /> } />
                 <Route path='/cadastro' element={ <Register /> } />
                 <Route path='/login' element={ <Login /> } />
-                <Route path='/user/edit/:id' element={ <EditUser /> } />
+                <Route path='/accountDetails/:id' element={ <AccountDetail /> } />
             </Routes>
         </div>
     )
