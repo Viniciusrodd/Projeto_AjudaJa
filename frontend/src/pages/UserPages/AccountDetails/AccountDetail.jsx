@@ -29,8 +29,6 @@ const AccountDetail = () => {
     const [ imageField, setImageField ] = useState({image_data: null, content_type: ''});
     const [ message, setMessage ] = useState('');
     const [ count, setCount ] = useState(3);
-    const [ dinamicRole, setDinamicRole ] = useState('');
-
     
     // set fields from request
     useEffect(() => {
@@ -51,9 +49,6 @@ const AccountDetail = () => {
             image_data: userImage.image_data,
             content_type: userImage.content_type,
         });
-
-        if(userData.role === 'moderador'){ setDinamicRole('usuario') };
-        if(userData.role === 'usuario'){ setDinamicRole('moderador') };
     }, [userData]);
 
 
@@ -175,7 +170,7 @@ const AccountDetail = () => {
             { message != '' && 
                 <div className='container_default'>
                     <p className='subtitle is-3' ref={ messageRef }>{ message }</p>
-                    <p>Você será redirecionado em...{ count }</p>
+                    <p className='subtitle is-4'>Você será redirecionado em...{ count }</p>
                 </div>
             }
 
@@ -243,10 +238,12 @@ const AccountDetail = () => {
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Papel: </label>
                     <div className="select is-hovered" style={{ width:'70%' }}>
-                        <select name='role' value={ userFields.role }
-                        onChange={ (e) => setUserFields({...userFields, role: e.target.value}) }>
-                            <option>{ userFields.role }</option>
-                            <option>{ dinamicRole }</option>
+                        <select 
+                            style={{ width:'100%' }} name='role' value={ userFields.role }
+                            onChange={ (e) => setUserFields({...userFields, role: e.target.value}) }
+                        >
+                            <option value="usuario">Usuário</option>
+                            <option value="moderador">Moderador</option>
                         </select>
                     </div>
                 </div>

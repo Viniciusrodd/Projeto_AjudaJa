@@ -31,16 +31,17 @@ const Register = () => {
     const imageInput = useRef(null);
     const URL = 'http://localhost:2130/register';
     const navigate = useNavigate();
+    const { data } = useTokenVerify(); // custom hook
 
-    
-    // verify token for login
-    const { data } = useTokenVerify();
+
     // verify login
     useEffect(() => {
         if(data){
             setMessageLogin('Usuário já logado, você será redirecionado em...');
         }
     }, [data]);
+
+
     // set messageLogin
     useEffect(() => {
         if(messageLogin !== '' && messageLoginRef.current){

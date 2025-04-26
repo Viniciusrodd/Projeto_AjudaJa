@@ -92,7 +92,7 @@ const Home = () => {
                 { /* FEED OPTIONS */ }
                 <div className={ styles.feed_options }>
                     <div className="select is-success">
-                        <select>
+                        <select style={{ width:'100%' }}>
                             <option>Filtro</option>
                             <option>Opções aqui...</option>
                         </select>

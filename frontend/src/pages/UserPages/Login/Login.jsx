@@ -6,6 +6,7 @@ import styles from '../Register/Register.module.css';
 import { useState, useRef, useEffect } from 'react';
 import { useLogin } from '../../../hooks/UserFetch/useLogin';
 import { useNavigate, Link } from 'react-router-dom';
+import useTokenVerify from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // components
 import NavBar from '../../../components/NavBar/NavBar';
@@ -14,10 +15,45 @@ const Login = () => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ confirmPassword, setConfirmPassword ] = useState('');
+    const [ messageLogin, setMessageLogin ] = useState('');
+    const [ count, setCount ] = useState(3);
 
     const [ message, setMessage ] = useState('');
     const messageRef = useRef(null);
+    const messageLoginRef = useRef(null);
     const navigate = useNavigate();
+    const { data } = useTokenVerify(); // custom hook
+
+
+    // verify login
+    useEffect(() => {
+        if(data){
+            setMessageLogin('Usuário já logado, você será redirecionado em...');
+        }
+    }, [data]);
+
+
+    // set messageLogin
+    useEffect(() => {
+        if(messageLogin !== '' && messageLoginRef.current){
+            messageLoginRef.current.scrollIntoView({ behavior: "smooth" });
+
+            const clearCount = setInterval(() => {
+                setCount(prevCount => prevCount - 1);
+            }, 1000);
+
+            const clearMessage = setTimeout(() => {
+                setMessageLogin('');
+                navigate('/');
+            }, 3000);
+    
+            return () => {
+                clearTimeout(clearMessage);
+                clearInterval(clearCount);
+            };
+        }
+    }, [messageLogin]);
+
 
     // advice message
     useEffect(() => {
@@ -67,6 +103,11 @@ const Login = () => {
                     <p className='subtitle is-3' ref={ messageRef } style={{ backgroundColor:'black' }}>
                         { message }
                     </p>                  
+                }
+                { messageLogin != '' && 
+                    <p className='subtitle is-3' ref={ messageLoginRef } style={{ backgroundColor:'black' }}>
+                        { messageLogin } { count }
+                    </p> 
                 }
                 <form onSubmit={ handleLoginForm } className={ `align_default ${styles.register_fields_container}` }>
                     <div className='img_container container_images'></div>
