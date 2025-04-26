@@ -12,7 +12,7 @@ import { useEditUser } from '../../../hooks/UserFetch/useEditUser'; // custom ho
 const AccountDetail = () => {
     // consts
     const { userID } = useParams();
-    const { userData, userImage } = useUserdata(userID);
+    const { userData, userImage } = useUserdata(userID); // custom hook
     const divImageRef = useRef(null);
     const navigate = useNavigate();
     const messageRef = useRef(null);
@@ -24,11 +24,12 @@ const AccountDetail = () => {
     // states
     const [ userFields, setUserFields ] = useState({
         id: '', name:'', email:'', role:'', street:'', 
-        city:'', zip_code:'', actual_password: '', new_password: ''
+        city:'', state: '', zip_code:'', actual_password: '', new_password: ''
     });
     const [ imageField, setImageField ] = useState({image_data: null, content_type: ''});
     const [ message, setMessage ] = useState('');
     const [ count, setCount ] = useState(3);
+    const [ dinamicRole, setDinamicRole ] = useState('');
 
     
     // set fields from request
@@ -42,6 +43,7 @@ const AccountDetail = () => {
             role: userData.role || '',
             street: userData.street || '',
             city: userData.city || '',
+            state: userData.state || '',
             zip_code: userData.zip_code || ''
         });
 
@@ -49,6 +51,9 @@ const AccountDetail = () => {
             image_data: userImage.image_data,
             content_type: userImage.content_type,
         });
+
+        if(userData.role === 'moderador'){ setDinamicRole('usuario') };
+        if(userData.role === 'usuario'){ setDinamicRole('moderador') };
     }, [userData]);
 
 
@@ -147,7 +152,7 @@ const AccountDetail = () => {
     
     // delete profile
     const delete_profile = () =>{
-        
+
 
         modal.current.style.display = 'flex';
         modal_msg.current.innerText = `Você será redirecionado... \n 
@@ -237,8 +242,13 @@ const AccountDetail = () => {
 
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Papel: </label>
-                    <input className="input is-hovered" name='role' type="text" value={ userFields.role }
-                    onChange={ (e) => setUserFields({...userFields, role: e.target.value}) }/>
+                    <div className="select is-hovered" style={{ width:'70%' }}>
+                        <select name='role' value={ userFields.role }
+                        onChange={ (e) => setUserFields({...userFields, role: e.target.value}) }>
+                            <option>{ userFields.role }</option>
+                            <option>{ dinamicRole }</option>
+                        </select>
+                    </div>
                 </div>
 
                 <hr className='hr'/>
@@ -253,6 +263,11 @@ const AccountDetail = () => {
                     <label className="label title is-5" id="label">Cidade: </label>
                     <input className="input is-hovered" name='city' type="text" value={ userFields.city }
                     onChange={ (e) => setUserFields({...userFields, city: e.target.value}) } />
+                </div>
+                <div className={ styles.container_input }>
+                    <label className="label title is-5" id="label">Estado: </label>
+                    <input className="input is-hovered" name='state' type="text" value={ userFields.state }
+                    onChange={ (e) => setUserFields({...userFields, state: e.target.value}) } />
                 </div>
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">CEP: </label>

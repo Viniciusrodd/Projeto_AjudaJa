@@ -164,7 +164,7 @@ class User{
     // edit user
     async editUser(req, res){
         const userId = req.params.userID;
-        const { name, email, actual_password, new_password, role, street, city, zip_code } = req.body;
+        const { name, email, actual_password, new_password, role, street, city, state, zip_code } = req.body;
         const userImage = req.file;
 
         if(!userId){
@@ -200,6 +200,7 @@ class User{
             if(role){ dinamicData.role = role }
             if(street){ dinamicData.street = street }
             if(city){ dinamicData.city = city }
+            if(state){ dinamicData.state = state }
             if(zip_code){ dinamicData.zip_code = zip_code }
 
             await UserModel.update(dinamicData, {
@@ -235,6 +236,30 @@ class User{
             });
         }
     };
+
+
+    // delete user
+    /*
+    async deleteUser(req, res){
+        const userId = req.params.userID;
+        if(!userId){
+            return res.status(400).send({
+                errorMsg: 'Bad request at user id params...' 
+            });
+        }
+
+        try{
+
+        }
+        catch(error){
+            console.log('Internal server error at Delete user data', error);
+            res.status(500).send({
+                msgError: 'Internal server error at Delete user data',
+                details: error.response?.data || error.message
+            });
+        }
+    };
+    */
 };
 
 module.exports = new User();
