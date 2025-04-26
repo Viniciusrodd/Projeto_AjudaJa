@@ -1,8 +1,9 @@
 
 const sequelize = require('sequelize');
 const mongoose = require('mongoose');
-const { UserModel } = require('../Database/Relations');
+const { UserModel, CampaignModel, OfferModel, RequestModel } = require('../Database/Relations');
 const profileImage = require('../mongoDatabase/Collections/profileImages');
+const connection = require('../Database/Connection/connection');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -239,7 +240,6 @@ class User{
 
 
     // delete user
-    /*
     async deleteUser(req, res){
         const userId = req.params.userID;
         if(!userId){
@@ -249,7 +249,31 @@ class User{
         }
 
         try{
+            await connection.transaction(async (t) => {
+                await CampaignModel.destroy({
+                    where: { moderator_id: userId },
+                    transactions: t
+                });
 
+                await OfferModel.destroy({
+                    where: { user_id: userId },
+                    transactions: t
+                });
+
+                await RequestModel.destroy({
+                    where: { user_id: userId },
+                    transactions: t
+                });
+                
+                await UserModel.destroy({
+                    where: { id: userId },
+                    transactions: t
+                });
+            });
+
+            return res.status(200).send({
+                successMsg: 'User profile + self relations deleted with success'
+            });
         }
         catch(error){
             console.log('Internal server error at Delete user data', error);
@@ -259,7 +283,6 @@ class User{
             });
         }
     };
-    */
 };
 
 module.exports = new User();
