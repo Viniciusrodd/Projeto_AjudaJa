@@ -16,6 +16,9 @@ const AccountDetail = () => {
     const divImageRef = useRef(null);
     const navigate = useNavigate();
     const messageRef = useRef(null);
+    const modal = useRef(null);
+    const modal_msg = useRef(null);
+    const modal_btt = useRef(null);
 
 
     // states
@@ -93,11 +96,11 @@ const AccountDetail = () => {
         try{
             const formData = new FormData();
 
-            for (const key in userFields) {
+            for(const key in userFields){
                 formData.append(key, userFields[key]);
             }
 
-            if (imageField.file) {
+            if(imageField.file){
                 formData.append('image', imageField.file);
             }    
 
@@ -134,6 +137,33 @@ const AccountDetail = () => {
     }, [message]);
 
 
+    // modal messages
+    const modalShow = () =>{
+        modal.current.style.display = 'flex';
+        modal_msg.current.innerText = 'Tem certeza que deseja excluir seu perfil ?'
+        modal_btt.current.innerText = 'Tenho certeza'
+    };
+
+    
+    // delete profile
+    const delete_profile = () =>{
+        
+
+        modal.current.style.display = 'flex';
+        modal_msg.current.innerText = `Você será redirecionado... \n 
+        Ainda poderá criar nova conta mais tarde...`;
+        modal_btt.current.style.display = 'none';
+        
+        const clearMessage = setTimeout(() => {
+            navigate('/cadastro');
+        }, 3000);
+
+        return () => {
+            clearTimeout(clearMessage);
+        };
+    };
+
+
     return (
         <div className={ styles.accountDetail_container }>
             <h1 className='title is-1'>Detalhes de conta</h1>
@@ -144,6 +174,29 @@ const AccountDetail = () => {
                 </div>
             }
 
+
+            { /* Modal */ }
+            <div className='modal' ref={ modal }>
+            <div className='modal-background'></div>
+                <div className='modal-card'>
+                    <header className='modal-card-head'>
+                        <p className='modal-card-title' style={{ textAlign:'center' }}>Espere um pouco</p>
+                    </header>
+                    <section className='modal-card-body'>
+                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                    </section>
+                    <footer className='modal-card-foot is-justify-content-center'>
+                        <div className='div-buttons'>
+                            <button className="button is-danger is-dark" ref={ modal_btt } onClick={ delete_profile }>
+                                Excluir
+                            </button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+
+            { /* Formulário */}
             <form onSubmit={ handleForm } className={ styles.user_panel_container }>
                 <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
                 <div className={ stylesRegister.div_imagem_perfil } ref={divImageRef}>
@@ -208,10 +261,16 @@ const AccountDetail = () => {
                 </div>
 
                 <hr className='hr'/>
-                <button className="btt button is-primary is-dark">
+                <button className="button is-primary is-dark">
                     Editar
                 </button>
-            </form>   
+            </form>
+
+            <div className={ styles.delete_div } onClick={ modalShow }>
+                <button className="button is-danger is-dark">
+                    Excluir
+                </button>
+            </div>
         </div>
     );
 };
