@@ -15,8 +15,8 @@ const AccountDetail = () => {
     const { userData, userImage } = useUserdata(userID); // custom hook
     const divImageRef = useRef(null);
     const navigate = useNavigate();
-    const messageRef = useRef(null);
     const modal = useRef(null);
+    const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
 
@@ -27,8 +27,7 @@ const AccountDetail = () => {
         city:'', state: '', zip_code:'', actual_password: '', new_password: ''
     });
     const [ imageField, setImageField ] = useState({image_data: null, content_type: ''});
-    const [ message, setMessage ] = useState('');
-    const [ count, setCount ] = useState(3);
+    const [ redirect, setRedirect ] = useState(false);
     
     // set fields from request
     useEffect(() => {
@@ -105,50 +104,57 @@ const AccountDetail = () => {
             }    
 
             const response = await useEditUser(userFields.id, formData);
+
             if(response.status === 200){
-                setMessage('Usuário atualizado com sucesso!');   
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso!!!'
+                modal_msg.current.innerText = `Perfil atualizado! \n 
+                você será redirecionado para a página principal...`;
+                modal_btt.current.style.display = 'none';
+                setRedirect(true);
             }
         }
         catch(error){
             console.log('Error at update user', error);
-            setMessage('Erro ao atualizar usuário...');
+            if(error.response.data.errorPass){
+                modal.current.style.display = 'flex';
+                modal_msg.current.innerText = 'Senha atual incorreta, tente novamente...'
+                modal_btt.current.innerText = 'Tentar novamente'
+
+                modal_btt.current.addEventListener('click', () =>{
+                    modal.current.style.display = 'none';
+                });
+            }
         }
     };
 
 
     // redirect user
     useEffect(() => {
-        if(message !== '' && messageRef.current){
-            messageRef.current.scrollIntoView({ behavior: "smooth" });
-
-            const clearCount = setInterval(() => {
-                setCount(prevCount => prevCount - 1);
-            }, 1000);
-            
+        if(redirect === true){   
             const clearMessage = setTimeout(() => {
                 navigate('/');
             }, 3000);
             
             return () => {
-                clearInterval(clearCount);
                 clearTimeout(clearMessage);
             };
         }
-    }, [message]);
+    }, [redirect]);
 
 
     // modal messages
-    const modalShow = () =>{
+    const modal_deleteProfile = () =>{
         modal.current.style.display = 'flex';
         modal_msg.current.innerText = 'Tem certeza que deseja excluir seu perfil ?'
         modal_btt.current.innerText = 'Tenho certeza'
+        
+        modal_btt.current.addEventListener('click', delete_profile);
     };
 
     
     // delete profile
     const delete_profile = () =>{
-
-
         modal.current.style.display = 'flex';
         modal_msg.current.innerText = `Você será redirecionado... \n 
         Ainda poderá criar nova conta mais tarde...`;
@@ -167,27 +173,22 @@ const AccountDetail = () => {
     return (
         <div className={ styles.accountDetail_container }>
             <h1 className='title is-1'>Detalhes de conta</h1>
-            { message != '' && 
-                <div className='container_default'>
-                    <p className='subtitle is-3' ref={ messageRef }>{ message }</p>
-                    <p className='subtitle is-4'>Você será redirecionado em...{ count }</p>
-                </div>
-            }
-
 
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
                 <div className='modal-card'>
                     <header className='modal-card-head'>
-                        <p className='modal-card-title' style={{ textAlign:'center' }}>Espere um pouco</p>
+                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
+                            Espere um pouco
+                        </p>
                     </header>
                     <section className='modal-card-body'>
                         <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
                     </section>
                     <footer className='modal-card-foot is-justify-content-center'>
                         <div className='div-buttons'>
-                            <button className="button is-danger is-dark" ref={ modal_btt } onClick={ delete_profile }>
+                            <button className="button is-danger is-dark" ref={ modal_btt }>
                                 Excluir
                             </button>
                         </div>
@@ -223,14 +224,14 @@ const AccountDetail = () => {
 
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Senha Atual: </label>
-                    <input className="input is-hovered" name='actual_password' type="text" value={ userFields.actual_password }
+                    <input className="input is-hovered" name='actual_password' type="password" value={ userFields.actual_password }
                     placeholder='Senha atual (opcional)'
                     onChange={ (e) => setUserFields({...userFields, actual_password: e.target.value}) } />
                 </div>
 
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Senha Nova: </label>
-                    <input className="input is-hovered" name='new_password' type="text" value={ userFields.new_password }
+                    <input className="input is-hovered" name='new_password' type="password" value={ userFields.new_password }
                     placeholder='Senha nova (opcional)'
                     onChange={ (e) => setUserFields({...userFields, new_password: e.target.value}) } />
                 </div>
@@ -278,7 +279,7 @@ const AccountDetail = () => {
                 </button>
             </form>
 
-            <div className={ styles.delete_div } onClick={ modalShow }>
+            <div className={ styles.delete_div } onClick={ modal_deleteProfile }>
                 <button className="button is-danger is-dark">
                     Excluir
                 </button>
