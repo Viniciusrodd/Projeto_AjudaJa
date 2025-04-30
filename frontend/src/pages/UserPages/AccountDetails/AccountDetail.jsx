@@ -8,6 +8,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
 import { useEditUser } from '../../../hooks/UserFetch/useEditUser'; // custom hook
+import { useDeleteUser } from '../../../hooks/UserFetch/useDeleteUser'; // custom hook
 
 const AccountDetail = () => {
     // consts
@@ -28,6 +29,8 @@ const AccountDetail = () => {
     });
     const [ imageField, setImageField ] = useState({image_data: null, content_type: ''});
     const [ redirect, setRedirect ] = useState(false);
+    
+
     
     // set fields from request
     useEffect(() => {
@@ -154,19 +157,31 @@ const AccountDetail = () => {
 
     
     // delete profile
-    const delete_profile = () =>{
-        modal.current.style.display = 'flex';
-        modal_msg.current.innerText = `Você será redirecionado... \n 
-        Ainda poderá criar nova conta mais tarde...`;
-        modal_btt.current.style.display = 'none';
-        
-        const clearMessage = setTimeout(() => {
-            navigate('/cadastro');
-        }, 3000);
+    const delete_profile = async () =>{
+        try{
+            const res = await useDeleteUser(userID);
 
-        return () => {
-            clearTimeout(clearMessage);
-        };
+            if(res.status === 200){
+                modal.current.style.display = 'flex';
+                modal_msg.current.innerText = `Você será redirecionado... \n 
+                Ainda poderá criar nova conta mais tarde...`;
+                modal_btt.current.style.display = 'none';
+                
+                const clearMessage = setTimeout(() => {
+                    navigate('/cadastro');
+                }, 3000);
+        
+                return () => {
+                    clearTimeout(clearMessage);
+                };
+            }    
+        }
+        catch(error){
+            console.log('Error at delete user at front request', error);
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = `Erro ao excluir usuário...`;
+            modal_btt.current.innerText = 'Tente novamente';
+        }
     };
 
 
@@ -213,13 +228,13 @@ const AccountDetail = () => {
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Nome: </label>
                     <input className="input is-hovered" name='name' type="text" value={ userFields.name }
-                    onChange={ (e) => setUserFields({...userFields, name: e.target.value}) } />
+                    onChange={ (e) => setUserFields({...userFields, name: e.target.value}) } required />
                 </div>
                 
                 <div className={ styles.container_input }>
                     <label className="label title is-5" id="label">Email: </label>
                     <input className="input is-hovered" name='email' type="text" value={ userFields.email }
-                    onChange={ (e) => setUserFields({...userFields, email: e.target.value}) } />
+                    onChange={ (e) => setUserFields({...userFields, email: e.target.value}) } required />
                 </div>
 
                 <div className={ styles.container_input }>

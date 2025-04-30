@@ -25,15 +25,14 @@ class User{
         const image = req.file;
         //console.log('imagem enviada: ', image);
 
-        if(!name, !email, !password){
+        if(!name || !email || !password){
             return res.status(400).send({
                 error: 'Bad request at fields: name, email, password'
             });
         }
 
         try{
-            let salt = bcrypt.genSaltSync(10);
-            let hash = bcrypt.hashSync(password, salt);
+            let hash = bcrypt.hashSync(password, 10);
 
             const newUser = await UserModel.create({
                 name, email, password: hash, role: 'usuario'
@@ -85,7 +84,7 @@ class User{
         }
 
         try{
-            const user = await UserModel.findOne({ email });
+            const user = await UserModel.findOne({ where: { email } });
             if(!user){
                 return res.status(404).send({
                     emailNotFound: 'User email data not found...'
@@ -139,7 +138,7 @@ class User{
         }
 
         try{
-            const userFind = await UserModel.findOne({id: userId});
+            const userFind = await UserModel.findOne({ where:{ id: userId } });
             if(!userFind){
                 return res.status(404).send({ errorFind: 'Error at find user data...' });
             }
@@ -252,22 +251,22 @@ class User{
             await connection.transaction(async (t) => {
                 await CampaignModel.destroy({
                     where: { moderator_id: userId },
-                    transactions: t
+                    transaction: t
                 });
 
                 await OfferModel.destroy({
                     where: { user_id: userId },
-                    transactions: t
+                    transaction: t
                 });
 
                 await RequestModel.destroy({
                     where: { user_id: userId },
-                    transactions: t
+                    transaction: t
                 });
                 
                 await UserModel.destroy({
                     where: { id: userId },
-                    transactions: t
+                    transaction: t
                 });
             });
 

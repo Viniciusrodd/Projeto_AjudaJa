@@ -71,6 +71,8 @@ const Login = () => {
         };
     }, [ message ]);
 
+
+    // login
     const handleLoginForm = async (e) => {
         e.preventDefault();
 
@@ -84,12 +86,12 @@ const Login = () => {
         try{
             const response = await useLogin(data);
             if(response.status === 200){
-                setMessage('Usuário criado com sucesso!');
+                setMessage('Usuário logado com sucesso!');
                 navigate('/');
             }
         }
         catch(error){
-            console.log('Error at Login user');
+            console.log('Error at Login user', error);
             setMessage('Erro ao efetuar Login de usuário...');
         }
     };
