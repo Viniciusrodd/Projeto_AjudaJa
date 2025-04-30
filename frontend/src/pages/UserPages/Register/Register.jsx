@@ -20,48 +20,53 @@ const Register = () => {
     const [ password, setPassword ] = useState('');
     const [ confirmPassword, setConfirmPassword ] = useState('');
     const [ image, setImage ] = useState('');
-    const [ message, setMessage ] = useState('');
-    const [ messageLogin, setMessageLogin ] = useState('');
-    const [ count, setCount ] = useState(3);
+    const [ redirectHome, setRedirectHome ] = useState(false);
+    const [ redirectLogin, setRedirectLogin ] = useState(false);
 
     // consts
     const divImage = useRef(null);
-    const messageRef = useRef(null);
-    const messageLoginRef = useRef(null);
     const imageInput = useRef(null);
     const URL = 'http://localhost:2130/register';
     const navigate = useNavigate();
     const { data } = useTokenVerify(); // custom hook
+    const modal = useRef(null);
+    const modal_title = useRef(null);
+    const modal_msg = useRef(null);
+    const modal_btt = useRef(null);
+
+
+    // redirect
+    useEffect(() =>{
+        if(redirectHome){
+            const clearMessage = setTimeout(() => {
+                navigate('/');
+            }, 3000);
+        
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+
+        if(redirectLogin){
+            const clearMessage = setTimeout(() => {
+                navigate('/login');
+            }, 3000);
+        
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [redirectHome, redirectLogin])
 
 
     // verify login
     useEffect(() => {
         if(data){
-            setMessageLogin('Usuário já logado, você será redirecionado em...');
+            modal.current.style.display = 'flex';
+            modal_msg.current.style.display = 'Usuário já logado, você será redirecionado em...';
+            setRedirectHome(true);
         }
     }, [data]);
-
-
-    // set messageLogin
-    useEffect(() => {
-        if(messageLogin !== '' && messageLoginRef.current){
-            messageLoginRef.current.scrollIntoView({ behavior: "smooth" });
-
-            const clearCount = setInterval(() => {
-                setCount(prevCount => prevCount - 1);
-            }, 1000);
-
-            const clearMessage = setTimeout(() => {
-                setMessageLogin('');
-                navigate('/');
-            }, 3000);
-    
-            return () => {
-                clearTimeout(clearMessage);
-                clearInterval(clearCount);
-            };
-        }
-    }, [messageLogin]);
 
 
     // upload image
@@ -85,29 +90,19 @@ const Register = () => {
     };
 
 
-    // advice message
-    useEffect(() => {
-        if(message !== ''){
-            messageRef.current.scrollIntoView({
-                behavior: "smooth"
-            });
-            const clearMessage = setTimeout(() => {
-                setMessage('');
-            }, 3000);
-
-            return () => {
-                clearTimeout(clearMessage);
-            };
-        };
-    }, [message]);
-
-
     // create user request
     const handleForm = async (e) =>{
         e.preventDefault();
 
         if(password != confirmPassword){
-            setMessage('Por favor, confirme a senha correta...');
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = 'Por favor, confirme a senha correta para continuar...';
+            modal_btt.current.innerText = 'Tentar novamente';          
+
+            modal_btt.current.addEventListener('click', () =>{
+                modal.current.style.display = 'none';
+            });
+
             return;
         }
 
@@ -120,21 +115,32 @@ const Register = () => {
         try{
             const response = await userRegister(URL, data);
             if(response.status === 201){
-                setMessage('Usuário criado com sucesso!');
-
                 setName('');
                 setEmail('');
                 setPassword('');
                 setConfirmPassword('');
                 divImage.current.style.backgroundImage = `url(../../../images/user.jpg)`
                 imageInput.current.value = ''
-            
-                navigate('/login');
+
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso'
+                modal_msg.current.innerText = `Usuário criado!!! \n 
+                você será redirecionado para login...`;
+                modal_btt.current.style.display = 'none';            
+    
+                setRedirectLogin(true);
             }
         }
         catch(error){
             console.log('Error ar register user', error);
-            setMessage('Erro ao criar usuário...');
+
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = 'Erro ao registrar usuário, por favor tente novamente...';
+            modal_btt.current.innerText = 'Tentar novamente';
+
+            modal_btt.current.onClick = () =>{
+                modal.current.style.display = 'none';
+            };
         }
     };
 
@@ -143,17 +149,29 @@ const Register = () => {
         <div className='app_register_login'>
             <NavBar condition={ true } />
 
+            { /* Modal */ }
+            <div className='modal' ref={ modal }>
+            <div className='modal-background'></div>
+                <div className='modal-card'>
+                    <header className='modal-card-head'>
+                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
+                            Espere um pouco
+                        </p>
+                    </header>
+                    <section className='modal-card-body'>
+                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                    </section>
+                    <footer className='modal-card-foot is-justify-content-center'>
+                        <div className='div-buttons'>
+                            <button className="button is-danger is-dark" ref={ modal_btt }>
+                                Excluir
+                            </button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
             <div className={ styles.register_container }>
-                { message != '' && 
-                    <p className='subtitle is-3' ref={ messageRef } style={{ backgroundColor:'black' }}>
-                        { message }
-                    </p> 
-                }
-                { messageLogin != '' && 
-                    <p className='subtitle is-3' ref={ messageLoginRef } style={{ backgroundColor:'black' }}>
-                        { messageLogin } { count }
-                    </p> 
-                }
                 <form onSubmit={ handleForm } className={ `align_default ${styles.register_fields_container}` }>
                     <div className='img_container container_images'></div>
 
