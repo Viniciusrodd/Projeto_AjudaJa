@@ -270,6 +270,9 @@ class User{
                 });
             });
 
+            // clear token
+            this.logOut(res);
+
             return res.status(200).send({
                 successMsg: 'User profile + self relations deleted with success'
             });
@@ -281,6 +284,14 @@ class User{
                 details: error.response?.data || error.message
             });
         }
+    };
+
+
+    logOut(res){
+        return res.clearCookie('token',{
+            httpOnly: true,
+            sameSite: 'Strict'
+        });  
     };
 };
 

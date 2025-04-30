@@ -181,6 +181,10 @@ const AccountDetail = () => {
             modal.current.style.display = 'flex';
             modal_msg.current.innerText = `Erro ao excluir usuário...`;
             modal_btt.current.innerText = 'Tente novamente';
+
+            modal_btt.current.onclick = () => {
+                modal.current.style.display = 'none';
+            };           
         }
     };
 

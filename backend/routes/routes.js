@@ -23,7 +23,7 @@ router.post('/register', upload.single('image'), userController.registerUser);
 router.post('/login', userController.Login);
 router.get('/findUser/:userID', userController.findUser);
 router.put('/updateUser/:userID', upload.single('image'), userController.editUser);
-router.delete('/deleteUser/:userID', userController.deleteUser);
+router.delete('/deleteUser/:userID', middleware.verifyToken, userController.deleteUser.bind(userController));
 
 
 module.exports = router;
