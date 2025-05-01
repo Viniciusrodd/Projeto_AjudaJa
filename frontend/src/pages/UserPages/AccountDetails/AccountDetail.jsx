@@ -4,16 +4,19 @@ import styles from './AccountDetail.module.css';
 import stylesRegister from '../Register/Register.module.css';
 
 // hooks
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
 import { useEditUser } from '../../../hooks/UserFetch/useEditUser'; // custom hook
 import { useDeleteUser } from '../../../hooks/UserFetch/useDeleteUser'; // custom hook
 
+// context
+import { UserContext } from '../../../context/UserContext';
+
+
 const AccountDetail = () => {
     // consts
     const { userID } = useParams();
-    const { userData, userImage } = useUserdata(userID); // custom hook
     const divImageRef = useRef(null);
     const navigate = useNavigate();
     const modal = useRef(null);
@@ -21,7 +24,7 @@ const AccountDetail = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
-
+    const { setUserName } = useContext(UserContext);
 
     // states
     const [ userFields, setUserFields ] = useState({
@@ -31,30 +34,36 @@ const AccountDetail = () => {
     const [ imageField, setImageField ] = useState({image_data: null, content_type: ''});
     const [ redirect, setRedirect ] = useState(false);
     
-
     
     // set fields from request
     useEffect(() => {
-        if(!userData) return;
+        const fetchUserData = async () =>{
+            const res = await useUserdata(userID);
 
-        setUserFields({ ...userFields, 
-            id: userData.id || '',
-            name: userData.name || '',
-            email: userData.email || '',
-            role: userData.role || '',
-            street: userData.street || '',
-            city: userData.city || '',
-            state: userData.state || '',
-            zip_code: userData.zip_code || ''
-        });
-
-        if(!userImage) return;
-
-        setImageField({ ...imageField,
-            image_data: userImage.image_data,
-            content_type: userImage.content_type,
-        });
-    }, [userData]);
+            if(res.data.userData){
+                setUserName(res.data.userData.name);
+                
+                setUserFields({ ...userFields, 
+                    id: res.data.userData.id || '',
+                    name: res.data.userData.name || '',
+                    email: res.data.userData.email || '',
+                    role: res.data.userData.role || '',
+                    street: res.data.userData.street || '',
+                    city: res.data.userData.city || '',
+                    state: res.data.userData.state || '',
+                    zip_code: res.data.userData.zip_code || ''
+                });
+            }
+    
+            if(!res.data.userImage) return;
+    
+            setImageField({ ...imageField,
+                image_data: res.data.userImage.image_data,
+                content_type: res.data.userImage.content_type,
+            });
+        };
+        fetchUserData();
+    }, []);
 
 
     // defining profile background image from request

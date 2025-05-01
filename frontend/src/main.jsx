@@ -5,10 +5,15 @@ import './index.css'
 import App from './App.jsx'
 import '../node_modules/bulma/css/bulma.css';
 
+// provider - UserContext
+import { UserProvider } from './context/UserContext.jsx'
+
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <UserProvider>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </UserProvider>
     </StrictMode>,
 )

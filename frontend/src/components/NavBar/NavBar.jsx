@@ -4,49 +4,14 @@ import styles from './NavBar.module.css'
 
 // hooks
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+import { useContext } from 'react';
 
-// libs
-import axios from 'axios';
+// context
+import { UserContext } from '../../context/UserContext';
+
 
 const NavBar = ({ condition }) => {
-    const [ isLogged, setIsLogged ] = useState(false);
-    const [ userName, setUserName ] = useState('');
-    const [ userId, setUserId ] = useState(null);
-
-    useEffect(() => {
-        const fetchToken = async () =>{
-            try{
-                const res = await useTokenVerify();
-                if(res){
-                    setIsLogged(true);
-                    setUserId(res.data.user.id);
-                }
-            }
-            catch(error){
-                console.log('Error in fetchToken at navbar component: ', error);
-            }
-        };
-        fetchToken();
-    }, []);
-
-
-    // get user name
-    useEffect(() =>{
-        if(userId !== null){
-            const getUserName = async () =>{
-                try{
-                    const user = await axios.get(`http://localhost:2130/findUser/${userId}`);
-                    setUserName(user.data.userData.name);
-                }
-                catch(error){
-                    console.log('Error in getUserName at navbar component: ', error);
-                }
-            }
-            getUserName();
-        }
-    }, [userId]);
+    const { isLogged, userName, userId } = useContext(UserContext);
 
     return (
         <nav className={ condition ? styles.nav_bar_register : styles.nav_bar }>

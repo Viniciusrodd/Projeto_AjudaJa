@@ -3,7 +3,7 @@
 import styles from './Home.module.css';
 
 // hooks
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate } from 'react-router-dom';
 import { useLogOut } from '../../hooks/UserFetch/useLogOut'; // custom hook
@@ -11,7 +11,6 @@ import { useLogOut } from '../../hooks/UserFetch/useLogOut'; // custom hook
 
 const Home = () => {
     // states
-    const [ isLogged, setIsLogged ] = useState(false);
     const [ redirectLogin, setRedirectLogin ] = useState(false);
     
     // consts
@@ -20,6 +19,28 @@ const Home = () => {
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
+    
+
+    // login verify
+    useEffect(() => {
+        const fetchToken = async () =>{
+            try{
+                const res = await useTokenVerify();
+                if(res){
+                    console.log('User logado');
+                }
+            }
+            catch(error){
+                console.log('Error at fetchToken at Homepage: ', error);            
+                modal.current.style.display = 'flex';
+                modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
+                modal_btt.current.style.display = 'none';
+
+                setRedirectLogin(true);
+            }
+        };
+        fetchToken();
+    }, []);
 
 
     // redirect
@@ -34,28 +55,6 @@ const Home = () => {
             };
         }
     }, [redirectLogin]);
-    
-
-    // login verify
-    useEffect(() => {
-        const fetchToken = async () =>{
-            try{
-                const res = await useTokenVerify();
-                if(res){
-                    setIsLogged(true);
-                }
-            }
-            catch(error){
-                console.log('Error at fetchToken at Homepage: ', error);            
-                modal.current.style.display = 'flex';
-                modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
-                modal_btt.current.style.display = 'none';
-
-                setRedirectLogin(true);
-            }
-        };
-        fetchToken()
-    }, []);
 
 
     // logout
