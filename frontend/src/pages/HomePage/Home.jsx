@@ -6,6 +6,7 @@ import styles from './Home.module.css';
 import { useEffect, useState, useRef } from 'react';
 import useTokenVerify from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate } from 'react-router-dom';
+import { useLogOut } from '../../hooks/UserFetch/useLogOut'; // custom hook
 
 
 const Home = () => {
@@ -51,6 +52,20 @@ const Home = () => {
             };
         };
     }, [message]);
+
+
+    // logout
+    const logoutFunction = async () =>{
+        try{
+            const res = await useLogOut();
+            if(res.status == 200){
+                setMessage('Você será redirecionado á login...');
+            }
+        }
+        catch(error){
+            console.log('Error at logOut request at front...', error);
+        }
+    };
     
 
     return (
@@ -79,7 +94,9 @@ const Home = () => {
                 </button>
 
                 <ul className={ styles.sidebar_items }>
-                    <li><i className="material-icons">logout</i> Sair </li>
+                    <li onClick={ logoutFunction }><i className="material-icons">logout</i> 
+                        Sair 
+                    </li>
                     <li><i className="material-icons">settings</i> Configurações </li>
                     <li><i className="material-icons">help</i> Ajuda com o site </li>
                 </ul>

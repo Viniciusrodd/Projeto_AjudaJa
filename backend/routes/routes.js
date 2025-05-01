@@ -24,6 +24,7 @@ router.post('/login', userController.Login);
 router.get('/findUser/:userID', userController.findUser);
 router.put('/updateUser/:userID', upload.single('image'), userController.editUser);
 router.delete('/deleteUser/:userID', middleware.verifyToken, userController.deleteUser.bind(userController));
+router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(userController));
 
 
 module.exports = router;

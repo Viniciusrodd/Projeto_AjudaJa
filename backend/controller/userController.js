@@ -287,6 +287,15 @@ class User{
     };
 
 
+    // user logOut route
+    logOutRoute(req, res){
+        // clear token
+        this.logOut(res);
+        return res.status(200).send({ message: "User logOut successfully" });
+    };
+
+
+    // util function
     logOut(res){
         return res.clearCookie('token',{
             httpOnly: true,
