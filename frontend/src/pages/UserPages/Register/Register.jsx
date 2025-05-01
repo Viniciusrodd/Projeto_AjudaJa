@@ -56,7 +56,7 @@ const Register = () => {
                 clearTimeout(clearMessage);
             };
         }
-    }, [redirectHome, redirectLogin])
+    }, [redirectHome, redirectLogin]);
 
 
     // verify login
@@ -138,7 +138,7 @@ const Register = () => {
             modal_msg.current.innerText = 'Erro ao registrar usuário, por favor tente novamente...';
             modal_btt.current.innerText = 'Tentar novamente';
 
-            modal_btt.current.onClick = () =>{
+            modal_btt.current.onclick = () =>{
                 modal.current.style.display = 'none';
             };
         }
