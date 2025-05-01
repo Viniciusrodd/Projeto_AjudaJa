@@ -4,7 +4,7 @@ import styles from './Home.module.css';
 
 // hooks
 import { useEffect, useState, useRef } from 'react';
-import useTokenVerify from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate } from 'react-router-dom';
 import { useLogOut } from '../../hooks/UserFetch/useLogOut'; // custom hook
 
@@ -15,7 +15,6 @@ const Home = () => {
     const [ redirectLogin, setRedirectLogin ] = useState(false);
     
     // consts
-    const { data, error } = useTokenVerify(); // custom hook
     const navigate = useNavigate();
     const modal = useRef(null);
     const modal_title = useRef(null);
@@ -39,17 +38,23 @@ const Home = () => {
 
     // login verify
     useEffect(() => {
-        if(error){
-            console.log('Erro detectado: ', error.message);            
-            modal.current.style.display = 'flex';
-            modal_msg.current.style.display = 'É necessário login para continuar, você será redirecionado em...';
-
-            setRedirectLogin(true);
-        }
-        if(data){
-            setIsLogged(true);
-        }
-    }, [data, error]);
+        const fetchToken = async () =>{
+            try{
+                const res = await useTokenVerify();
+                if(res){
+                    setIsLogged(true);
+                }
+            }
+            catch(error){
+                console.log('Error at fetchToken at Homepage: ', error);            
+                modal.current.style.display = 'flex';
+                modal_msg.current.style.display = 'É necessário login para continuar, você será redirecionado em...';
+        
+                setRedirectLogin(true);
+            }
+        };
+        fetchToken()
+    }, []);
 
 
     // logout

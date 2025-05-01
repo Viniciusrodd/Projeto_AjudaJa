@@ -5,21 +5,29 @@ import styles from './NavBar.module.css'
 // hooks
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import useTokenVerify from '../../hooks/UserMiddleware/useTokenVerify';
+import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify';
 
 const NavBar = ({ condition }) => {
-    const { data } = useTokenVerify();
     const [ isLogged, setIsLogged ] = useState(false);
     const [ userName, setUserName ] = useState('');
     const [ userId, setUserId ] = useState(null);
 
     useEffect(() => {
-        if(data){
-            setIsLogged(true);
-            setUserName(data.user.name);
-            setUserId(data.user.id);
-        }
-    }, [data]);
+        const fetchToken = async () =>{
+            try{
+                const res = await useTokenVerify();
+                if(res){
+                    setIsLogged(true);
+                    setUserName(res.data.user.name);
+                    setUserId(res.data.user.id);
+                }
+            }
+            catch(error){
+                console.log('Error at fetchToken at navbar component: ', error);
+            }
+        };
+        fetchToken();
+    }, []);
 
     return (
         <nav className={ condition ? styles.nav_bar_register : styles.nav_bar }>
