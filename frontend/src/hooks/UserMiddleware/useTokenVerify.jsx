@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const useTokenVerify = () => {
     const [ data, setData ] = useState('');
-    const [ error, setError ] = useState(false);
+    const [ error, setError ] = useState(null);
   
     useEffect(() => {
         const verify = async () => {
@@ -15,7 +15,8 @@ const useTokenVerify = () => {
                 setData(res.data);
             }
             catch(error){
-                setError(true);
+                console.log('Error at token verification hook: ', error);
+                setError(error);
             }
         }
         verify();

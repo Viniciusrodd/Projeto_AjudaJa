@@ -10,19 +10,41 @@ import { useLogOut } from '../../hooks/UserFetch/useLogOut'; // custom hook
 
 
 const Home = () => {
+    // states
+    const [ isLogged, setIsLogged ] = useState(false);
+    const [ redirectLogin, setRedirectLogin ] = useState(false);
+    
+    // consts
     const { data, error } = useTokenVerify(); // custom hook
     const navigate = useNavigate();
-    const messageRef = useRef(null);
+    const modal = useRef(null);
+    const modal_title = useRef(null);
+    const modal_msg = useRef(null);
+    const modal_btt = useRef(null);
 
-    const [ isLogged, setIsLogged ] = useState(false);
-    const [ message, setMessage ] = useState('');
-    const [ count, setCount ] = useState(3);
 
+    // redirect
+    useEffect(() =>{
+        if(redirectLogin){
+            const clearMessage = setTimeout(() => {
+                navigate('/login');
+            }, 3000);
+        
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [redirectLogin]);
     
+
     // login verify
     useEffect(() => {
         if(error){
-            setMessage('É necessário login para continuar, você será redirecionado em...');            
+            console.log('Erro detectado: ', error.message);            
+            modal.current.style.display = 'flex';
+            modal_msg.current.style.display = 'É necessário login para continuar, você será redirecionado em...';
+
+            setRedirectLogin(true);
         }
         if(data){
             setIsLogged(true);
@@ -30,51 +52,60 @@ const Home = () => {
     }, [data, error]);
 
 
-    // advice message
-    useEffect(() => {
-        if(message !== ''){
-            messageRef.current.scrollIntoView({
-                behavior: "smooth"
-            });
-
-            const clearCount = setInterval(() => {
-                setCount(prevCount => prevCount - 1);
-            }, 1000);
-
-            const clearMessage = setTimeout(() => {
-                setMessage('');
-                navigate('/login');
-            }, 4000);
-
-            return () => {
-                clearTimeout(clearMessage);
-                clearInterval(clearCount);
-            };
-        };
-    }, [message]);
-
-
     // logout
     const logoutFunction = async () =>{
         try{
             const res = await useLogOut();
             if(res.status == 200){
-                setMessage('Você será redirecionado á login...');
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Volte em breve!!!'
+                modal_msg.current.innerText = `Você será redirecionado para login...`;
+                modal_btt.current.style.display = 'none';            
+    
+                setRedirectLogin(true);
             }
         }
         catch(error){
             console.log('Error at logOut request at front...', error);
+
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = `Erro durante o logOut, \n
+            por favor, tente novamente...`;
+            modal_btt.current.innerText = 'Tentar novamente';
+            
+            if(modal_btt.current){
+                modal_btt.current.onclick = () =>{
+                    modal.current.style.display = 'none';
+                };        
+            }
         }
     };
     
 
     return (
         <div className={ styles.container_home }>
-            { message != '' && 
-                <p className='subtitle is-3' ref={ messageRef } style={{ backgroundColor:'black' }}>
-                    { message } { count }
-                </p> 
-            }
+            
+            { /* Modal */ }
+            <div className='modal' ref={ modal }>
+            <div className='modal-background'></div>
+                <div className='modal-card'>
+                    <header className='modal-card-head'>
+                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
+                            Espere um pouco
+                        </p>
+                    </header>
+                    <section className='modal-card-body'>
+                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                    </section>
+                    <footer className='modal-card-foot is-justify-content-center'>
+                        <div className='div-buttons'>
+                            <button className="button is-danger is-dark" ref={ modal_btt }>
+                                Excluir
+                            </button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
 
             
             { /* SIDEBAR */ }
