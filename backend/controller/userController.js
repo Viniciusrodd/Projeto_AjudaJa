@@ -217,7 +217,9 @@ class User{
             const imageUpdate = await profileImage.findOneAndUpdate({ user_id: userId }, {
                 image_data: userImage.buffer.toString('base64'),
                 content_type: userImage.mimetype
-            }, { new: true }); // "new: true" returns document updated... 
+            }, { new: true, upsert: true }); 
+            // "new: true" returns document updated... 
+            // "upsert: true" create a document even he doesnt exist
 
             await UserModel.update(
                 { profile_image_id: imageUpdate._id.toString() },

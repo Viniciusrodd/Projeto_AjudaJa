@@ -104,6 +104,7 @@
             width: 90px;
             margin-right: 10px;
             border-radius: 100px;
+            border: 2px solid white;
             background-image: url(../../../images/user.jpg);
             background-size: cover;
         }

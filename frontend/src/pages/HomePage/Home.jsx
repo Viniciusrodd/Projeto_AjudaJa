@@ -48,8 +48,9 @@ const Home = () => {
             catch(error){
                 console.log('Error at fetchToken at Homepage: ', error);            
                 modal.current.style.display = 'flex';
-                modal_msg.current.style.display = 'É necessário login para continuar, você será redirecionado em...';
-        
+                modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
+                modal_btt.current.style.display = 'none';
+
                 setRedirectLogin(true);
             }
         };

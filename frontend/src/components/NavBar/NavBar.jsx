@@ -5,7 +5,10 @@ import styles from './NavBar.module.css'
 // hooks
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify';
+import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+
+// libs
+import axios from 'axios';
 
 const NavBar = ({ condition }) => {
     const [ isLogged, setIsLogged ] = useState(false);
@@ -18,16 +21,32 @@ const NavBar = ({ condition }) => {
                 const res = await useTokenVerify();
                 if(res){
                     setIsLogged(true);
-                    setUserName(res.data.user.name);
                     setUserId(res.data.user.id);
                 }
             }
             catch(error){
-                console.log('Error at fetchToken at navbar component: ', error);
+                console.log('Error in fetchToken at navbar component: ', error);
             }
         };
         fetchToken();
     }, []);
+
+
+    // get user name
+    useEffect(() =>{
+        if(userId !== null){
+            const getUserName = async () =>{
+                try{
+                    const user = await axios.get(`http://localhost:2130/findUser/${userId}`);
+                    setUserName(user.data.userData.name);
+                }
+                catch(error){
+                    console.log('Error in getUserName at navbar component: ', error);
+                }
+            }
+            getUserName();
+        }
+    }, [userId]);
 
     return (
         <nav className={ condition ? styles.nav_bar_register : styles.nav_bar }>

@@ -49,6 +49,7 @@ const Login = () => {
                     modal.current.style.display = 'flex';
                     modal_msg.current.innerText = 'Usuário já logado, você será redirecionado...';
                     modal_btt.current.style.display = 'none';
+
                     setRedirectHome(true);
                 }
             }

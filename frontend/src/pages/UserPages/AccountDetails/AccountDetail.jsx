@@ -20,6 +20,7 @@ const AccountDetail = () => {
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
+    const modal_btt_2 = useRef(null);
 
 
     // states
@@ -46,6 +47,8 @@ const AccountDetail = () => {
             state: userData.state || '',
             zip_code: userData.zip_code || ''
         });
+
+        if(!userImage) return;
 
         setImageField({ ...imageField,
             image_data: userImage.image_data,
@@ -114,6 +117,8 @@ const AccountDetail = () => {
                 modal_msg.current.innerText = `Perfil atualizado! \n 
                 você será redirecionado para a página principal...`;
                 modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';
+
                 setRedirect(true);
             }
         }
@@ -123,6 +128,7 @@ const AccountDetail = () => {
                 modal.current.style.display = 'flex';
                 modal_msg.current.innerText = 'Senha atual incorreta, tente novamente...'
                 modal_btt.current.innerText = 'Tentar novamente'
+                modal_btt_2.current.style.display = 'none';
 
                 modal_btt.current.addEventListener('click', () =>{
                     modal.current.style.display = 'none';
@@ -153,6 +159,9 @@ const AccountDetail = () => {
         modal_btt.current.innerText = 'Tenho certeza'
         
         modal_btt.current.addEventListener('click', delete_profile);
+        modal_btt_2.current.onclick = () =>{
+            modal.current.style.display = 'none';
+        };
     };
 
     
@@ -163,10 +172,12 @@ const AccountDetail = () => {
 
             if(res.status === 200){
                 modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso'
                 modal_msg.current.innerText = `Você será redirecionado... \n 
                 Ainda poderá criar nova conta mais tarde...`;
                 modal_btt.current.style.display = 'none';
-                
+                modal_btt_2.current.style.display = 'none';                
+
                 const clearMessage = setTimeout(() => {
                     navigate('/cadastro');
                 }, 3000);
@@ -181,6 +192,7 @@ const AccountDetail = () => {
             modal.current.style.display = 'flex';
             modal_msg.current.innerText = `Erro ao excluir usuário...`;
             modal_btt.current.innerText = 'Tente novamente';
+            modal_btt_2.current.style.display = 'none';
 
             modal_btt.current.onclick = () => {
                 modal.current.style.display = 'none';
@@ -209,6 +221,9 @@ const AccountDetail = () => {
                         <div className='div-buttons'>
                             <button className="button is-danger is-dark" ref={ modal_btt }>
                                 Excluir
+                            </button>
+                            <button className="button is-primary is-dark" ref={ modal_btt_2 } style={{ marginLeft:'10px' }}>
+                                Voltar
                             </button>
                         </div>
                     </footer>
