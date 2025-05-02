@@ -2,10 +2,18 @@
 
 .accountDetail_container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     padding-bottom: 60px;
+}
+
+.form_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
 }
 
 .user_panel_container{
@@ -14,7 +22,7 @@
     justify-content: center;
     align-items: center;
     padding: 30px 0px 0px 0px;
-    width: 60%;
+    width: 100%;
     border-radius: 20px;
 
     & .container_input{

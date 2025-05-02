@@ -13,6 +13,9 @@ import { useDeleteUser } from '../../../hooks/UserFetch/useDeleteUser'; // custo
 // context
 import { UserContext } from '../../../context/UserContext';
 
+// components
+import SideBar from '../../../components/SideBar/SideBar';
+
 
 const AccountDetail = () => {
     // consts
@@ -212,8 +215,6 @@ const AccountDetail = () => {
 
     return (
         <div className={ styles.accountDetail_container }>
-            <h1 className='title is-1'>Detalhes de conta</h1>
-
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
@@ -240,8 +241,15 @@ const AccountDetail = () => {
             </div>
 
 
+            { /* SIDEBAR */ }
+            <SideBar />
+
+
             { /* Formulário */}
+            <div className={ styles.form_container }>
             <form onSubmit={ handleForm } className={ styles.user_panel_container }>
+                <h1 className='title is-1'>Detalhes de conta</h1>
+
                 <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
                 <div className={ stylesRegister.div_imagem_perfil } ref={divImageRef}>
                     
@@ -326,6 +334,7 @@ const AccountDetail = () => {
                 <button className="button is-danger is-dark">
                     Excluir
                 </button>
+            </div>
             </div>
         </div>
     );

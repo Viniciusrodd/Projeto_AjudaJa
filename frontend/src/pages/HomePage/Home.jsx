@@ -8,6 +8,9 @@ import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // c
 import { useNavigate } from 'react-router-dom';
 import { useLogOut } from '../../hooks/UserFetch/useLogOut'; // custom hook
 
+// components
+import SideBar from '../../components/SideBar/SideBar';
+
 
 const Home = () => {
     // states
@@ -114,29 +117,7 @@ const Home = () => {
 
             
             { /* SIDEBAR */ }
-            <aside className={ styles.sidebar }>
-                <ul className={ styles.sidebar_items }>
-                    <li> <i className="material-icons">home</i> Página principal </li>
-                    <li> <i className="material-icons">shopping_bag</i> Doações </li>
-                    <li> <i className="material-icons">forum</i> Conversas </li>
-                    <li> <i className="material-icons">notifications</i> Notificações </li>
-                    <li> <i className="material-icons">group</i> Grupos </li>
-                    <li> <i className="material-icons">campaign</i> Campanhas </li>
-                    <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
-                </ul>
-
-                <button className="button is-primary is-dark">
-                    Publique
-                </button>
-
-                <ul className={ styles.sidebar_items }>
-                    <li onClick={ logoutFunction }><i className="material-icons">logout</i> 
-                        Sair 
-                    </li>
-                    <li><i className="material-icons">settings</i> Configurações </li>
-                    <li><i className="material-icons">help</i> Ajuda com o site </li>
-                </ul>
-            </aside>
+            <SideBar />
 
 
             { /* FEED CONTAINER */ }

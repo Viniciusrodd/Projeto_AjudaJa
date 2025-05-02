@@ -8,49 +8,6 @@
     padding-bottom: 60px;
 }
 
-.sidebar{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 2%;
-    height: 85vh;
-    width: 20vw;
-    
-
-    & button{
-        width: 70%;
-        margin-bottom: 50px;
-    }
-}
-
-.sidebar_items{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-start;
-    margin: 0px 0px 10px 0px;
-    width: 70%;
-
-    & li{
-        display: flex;
-        align-items: center;
-        font-size: 19px;
-        margin-bottom: 15px;
-        color: white;
-        font-weight: 400;
-        cursor: pointer;
-        transition: all 0.2s ease-out;
-
-        & i{
-            margin-right: 8px;
-        }
-    }
-    & li:hover{
-        transform: scale(1.04);
-    }
-}
-
 .container_feed{
     display: flex;
     flex-direction: column;
