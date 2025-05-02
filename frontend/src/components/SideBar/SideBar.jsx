@@ -3,12 +3,15 @@
 import styles from './SideBar.module.css';
 
 // hooks
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // services
 import { useLogOut } from '../../services/UserServices';
+
+// context
+import { UserContext } from '../../context/UserContext';
 
 
 const SideBar = () => {
@@ -19,6 +22,7 @@ const SideBar = () => {
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
+    const { setIsLogged } = useContext(UserContext); // context
 
 
     // redirect
@@ -35,29 +39,13 @@ const SideBar = () => {
     }, [redirectLogin]);
 
 
-    // login verify
-    const { userData, errorRes } = useTokenVerify();
-    useEffect(() => {
-        if(userData){
-            console.log('User logado');
-        }
-        
-        if(errorRes){
-            console.log('Error at fetchToken at Homepage: ', errorRes);            
-            modal.current.style.display = 'flex';
-            modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
-            modal_btt.current.style.display = 'none';
-    
-            setRedirectLogin(true);
-        }
-    }, [userData, errorRes]);
-
-
     // logout
     const logoutFunction = async () =>{
         try{
             const res = await useLogOut();
             if(res.status == 200){
+                setIsLogged(false);
+
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Volte em breve!!!'
                 modal_msg.current.innerText = `Você será redirecionado para login...`;

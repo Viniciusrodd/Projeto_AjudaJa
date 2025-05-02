@@ -3,12 +3,15 @@
 import styles from './Home.module.css';
 
 // hooks
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate } from 'react-router-dom';
 
 // components
 import SideBar from '../../components/SideBar/SideBar';
+
+// context
+import { UserContext } from '../../context/UserContext';
 
 
 const Home = () => {
@@ -21,6 +24,7 @@ const Home = () => {
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
+    const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
 
 
     // redirect
@@ -41,7 +45,9 @@ const Home = () => {
     const { userData, errorRes } = useTokenVerify();
     useEffect(() => {
         if(userData){
-            console.log('User logado');
+            setIsLogged(true);
+            setUserId(userData.id)
+            setUserName(userData.name);
         }
         
         if(errorRes){
