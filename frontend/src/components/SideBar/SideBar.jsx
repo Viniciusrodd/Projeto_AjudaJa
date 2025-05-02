@@ -3,15 +3,55 @@
 import styles from './SideBar.module.css';
 
 // hooks
-import { useRef } from 'react';
-import { useLogOut } from '../../hooks/UserFetch/useLogOut'; // custom hook
+import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+
+// services
+import { useLogOut } from '../../services/UserServices';
 
 
 const SideBar = () => {
+    const [ redirectLogin, setRedirectLogin ] = useState(false);
+    
+    const navigate = useNavigate();
     const modal = useRef(null);
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
+
+
+    // redirect
+    useEffect(() =>{
+        if(redirectLogin){
+            const clearMessage = setTimeout(() => {
+                navigate('/login');
+            }, 3000);
+        
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [redirectLogin]);
+
+
+    // login verify
+    const { userData, errorRes } = useTokenVerify();
+    useEffect(() => {
+        if(userData){
+            console.log('User logado');
+        }
+        
+        if(errorRes){
+            console.log('Error at fetchToken at Homepage: ', errorRes);            
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
+            modal_btt.current.style.display = 'none';
+    
+            setRedirectLogin(true);
+        }
+    }, [userData, errorRes]);
+
 
     // logout
     const logoutFunction = async () =>{
@@ -41,6 +81,7 @@ const SideBar = () => {
             }
         }
     };
+
 
     return (
         <aside className={ styles.sidebar }>

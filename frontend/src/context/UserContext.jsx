@@ -15,22 +15,20 @@ export const UserProvider = ({ children }) => {
     const [ isLogged, setIsLogged ] = useState(false);
     const [ userName, setUserName ] = useState('');
     const [ userId, setUserId ] = useState(null);
-
+    
+    
+    // token verify + user id
+    const { userData, errorRes } = useTokenVerify();
     useEffect(() => {
-        const fetchToken = async () =>{
-            try{
-                const res = await useTokenVerify();
-                if(res){
-                    setIsLogged(true);
-                    setUserId(res.data.user.id);
-                }
-            }
-            catch(error){
-                console.log('Error in fetchToken at navbar component: ', error);
-            }
-        };
-        fetchToken();
-    }, []);
+        if(userData){
+            setIsLogged(true);
+            setUserId(userData.id);
+        }
+        
+        if(errorRes){
+            console.log('Error in fetchToken at navbar component: ', errorRes);
+        }        
+    }, [userData, errorRes]);
 
 
     // get user name

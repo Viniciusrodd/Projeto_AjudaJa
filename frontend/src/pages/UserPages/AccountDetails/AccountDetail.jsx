@@ -7,8 +7,9 @@ import stylesRegister from '../Register/Register.module.css';
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
-import { useEditUser } from '../../../hooks/UserFetch/useEditUser'; // custom hook
-import { useDeleteUser } from '../../../hooks/UserFetch/useDeleteUser'; // custom hook
+
+// services
+import { useEditUser, useDeleteUser } from '../../../services/UserServices';
 
 // context
 import { UserContext } from '../../../context/UserContext';
@@ -39,34 +40,34 @@ const AccountDetail = () => {
     
     
     // set fields from request
+    const { userData, userImage, errorRes } = useUserdata(userID);
     useEffect(() => {
-        const fetchUserData = async () =>{
-            const res = await useUserdata(userID);
-
-            if(res.data.userData){
-                setUserName(res.data.userData.name);
-                
-                setUserFields({ ...userFields, 
-                    id: res.data.userData.id || '',
-                    name: res.data.userData.name || '',
-                    email: res.data.userData.email || '',
-                    role: res.data.userData.role || '',
-                    street: res.data.userData.street || '',
-                    city: res.data.userData.city || '',
-                    state: res.data.userData.state || '',
-                    zip_code: res.data.userData.zip_code || ''
-                });
-            }
-    
-            if(!res.data.userImage) return;
-    
-            setImageField({ ...imageField,
-                image_data: res.data.userImage.image_data,
-                content_type: res.data.userImage.content_type,
+        if(userData){
+            setUserName(userData.name);
+            
+            setUserFields({ ...userFields, 
+                id: userData.id || '',
+                name: userData.name || '',
+                email: userData.email || '',
+                role: userData.role || '',
+                street: userData.street || '',
+                city: userData.city || '',
+                state: userData.state || '',
+                zip_code: userData.zip_code || ''
             });
-        };
-        fetchUserData();
-    }, []);
+        }
+        
+        if(!userImage) return;
+
+        setImageField({ ...imageField,
+            image_data: userImage.image_data,
+            content_type: userImage.content_type,
+        });
+
+        if(errorRes){
+            console.log('Error at findUser at Homepage: ', errorRes);
+        }
+    }, [userData, userImage, errorRes]);
 
 
     // defining profile background image from request

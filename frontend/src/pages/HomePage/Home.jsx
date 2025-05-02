@@ -3,10 +3,9 @@
 import styles from './Home.module.css';
 
 // hooks
-import { useEffect, useState, useRef, useContext } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate } from 'react-router-dom';
-import { useLogOut } from '../../hooks/UserFetch/useLogOut'; // custom hook
 
 // components
 import SideBar from '../../components/SideBar/SideBar';
@@ -22,28 +21,6 @@ const Home = () => {
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
-    
-
-    // login verify
-    useEffect(() => {
-        const fetchToken = async () =>{
-            try{
-                const res = await useTokenVerify();
-                if(res){
-                    console.log('User logado');
-                }
-            }
-            catch(error){
-                console.log('Error at fetchToken at Homepage: ', error);            
-                modal.current.style.display = 'flex';
-                modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
-                modal_btt.current.style.display = 'none';
-
-                setRedirectLogin(true);
-            }
-        };
-        fetchToken();
-    }, []);
 
 
     // redirect
@@ -60,35 +37,23 @@ const Home = () => {
     }, [redirectLogin]);
 
 
-    // logout
-    const logoutFunction = async () =>{
-        try{
-            const res = await useLogOut();
-            if(res.status == 200){
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Volte em breve!!!'
-                modal_msg.current.innerText = `Você será redirecionado para login...`;
-                modal_btt.current.style.display = 'none';            
-    
-                setRedirectLogin(true);
-            }
+    // login verify
+    const { userData, errorRes } = useTokenVerify();
+    useEffect(() => {
+        if(userData){
+            console.log('User logado');
         }
-        catch(error){
-            console.log('Error at logOut request at front...', error);
-
+        
+        if(errorRes){
+            console.log('Error at fetchToken at Homepage: ', errorRes);            
             modal.current.style.display = 'flex';
-            modal_msg.current.innerText = `Erro durante o logOut, \n
-            por favor, tente novamente...`;
-            modal_btt.current.innerText = 'Tentar novamente';
-            
-            if(modal_btt.current){
-                modal_btt.current.onclick = () =>{
-                    modal.current.style.display = 'none';
-                };        
-            }
-        }
-    };
+            modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
+            modal_btt.current.style.display = 'none';
     
+            setRedirectLogin(true);
+        }
+    }, [userData, errorRes]);
+
 
     return (
         <div className={ styles.container_home }>

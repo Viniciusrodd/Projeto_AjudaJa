@@ -5,9 +5,11 @@ import styles from './Register.module.css';
 // hooks
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { userRegister } from '../../../hooks/UserFetch/useRegister'; // custom hook
 import { useNavigate } from 'react-router-dom';
 import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+
+// services
+import { userRegister } from '../../../services/UserServices';
 
 // components
 import NavBar from '../../../components/NavBar/NavBar';
@@ -34,6 +36,22 @@ const Register = () => {
     const modal_btt = useRef(null);
 
 
+    // verify login
+    const { userData, errorRes } = useTokenVerify();
+    useEffect(() => {
+        if(userData){
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = 'Usuário já logado, você será redirecionado...';
+            modal_btt.current.style.display = 'none';
+            setRedirectHome(true);
+        }
+        
+        if(errorRes){
+            console.log('Error at fetchToken at Register: ', errorRes);
+        }
+    }, [userData, errorRes]);
+
+
     // redirect
     useEffect(() =>{
         if(redirectHome){
@@ -56,26 +74,6 @@ const Register = () => {
             };
         }
     }, [redirectHome, redirectLogin]);
-
-
-    // verify login
-    useEffect(() => {
-        const fetchToken = async () =>{
-            try{
-                const res = await useTokenVerify();
-                if(res){
-                    modal.current.style.display = 'flex';
-                    modal_msg.current.innerText = 'Usuário já logado, você será redirecionado...';
-                    modal_btt.current.style.display = 'none';
-                    setRedirectHome(true);
-                }
-            }
-            catch(error){
-                console.log('Error at fetchToken at Register: ', error);    
-            }
-        };
-        fetchToken();
-    }, []);
 
 
     // upload image
