@@ -107,7 +107,7 @@ const SideBar = () => {
             </ul>
 
             <button className="button is-primary is-dark">
-                Publique
+                Peça ajuda
             </button>
 
             <ul className={ styles.sidebar_items }>
@@ -115,7 +115,7 @@ const SideBar = () => {
                     Sair 
                 </li>
                 <li><i className="material-icons">settings</i> Configurações </li>
-                <li><i className="material-icons">help</i> Ajuda com o site </li>
+                <li><i className="material-icons">help</i> Dúvidas sobre o site </li>
             </ul>
         </aside>
     );

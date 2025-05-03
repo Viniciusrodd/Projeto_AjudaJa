@@ -102,9 +102,11 @@ const Home = () => {
                             <option>Opções aqui...</option>
                         </select>
                     </div>
-                    <button className="button is-primary is-dark">
-                        + Publicação
-                    </button>
+                    <div className={ styles.search_container }>
+                        <input className='input is-success' type="text" name="search" placeholder='Pesquise por ajuda' 
+                        autoComplete='off'/>
+                        <i className="material-icons" id='person'>search</i>
+                    </div>
                 </div>
 
                 { /* FEED PUBLICATIONS */ }
