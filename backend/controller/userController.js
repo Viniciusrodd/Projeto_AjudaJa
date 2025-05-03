@@ -11,14 +11,6 @@ require('dotenv').config();
 const secretToken = process.env.SECRET_TOKEN;
 
 class User{
-    // test
-    test(req, res){
-        //console.log('teste de rota');
-        res.status(200).send({
-            msg: 'teste ok'
-        });
-    };
-
     // register
     async registerUser(req, res){
         const { name, email, password } = req.body;
@@ -145,16 +137,23 @@ class User{
             const userData = userFind.dataValues;
             const userImage = await profileImage.findOne({ user_id: userData.id });
 
+            if(!userImage){
+                return res.status(200).send({
+                    successFind: 'User data find (without image) with success',
+                    userData
+                });    
+            }
+
             return res.status(200).send({
                 successFind: 'User data find with success',
                 userData, userImage
             });
         }
         catch(error){
-            console.log('Internal server error at Find user data controller', error);
+            console.error('Internal server error at Find user data controller', error);
             res.status(500).send({
                 msgError: 'Internal server error at Find user data controller',
-                details: error.response?.data || error.message
+                details: error.message
             });
         };
     };
