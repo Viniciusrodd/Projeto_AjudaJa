@@ -23,7 +23,6 @@ class User{
     async registerUser(req, res){
         const { name, email, password } = req.body;
         const image = req.file;
-        //console.log('imagem enviada: ', image);
 
         if(!name || !email || !password){
             return res.status(400).send({
