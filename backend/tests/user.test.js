@@ -52,7 +52,7 @@ describe('User tests', () => {
     // user login
     test('Should test a User Login...', async () =>{
         const userTest = {
-            email: `userTest@gmail.com`, password: 'test123' 
+            email: `vini@gmail.com`, password: 'vini123' 
         };
 
         try{
@@ -79,17 +79,43 @@ describe('User tests', () => {
             const res = await request.get(`/findUser/${userId}`);
             if(res.status === 200){
                 console.log('FIND USER TEST, SUCCESS!!!');
+                console.log(
+                    res.body.userImage 
+                    ? `USER WITH IMAGE: ${JSON.stringify(res.body.userData)}`
+                    : `USER WITHOUT IMAGE: ${JSON.stringify(res.body.userData)}`
+                );
             }
-            
-            if(res.status === 500){
-                console.log('RESPOSTA DO SERVIDOR:', res.body);
-            }
-
             expect(res.status).toEqual(200);
         }
         catch(error){
-            console.error('ERROR AT FIND USER METHOD...', error);
+            console.error('ERROR AT FIND USER TEST...', error);
             throw error;
         }
     }, 15000); // 15 seg. máx for this test...
+
+
+    // edit user
+    test('Should test a edit user route...', async () =>{
+        const userId = '179bf611-a3a0-4e97-bbcc-4d0de572a22c';
+        const userData = {
+            name: 'nameEdited', email: 'emailEdited', role: 'usuario',
+            street: 'streetEdited', city: 'cityEdited', state: 'stateEdited',
+            zip_code: '000.000.000-00'
+        };
+
+        try{
+            const res = await request.put(`/updateUser/${userId}`).send(userData);
+            if(res.status === 200){
+                console.log('EDIT USER TEST, SUCCESS!!!');
+            }
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.log('ERROR AT EDIT USER TEST...', error);
+            throw error;
+        }
+    });
+
+
+    
 });
