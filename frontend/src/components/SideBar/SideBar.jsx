@@ -71,6 +71,12 @@ const SideBar = () => {
     };
 
 
+    // homepage redirect
+    const homePageRedirect = () =>{
+        navigate('/');
+    };
+
+
     return (
         <aside className={ styles.sidebar }>
             { /* Modal */ }
@@ -97,7 +103,9 @@ const SideBar = () => {
 
 
             <ul className={ styles.sidebar_items }>
-                <li> <i className="material-icons">home</i> Página principal </li>
+                <li onClick={ homePageRedirect }> <i className="material-icons">home</i> 
+                    Página principal 
+                </li>
                 <li> <i className="material-icons">shopping_bag</i> Doações </li>
                 <li> <i className="material-icons">forum</i> Conversas </li>
                 <li> <i className="material-icons">notifications</i> Notificações </li>
