@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
 const request = supertest(app);
+const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0NDM0YzQ0LWMzZTUtNDc3OS1iYTIwLTE2NzFiNmRmNjVjYSIsIm5hbWUiOiJtYXJpYSIsImVtYWlsIjoibWFyaWFAZ21haWwuY29tIiwiaWF0IjoxNzQ2MzA3OTg4LCJleHAiOjE3NDcxNzE5ODh9.4HXIRSChUxhUiVcgXLhotfvi2v8-nhOxo6h_2MoDD9s'
 
 
 // mongoDB Connection
@@ -112,7 +113,7 @@ describe('User tests', () => {
             expect(res.status).toEqual(200);
         }
         catch(error){
-            console.log('ERROR AT EDIT USER TEST...', error);
+            console.error('ERROR AT EDIT USER TEST...', error);
             throw error;
         }
     });
@@ -121,7 +122,6 @@ describe('User tests', () => {
     // delete user (with token send)
     test('Should test a delete user route...', async () =>{
         const userId = 'd9ba1e35-bc5a-4b39-b115-86f08318390d';
-        const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0NDM0YzQ0LWMzZTUtNDc3OS1iYTIwLTE2NzFiNmRmNjVjYSIsIm5hbWUiOiJtYXJpYSIsImVtYWlsIjoibWFyaWFAZ21haWwuY29tIiwiaWF0IjoxNzQ2MzA3OTg4LCJleHAiOjE3NDcxNzE5ODh9.4HXIRSChUxhUiVcgXLhotfvi2v8-nhOxo6h_2MoDD9s'
 
         try{
             const res = await request.delete(`/deleteUser/${userId}`).set('Cookie', `token=${jwtToken}`);
@@ -132,6 +132,27 @@ describe('User tests', () => {
         }
         catch(error){
             console.log('ERROR AT USER DELETE TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // user LogOut
+    test('Should test a user logOut route...', async () =>{        
+        try{
+            const res = await request.get('/logOut').set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('USER LOGOUT TEST, SUCCESS!!!');
+            }
+            
+            if(res.status === 401){
+                console.error('ERROR AT LOGOUT BODY: ', res.body);
+            }
+
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROR AT USER LOGOUT TEST...', error);
             throw error;
         }
     });

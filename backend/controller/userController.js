@@ -293,10 +293,19 @@ class User{
 
 
     // user logOut route
-    logOutRoute(req, res){
-        // clear token
-        this.logOut(res);
-        return res.status(200).send({ message: "User logOut successfully" });
+    async logOutRoute(req, res){
+        try{
+            // clear token
+            this.logOut(res);
+            return res.status(200).send({ message: "User logOut successfully" });
+        }
+        catch(error){
+            console.error('Internal server error at logOut route', error);
+            res.status(500).send({
+                msgError: 'Internal server error at logOut route',
+                details: error.response?.data || error.message
+            });
+        };
     };
 
 
