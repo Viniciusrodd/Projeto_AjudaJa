@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const secretToken = process.env.SECRET_TOKEN;
 
-
 class Middleware{
     async verifyToken(req, res, next){
         const token = req.cookies.token;

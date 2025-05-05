@@ -1,3 +1,5 @@
 node_modules/
+Database/Connection/
+mongoDatabase/mongoConnection.js
+.env
 package-lock.json
-connection/

@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const router = require('./routes/routes.js'); 
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // use modules
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_PORT,
     credentials: true
 }));
 

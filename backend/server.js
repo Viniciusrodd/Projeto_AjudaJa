@@ -3,6 +3,7 @@
 const app = require('./app.js');
 const Connection = require('./Database/Connection/connection.js');
 const mongoConnection = require('./mongoDatabase/mongoConnection.js');
+require('dotenv').config();
 
 const relations = require('./Database/Relations.js');
 
@@ -17,6 +18,6 @@ Connection.authenticate()
 
 
 // server opens
-app.listen(2130, () =>{
-    console.log('Server opens on 2130 port');
+app.listen(process.env.BACKEND_PORT, () =>{
+    console.log('Server opens success');
 });

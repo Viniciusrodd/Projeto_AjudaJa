@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
 const request = supertest(app);
-const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0NDM0YzQ0LWMzZTUtNDc3OS1iYTIwLTE2NzFiNmRmNjVjYSIsIm5hbWUiOiJtYXJpYSIsImVtYWlsIjoibWFyaWFAZ21haWwuY29tIiwiaWF0IjoxNzQ2MzA3OTg4LCJleHAiOjE3NDcxNzE5ODh9.4HXIRSChUxhUiVcgXLhotfvi2v8-nhOxo6h_2MoDD9s'
+require('dotenv').config();
+const jwtToken = process.env.JWT_TOKEN_TEST;
 
 
 // mongoDB Connection
