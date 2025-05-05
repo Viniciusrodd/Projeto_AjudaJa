@@ -13,7 +13,7 @@ const secretToken = process.env.SECRET_TOKEN;
 class User{
     // register
     async registerUser(req, res){
-        const { name, email, password } = req.body;
+        const { id, name, email, password } = req.body;
         const image = req.file;
 
         if(!name || !email || !password){
@@ -24,10 +24,15 @@ class User{
 
         try{
             let hash = bcrypt.hashSync(password, 10);
+            let newUser;
 
-            const newUser = await UserModel.create({
-                name, email, password: hash, role: 'usuario'
-            });
+            if(id){
+                newUser = await UserModel.create({ id, name, email, password: hash, role: 'usuario' });
+            }else{
+                newUser = await UserModel.create({
+                    name, email, password: hash, role: 'usuario'
+                });
+            }
 
             if(!image){
                 console.log('New User creation Without profile image');

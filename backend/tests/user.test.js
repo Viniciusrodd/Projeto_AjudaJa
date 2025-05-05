@@ -31,6 +31,7 @@ describe('User tests', () => {
     // user register (without image)
     test('Should test a User Register (without image)...', async () =>{
         const userTest = {
+            id: 'd9ba1e35-bc5a-4b39-b115-86f08318390d',
             name: 'userTest', email: `userTest${randomNumber}@gmail.com`, password: 'test123' 
         };
         try{
@@ -94,7 +95,7 @@ describe('User tests', () => {
     }, 15000); // 15 seg. máx for this test...
 
 
-    // edit user
+    // edit user (without image)
     test('Should test a edit user route...', async () =>{
         const userId = '179bf611-a3a0-4e97-bbcc-4d0de572a22c';
         const userData = {
@@ -117,5 +118,21 @@ describe('User tests', () => {
     });
 
 
-    
+    // delete user (with token send)
+    test('Should test a delete user route...', async () =>{
+        const userId = 'd9ba1e35-bc5a-4b39-b115-86f08318390d';
+        const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE0NDM0YzQ0LWMzZTUtNDc3OS1iYTIwLTE2NzFiNmRmNjVjYSIsIm5hbWUiOiJtYXJpYSIsImVtYWlsIjoibWFyaWFAZ21haWwuY29tIiwiaWF0IjoxNzQ2MzA3OTg4LCJleHAiOjE3NDcxNzE5ODh9.4HXIRSChUxhUiVcgXLhotfvi2v8-nhOxo6h_2MoDD9s'
+
+        try{
+            const res = await request.delete(`/deleteUser/${userId}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('USER DELETE TEST, SUCCESS!!!');
+            }
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.log('ERROR AT USER DELETE TEST...', error);
+            throw error;
+        }
+    });
 });
