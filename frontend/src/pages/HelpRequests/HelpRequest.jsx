@@ -27,19 +27,36 @@ const HelpRequest = () => {
 
                     <div className={ stylesAccountDetails.container_input }>
                         <label className="label title is-5" id="label">Titulo: </label>
-                        <input className="input is-hovered" name='title' type="text" required />
+                        <input className="input is-hovered" name='title' type="text" required 
+                        placeholder='Ex: "Preciso de ajuda com material escolar"' style={{ width:'80%' }}/>
                     </div>
 
                     <div className={`control ${stylesAccountDetails.textarea_container}`}>
                         <label className="label title is-5" id="label">Descrição: </label>
-                        <textarea className="textarea is-hovered">
+                        <textarea className="textarea is-hovered" 
+                        placeholder='Descreva sua situação com mais detalhes. Ex: Estou desempregado, com duas crianças pequenas, e preciso de alimentos básicos como arroz, feijão e leite. Qualquer ajuda será bem-vinda.'>
                         
                         </textarea>
                     </div>
 
                     <div className={ stylesAccountDetails.container_input }>
                         <label className="label title is-5" id="label">Categoria: </label>
-                        <input className="input is-hovered" name='category' type="text" required />
+                        <div className="select is-hovered" style={{ width:'70%' }}>
+                            <select style={{ width:'100%' }} name='category'> {/* default: livre */}
+                                <option value="alimentos">Alimentos</option>
+                                <option value="roupas_calçados">Roupas e Calçados</option>
+                                <option value="transporte">Transporte</option>
+                                <option value="serviços_gerais">Serviços Gerais</option>
+                                <option value="apoio_emocional">Apoio Emocional</option>
+                                <option value="moradia_abrigo">Moradia / Abrigo</option>
+                                <option value="educação">Educação</option>
+                                <option value="trabalho_renda">Trabalho e Renda</option>
+                                <option value="saúde_remédios">Saúde e Remédios</option>
+                                <option value="animais">Animais</option>
+                                <option value="tecnologia">Tecnologia</option>
+                                <option value="livre">Livre</option>
+                            </select>
+                        </div>                    
                     </div>
 
                     <div className={ stylesAccountDetails.container_input }>
@@ -62,6 +79,12 @@ const HelpRequest = () => {
                             </select>
                         </div>
                     </div>
+
+                    <hr className='hr'/>
+
+                    <button className="button is-primary is-dark">
+                        Publicar
+                    </button>
                 </form>
             </div>
 

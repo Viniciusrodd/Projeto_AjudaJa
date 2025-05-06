@@ -21,8 +21,22 @@ const Request = Connection.define('Requests', {
         allowNull: false
     },
     category: {
-        type: DataTypes.STRING(50),
-        allowNull: false
+        type: DataTypes.ENUM(
+            'alimentos',
+            'roupas_calçados',
+            'transporte',
+            'serviços_gerais',
+            'apoio_emocional',
+            'moradia_abrigo',
+            'educação',
+            'trabalho_renda',
+            'saúde_remédios',
+            'animais',
+            'tecnologia',
+            'livre'
+        ),
+        allowNull: false,
+        defaultValue: 'livre'
     },
     urgency: {
         type: DataTypes.ENUM('baixa', 'media', 'alta'),
