@@ -6,13 +6,13 @@ import styles from './Register.module.css';
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // services
-import { userRegister } from '../../../services/UserServices';
+import { userRegister } from '../../services/UserServices';
 
 // components
-import NavBar from '../../../components/NavBar/NavBar';
+import NavBar from '../../components/NavBar/NavBar';
 
 
 const Register = () => {

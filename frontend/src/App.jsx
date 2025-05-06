@@ -10,9 +10,11 @@ import NavBar from './components/NavBar/NavBar'
 
 // pages
 import Home from './pages/HomePage/Home';
-import Register from './pages/UserPages/Register/Register';
-import Login from './pages/UserPages/Login/Login';
-import AccountDetail from './pages/UserPages/AccountDetails/AccountDetail';
+import Register from './pages/Register/Register';
+import Login from './pages/Login/Login';
+import AccountDetail from './pages/AccountDetails/AccountDetail';
+import HelpRequest from './pages/HelpRequests/HelpRequest';
+
 
 function App() {
     const location = useLocation();
@@ -26,7 +28,8 @@ function App() {
                 <Route path='/' element={ <Home /> } />
                 <Route path='/cadastro' element={ <Register /> } />
                 <Route path='/login' element={ <Login /> } />
-                <Route path='/accountDetails/:userID' element={ <AccountDetail /> } />
+                <Route path='/detalhesDeConta/:userID' element={ <AccountDetail /> } />
+                <Route path='/pedidoDeAjuda' element={ <HelpRequest /> } />                
             </Routes>
         </div>
     )

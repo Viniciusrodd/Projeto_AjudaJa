@@ -6,16 +6,16 @@ import stylesRegister from '../Register/Register.module.css';
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
+import { useUserdata } from '../../hooks/UserFetch/useUserdata'; // custom hook
 
 // services
-import { useEditUser, useDeleteUser } from '../../../services/UserServices';
+import { useEditUser, useDeleteUser } from '../../services/UserServices';
 
 // context
-import { UserContext } from '../../../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 
 // components
-import SideBar from '../../../components/SideBar/SideBar';
+import SideBar from '../../components/SideBar/SideBar';
 
 
 const AccountDetail = () => {

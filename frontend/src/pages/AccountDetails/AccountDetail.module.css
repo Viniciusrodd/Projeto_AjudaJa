@@ -31,11 +31,16 @@
         justify-content: space-between;
         align-items: center;
         width: 45%;
+        margin: 0px 0px 15px 5px;
 
         & input{
             width: 70%;
-            margin: 0px 0px 15px 5px;
         }
+    }
+
+    & .textarea_container{
+        width: 45%;
+        margin: 10px 0px 30px 5px;
     }
 
     & input{

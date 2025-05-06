@@ -25,7 +25,7 @@ const NavBar = ({ condition }) => {
             { isLogged ? (
                 <div className={ `${styles.profile_container}` }>
                     <i className="material-icons" id='person'>person</i>
-                    <Link to={`/accountDetails/${userId}`} className={ styles.isLoggedMsg }>
+                    <Link to={`/detalhesDeConta/${userId}`} className={ styles.isLoggedMsg }>
                         Olá, { userName }!
                     </Link>
                 </div>    
