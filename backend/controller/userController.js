@@ -1,15 +1,17 @@
 
-const sequelize = require('sequelize');
-const mongoose = require('mongoose');
+// data base stuffs
 const { UserModel, CampaignModel, OfferModel, RequestModel } = require('../Database/Relations');
 const profileImage = require('../mongoDatabase/Collections/profileImages');
 const connection = require('../Database/Connection/connection');
 
+// security stuffs
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const secretToken = process.env.SECRET_TOKEN;
 
+
+// class
 class User{
     // register
     async registerUser(req, res){
@@ -18,7 +20,7 @@ class User{
 
         if(!name || !email || !password){
             return res.status(400).send({
-                error: 'Bad request at fields: name, email, password'
+                error: 'Bad request at fields sended'
             });
         }
 

@@ -33,7 +33,7 @@ const HelpRequest = () => {
 
                     <div className={`control ${stylesAccountDetails.textarea_container}`}>
                         <label className="label title is-5" id="label">Descrição: </label>
-                        <textarea className="textarea is-hovered" 
+                        <textarea className="textarea is-hovered" name='description'
                         placeholder='Descreva sua situação com mais detalhes. Ex: Estou desempregado, com duas crianças pequenas, e preciso de alimentos básicos como arroz, feijão e leite. Qualquer ajuda será bem-vinda.'>
                         
                         </textarea>
@@ -43,6 +43,7 @@ const HelpRequest = () => {
                         <label className="label title is-5" id="label">Categoria: </label>
                         <div className="select is-hovered" style={{ width:'70%' }}>
                             <select style={{ width:'100%' }} name='category'> {/* default: livre */}
+                                <option value="livre">Livre</option>
                                 <option value="alimentos">Alimentos</option>
                                 <option value="roupas_calçados">Roupas e Calçados</option>
                                 <option value="transporte">Transporte</option>
@@ -54,7 +55,6 @@ const HelpRequest = () => {
                                 <option value="saúde_remédios">Saúde e Remédios</option>
                                 <option value="animais">Animais</option>
                                 <option value="tecnologia">Tecnologia</option>
-                                <option value="livre">Livre</option>
                             </select>
                         </div>                    
                     </div>
@@ -63,9 +63,9 @@ const HelpRequest = () => {
                         <label className="label title is-5" id="label">Urgencia: </label>
                         <div className="select is-hovered" style={{ width:'70%' }}>
                             <select style={{ width:'100%' }} name='urgency'>
-                                <option value="baixa">Baixa</option>
-                                <option value="media">Média</option>
                                 <option value="alta">Alta</option>
+                                <option value="media">Média</option>
+                                <option value="baixa">Baixa</option>
                             </select>
                         </div>
                     </div>                    
@@ -89,14 +89,13 @@ const HelpRequest = () => {
             </div>
 
             <div className={ styles.expiresAt_container }>
-                <h1 className={ styles.h1_expires }>Pedido expira em: </h1>
-                <h2 className={ styles.h2_expires }>Urgência Alta: 2 dias</h2>
-                <h2 className={ styles.h2_expires }>Urgência Média: 5 dias</h2>
-                <h2 className={ styles.h2_expires }>Urgência Baixa: 10 dias</h2>
+                <h1 className={ styles.h1_expires }>Expiração de pedido: </h1>
+                <h2 className={ styles.h2_expires }>Urgência Alta: <ins>2 dias</ins></h2>
+                <h2 className={ styles.h2_expires }>Urgência Média: <ins>5 dias</ins></h2>
+                <h2 className={ styles.h2_expires }>Urgência Baixa: <ins>10 dias</ins></h2>
             </div>
-
         </div>
     );
 };
 
-export default HelpRequest
+export default HelpRequest;
