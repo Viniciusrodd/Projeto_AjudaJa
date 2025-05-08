@@ -18,6 +18,7 @@ export const useLogin = async (data) => {
     return response;
 };
 
+
 // user edit
 export const useEditUser = async (userID, data) => {
     const response = await axios.put(`http://localhost:2130/updateUser/${userID}`, data, {
@@ -27,6 +28,7 @@ export const useEditUser = async (userID, data) => {
     });
     return response;
 };
+
 
 // user logout
 export const useLogOut = async () =>{

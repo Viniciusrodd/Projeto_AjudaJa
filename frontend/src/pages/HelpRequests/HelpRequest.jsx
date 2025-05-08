@@ -16,6 +16,9 @@ const HelpRequest = () => {
     // states
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
+    const [ userFields, setUserFields ] = useState({
+        title: '', description: '', category: '', urgency: '', status: ''
+    });
 
     // refs
     const modal = useRef(null);
@@ -51,7 +54,7 @@ const HelpRequest = () => {
             }else{
                 console.warn("Geolocalização não suportada neste navegador.")
             }
-        }, 7000);
+        }, 6000);
 
         return () =>{
             clearTimeout(clearModal);
@@ -164,9 +167,9 @@ const HelpRequest = () => {
 
             <div className={ styles.expiresAt_container }>
                 <h1 className={ styles.h1_expires }>Expiração de pedido: </h1>
-                <h2 className={ styles.h2_expires }>Urgência Alta: <ins>2 dias</ins></h2>
-                <h2 className={ styles.h2_expires }>Urgência Média: <ins>5 dias</ins></h2>
-                <h2 className={ styles.h2_expires }>Urgência Baixa: <ins>10 dias</ins></h2>
+                <h2 className={ styles.h2_expires }>Urgência Alta: <strong>2 dias</strong></h2>
+                <h2 className={ styles.h2_expires }>Urgência Média: <strong>5 dias</strong></h2>
+                <h2 className={ styles.h2_expires }>Urgência Baixa: <strong>10 dias</strong></h2>
             </div>
         </div>
     );
