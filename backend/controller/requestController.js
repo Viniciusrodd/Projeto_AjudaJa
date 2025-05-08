@@ -7,8 +7,10 @@ const connection = require('../Database/Connection/connection');
 // class
 class Request{
     async postCreate(req, res){
-        const { title, description, category, urgency, status, latitude, longitude } = req.body;
-        if(!title || !description || !category || !urgency || !status || !latitude && !longitude){
+        const user_id = req.params.userID;
+        const { title, description, category, urgency, latitude, longitude } = req.body;
+        
+        if(!user_id || !title || !description || !category || !urgency || !latitude && !longitude){
             return res.status(400).send({
                 error: 'Bad request at fields sended'
             });
@@ -25,7 +27,7 @@ class Request{
             expires_at = expires_at.setDate(expires_at.getDate() + urgencyDurations[urgency]);
 
             await RequestModel.create({ 
-                title, description, category, urgency, status, latitude, longitude, expires_at 
+                user_id, title, description, category, urgency, status: true, latitude, longitude, expires_at 
             });
 
             console.log('Request post create with success');

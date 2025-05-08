@@ -151,7 +151,7 @@ const AccountDetail = () => {
     };
 
 
-    // redirect user
+    // redirect user to homepage
     useEffect(() => {
         if(redirect === true){   
             const clearMessage = setTimeout(() => {

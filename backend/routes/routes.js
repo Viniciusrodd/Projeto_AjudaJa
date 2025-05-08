@@ -29,7 +29,7 @@ router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(us
 
 
 // port 2130 // RequestHelp
-router.post('/postRequest', RequestController.postCreate);
+router.post('/postRequest/:userID', RequestController.postCreate);
 
 
 

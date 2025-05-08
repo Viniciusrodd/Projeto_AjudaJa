@@ -3,6 +3,7 @@ const { DataTypes } = require('sequelize');
 const Connection = require('../Connection/connection');
 const { v4: uuidv4 } = require('uuid');
 
+
 const User = Connection.define('Users', {
     id: {
         type: DataTypes.CHAR(36),

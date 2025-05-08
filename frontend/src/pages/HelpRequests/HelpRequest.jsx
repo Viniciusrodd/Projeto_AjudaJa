@@ -9,16 +9,25 @@ import stylesAccountDetails from '../AccountDetails/AccountDetail.module.css';
 import SideBar from '../../components/SideBar/SideBar';
 
 // hooks
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+// services
+import { postRequest } from '../../services/RequestHelpServices';
+
+// context
+import { UserContext } from '../../context/UserContext';
 
 const HelpRequest = () => {
+    // context
+    const { userId } = useContext(UserContext);
+
     // states
-    const [latitude, setLatitude] = useState(null);
-    const [longitude, setLongitude] = useState(null);
     const [ userFields, setUserFields ] = useState({
-        title: '', description: '', category: '', urgency: '', status: ''
+        title: '', description: '', category: '', urgency: '', latitude: 0, longitude: 0
     });
+    const [ redirect, setRedirect ] = useState(false);
+    const navigate = useNavigate();
 
     // refs
     const modal = useRef(null);
@@ -28,6 +37,21 @@ const HelpRequest = () => {
     const modal_btt_2 = useRef(null);
 
 
+    // redirect user to homepage
+    useEffect(() => {
+        if(redirect === true){   
+            const clearMessage = setTimeout(() => {
+                navigate('/');
+            }, 3000);
+            
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [redirect]);
+
+
+    // get user location + advice
     useEffect(() =>{
         // modal message
         modal.current.style.display = 'flex';
@@ -45,8 +69,8 @@ const HelpRequest = () => {
             // get navigation location
             if(navigator.geolocation){
                 navigator.geolocation.getCurrentPosition((position) =>{
-                    setLatitude(position.coords.latitude);
-                    setLongitude(position.coords.longitude);
+                    setUserFields({ ...userFields,  latitude: position.coords.latitude });
+                    setUserFields({ ...userFields,  longitude: position.coords.longitude });
                 },
                 (error) =>{
                     console.error('Erro ao obter geolocalização de usuário...', error);
@@ -59,7 +83,43 @@ const HelpRequest = () => {
         return () =>{
             clearTimeout(clearModal);
         };
-    }, []);
+    }, []);    
+
+
+    // handle form
+    const handleForm = async (e) =>{
+        e.preventDefault();
+
+        try{
+            const response = await postRequest(userFields, userId);
+
+            if(response.status === 200){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso!!!'
+                modal_msg.current.innerText = `Pedido de ajuda postado! \n 
+                você será redirecionado para a página principal...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';
+
+                setRedirect(true);
+            }
+        }
+        catch(error){
+            console.log('Error at create a help request: ', error);
+
+            modal.current.style.display = 'flex';
+            modal_title.current.innerText = 'Erro'
+            modal_msg.current.innerText = 'Erro ao criar pedido de ajuda...'
+
+            modal_btt.current.innerText = 'Tentar novamente'
+            modal_btt.current.style.display = 'block';
+            modal_btt_2.current.style.display = 'none';
+
+            modal_btt.current.onclick = () => {
+                modal.current.style.display = 'none';
+            }; 
+        }
+    }; 
 
 
     return (
@@ -95,9 +155,8 @@ const HelpRequest = () => {
 
             { /* formulário */ }
             <div className={ stylesAccountDetails.form_container }>
-                <form className={ stylesAccountDetails.user_panel_container }>
+                <form onSubmit={ handleForm } className={ stylesAccountDetails.user_panel_container }>
                     <h1 className='title is-1'>Pedido de ajuda</h1>
-
 
                     <hr className='hr'/>
                     <h1 className="subtitle is-4">Por favor, preencha: </h1>
@@ -105,21 +164,25 @@ const HelpRequest = () => {
                     <div className={ stylesAccountDetails.container_input }>
                         <label className="label title is-5" id="label">Titulo: </label>
                         <input className="input is-hovered" name='title' type="text" required 
-                        placeholder='Ex: "Preciso de ajuda com material escolar"' style={{ width:'80%' }}/>
+                        placeholder='Ex: "Preciso de ajuda com material escolar"' style={{ width:'80%' }}
+                        value={ userFields.title } onChange={ (e) => setUserFields({...userFields, title: e.target.value}) }/>
                     </div>
 
                     <div className={`control ${stylesAccountDetails.textarea_container}`}>
                         <label className="label title is-5" id="label">Descrição: </label>
                         <textarea className="textarea is-hovered" name='description'
-                        placeholder='Descreva sua situação com mais detalhes. Ex: Estou desempregado, com duas crianças pequenas, e preciso de alimentos básicos como arroz, feijão e leite. Qualquer ajuda será bem-vinda.'>
-                        
+                        placeholder='Descreva sua situação com mais detalhes. Ex: Estou desempregado, com duas crianças pequenas, e preciso de alimentos básicos como arroz, feijão e leite. Qualquer ajuda será bem-vinda.'
+                        value={ userFields.description } onChange={ (e) => setUserFields({...userFields, description: e.target.value}) }>
+                                                
                         </textarea>
                     </div>
 
                     <div className={ stylesAccountDetails.container_input }>
                         <label className="label title is-5" id="label">Categoria: </label>
                         <div className="select is-hovered" style={{ width:'70%' }}>
-                            <select style={{ width:'100%' }} name='category'> {/* default: livre */}
+                            {/* default: livre */}
+                            <select style={{ width:'100%' }} name='category'
+                            value={ userFields.category } onChange={ (e) => setUserFields({...userFields, category: e.target.value}) }>
                                 <option value="livre">Livre</option>
                                 <option value="alimentos">Alimentos</option>
                                 <option value="roupas_calçados">Roupas e Calçados</option>
@@ -139,23 +202,14 @@ const HelpRequest = () => {
                     <div className={ stylesAccountDetails.container_input }>
                         <label className="label title is-5" id="label">Urgencia: </label>
                         <div className="select is-hovered" style={{ width:'70%' }}>
-                            <select style={{ width:'100%' }} name='urgency'>
+                            <select style={{ width:'100%' }} name='urgency'
+                            value={ userFields.urgency } onChange={ (e) => setUserFields({...userFields, urgency: e.target.value}) }>
                                 <option value="alta">Alta</option>
                                 <option value="media">Média</option>
                                 <option value="baixa">Baixa</option>
                             </select>
                         </div>
                     </div>                    
-
-                    <div className={ stylesAccountDetails.container_input }>
-                        <label className="label title is-5" id="label">Status: </label>
-                        <div className="select is-hovered" style={{ width:'70%' }}>
-                            <select style={{ width:'100%' }} name='status'> {/* default: aberto */}
-                                <option value="aberto">Aberto</option>
-                                <option value="fechado">Fechado</option>
-                            </select>
-                        </div>
-                    </div>
 
                     <hr className='hr'/>
 
