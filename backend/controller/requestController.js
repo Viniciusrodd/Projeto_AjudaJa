@@ -47,6 +47,31 @@ class Request{
             });
         }
     };
+
+
+    async findRequests(req, res){
+        try{
+            const request_data = await RequestModel.findAll();
+
+            if(!request_data){
+                return res.status(204).send({
+                    noContent: `There's no help requests...`
+                });
+            }
+
+            return res.status(200).send({
+                msg: 'Help requests find with success',
+                request_data
+            });
+        }
+        catch(error){
+            console.log('Internal server error at Find requests', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find requests', error,
+                details: error.response?.data || error.message
+            });
+        };
+    };
 };
 
 

@@ -14,6 +14,7 @@ const upload = multer({ storage });
 
 // middleware
 const middleware = require('../middleware/verifyToken.js');
+const requestController = require('../controller/requestController.js');
 router.post('/verifyToken', middleware.verifyToken, (req, res) => {
     return res.status(200).send({ msg: 'Token is valid', user: req.user });
 });
@@ -30,7 +31,7 @@ router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(us
 
 // port 2130 // RequestHelp
 router.post('/postRequest/:userID', RequestController.postCreate);
-
+router.get('/posts', RequestController.findRequests);
 
 
 module.exports = router;
