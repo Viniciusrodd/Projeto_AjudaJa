@@ -10,6 +10,10 @@ class Request{
         const user_id = req.params.userID;
         const { title, description, category, urgency, latitude, longitude } = req.body;
         
+        //console.log('____________________________')
+        //console.log(title, description, category, urgency, latitude, longitude)
+        //console.log('____________________________')
+
         if(!user_id || !title || !description || !category || !urgency || !latitude && !longitude){
             return res.status(400).send({
                 error: 'Bad request at fields sended'

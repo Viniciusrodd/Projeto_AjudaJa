@@ -24,7 +24,7 @@ const HelpRequest = () => {
 
     // states
     const [ userFields, setUserFields ] = useState({
-        title: '', description: '', category: '', urgency: '', latitude: 0, longitude: 0
+        title: '', description: '', category: 'livre', urgency: 'baixa', latitude: 0, longitude: 0
     });
     const [ redirect, setRedirect ] = useState(false);
     const navigate = useNavigate();
@@ -62,18 +62,26 @@ const HelpRequest = () => {
         isso torna a ajuda ainda mais fácil,\n uma vez que sabemos ONDE ajudar...`;
         modal_btt.current.style.display = 'none';
         modal_btt_2.current.style.display = 'none';
+
         
         const clearModal = setTimeout(() =>{
+            modal_btt.current.style.display = 'flex';
+            modal_btt_2.current.style.display = 'flex';    
             modal.current.style.display = 'none';
 
             // get navigation location
             if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition((position) =>{
-                    setUserFields({ ...userFields,  latitude: position.coords.latitude });
-                    setUserFields({ ...userFields,  longitude: position.coords.longitude });
+                navigator.geolocation.getCurrentPosition((position) =>
+                {
+                    setUserFields(prev =>({ ...prev, latitude: position.coords.latitude, longitude: position.coords.longitude }));
                 },
                 (error) =>{
                     console.error('Erro ao obter geolocalização de usuário...', error);
+                },
+                {
+                    enableHighAccuracy: true, // forcing high precision
+                    timeout: 5000,
+                    maximumAge: 0
                 });
             }else{
                 console.warn("Geolocalização não suportada neste navegador.")
@@ -112,7 +120,6 @@ const HelpRequest = () => {
             modal_msg.current.innerText = 'Erro ao criar pedido de ajuda...'
 
             modal_btt.current.innerText = 'Tentar novamente'
-            modal_btt.current.style.display = 'block';
             modal_btt_2.current.style.display = 'none';
 
             modal_btt.current.onclick = () => {
@@ -204,9 +211,9 @@ const HelpRequest = () => {
                         <div className="select is-hovered" style={{ width:'70%' }}>
                             <select style={{ width:'100%' }} name='urgency'
                             value={ userFields.urgency } onChange={ (e) => setUserFields({...userFields, urgency: e.target.value}) }>
-                                <option value="alta">Alta</option>
-                                <option value="media">Média</option>
                                 <option value="baixa">Baixa</option>
+                                <option value="media">Média</option>
+                                <option value="alta">Alta</option>
                             </select>
                         </div>
                     </div>                    
