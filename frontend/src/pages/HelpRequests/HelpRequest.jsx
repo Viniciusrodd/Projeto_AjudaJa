@@ -8,10 +8,84 @@ import stylesAccountDetails from '../AccountDetails/AccountDetail.module.css';
 // sidebar
 import SideBar from '../../components/SideBar/SideBar';
 
+// hooks
+import { useState, useRef, useEffect } from 'react';
+
 
 const HelpRequest = () => {
+    // states
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
+
+    // refs
+    const modal = useRef(null);
+    const modal_title = useRef(null);
+    const modal_msg = useRef(null);
+    const modal_btt = useRef(null);
+    const modal_btt_2 = useRef(null);
+
+
+    useEffect(() =>{
+        // modal message
+        modal.current.style.display = 'flex';
+        modal_title.current.innerText = 'Lembrete...'
+        modal_msg.current.innerText = `
+        Usamos sua localização para\n complementar seu pedido !!!\n
+        FIQUE TRANQUILO\n
+        isso torna a ajuda ainda mais fácil,\n uma vez que sabemos ONDE ajudar...`;
+        modal_btt.current.style.display = 'none';
+        modal_btt_2.current.style.display = 'none';
+        
+        const clearModal = setTimeout(() =>{
+            modal.current.style.display = 'none';
+
+            // get navigation location
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition((position) =>{
+                    setLatitude(position.coords.latitude);
+                    setLongitude(position.coords.longitude);
+                },
+                (error) =>{
+                    console.error('Erro ao obter geolocalização de usuário...', error);
+                });
+            }else{
+                console.warn("Geolocalização não suportada neste navegador.")
+            }
+        }, 7000);
+
+        return () =>{
+            clearTimeout(clearModal);
+        };
+    }, []);
+
+
     return (
         <div className={ stylesAccountDetails.accountDetail_container }>
+            { /* Modal */ }
+            <div className='modal' ref={ modal }>
+            <div className='modal-background'></div>
+                <div className='modal-card'>
+                    <header className='modal-card-head'>
+                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
+                            Espere um pouco
+                        </p>
+                    </header>
+                    <section className='modal-card-body'>
+                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                    </section>
+                    <footer className='modal-card-foot is-justify-content-center'>
+                        <div className='div-buttons'>
+                            <button className="button is-danger is-dark" ref={ modal_btt }>
+                                Excluir
+                            </button>
+                            <button className="button is-primary is-dark" ref={ modal_btt_2 } style={{ marginLeft:'10px' }}>
+                                Voltar
+                            </button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
 
             { /* sidebar */ }
             <SideBar />
