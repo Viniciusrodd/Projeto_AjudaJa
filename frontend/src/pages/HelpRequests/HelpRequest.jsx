@@ -58,7 +58,7 @@ const HelpRequest = () => {
         modal_title.current.innerText = 'Lembrete...'
         modal_msg.current.innerText = `
         Usamos sua localização para\n complementar seu pedido !!!\n
-        FIQUE TRANQUILO\n
+        FIQUE TRANQUILO/A\n
         isso torna a ajuda ainda mais fácil,\n uma vez que sabemos ONDE ajudar...`;
         modal_btt.current.style.display = 'none';
         modal_btt_2.current.style.display = 'none';

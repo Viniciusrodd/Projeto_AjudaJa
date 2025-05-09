@@ -18,7 +18,7 @@ import { UserContext } from '../../context/UserContext';
 const Home = () => {
     // states
     const [ redirectLogin, setRedirectLogin ] = useState(false);
-    const [ iamgeField, setImageField ] = useState({ image_data: null, content_type: '' })
+    const [ noPosts, setNoPosts ] = useState(false);
 
     // consts
     const navigate = useNavigate();
@@ -67,6 +67,9 @@ const Home = () => {
     // get Help requests data
     const { requestData } = useRequestData(); // array with objects...
     useEffect(() =>{
+        if (requestData && requestData.length === 0) {
+            setNoPosts(true);
+        }
         console.log('dados pegos: ', requestData);
     }, [requestData]);
 
@@ -121,6 +124,13 @@ const Home = () => {
 
                 { /* FEED PUBLICATIONS */ }
                 {
+                    noPosts && (
+                        <div className={ styles.noRequests }>
+                            <h1 className='title is-2'>Sem pedidos de ajuda...</h1>
+                        </div>
+                    )
+                }
+                {
                     requestData && requestData.map((request) => (
                         <div className={ styles.requests_container } key={ request.id }>
                             { /* REQUESTS */ }
@@ -133,32 +143,35 @@ const Home = () => {
 
                                     </div>
                                     
-                                    <h1 className='subtitle is-4'>{ request.user_data.name }</h1>
+                                    <h1 className='title is-3'>{ request.user_data.name }</h1>
                                 </div>
                     
                                 <div className={ styles.user_requests_container }>
-                                    <p>Titulo</p>
                                     <div className={ styles.user_requests_title }>
-                                        { request.title }
+                                        <h1 className='title is-2'>{ request.title }</h1>
                                     </div>
 
-                                    <p>Descrição</p>
                                     <div className={ styles.user_requests_description }>
-                                        { request.description }
+                                        <h1 className='subtitle is-5'>{ request.description }</h1>
                                     </div>
 
                                     <div className={ styles.user_requests_details }>
                                         <div className={ styles.details }>
-                                            <p>Categoria</p>
-                                            { request.category }
+                                            <p className={ styles.titles_requests }>Categoria</p>
+                                            <h1 className='subtitle is-4'>{ request.category }</h1>
                                         </div>  
                                         <div className={ styles.details }>
-                                            <p>Urgência</p>
-                                            { request.urgency }
+                                            <p className={ styles.titles_requests }>Urgência</p>
+                                            { request.urgency === 'media' ? 
+                                                ( <h1 className='subtitle is-4'>média</h1> ) :
+                                                ( <h1 className='subtitle is-4'>{ request.urgency }</h1> ) 
+                                            }
                                         </div>  
                                         <div className={ styles.details }>
-                                            <p>Status</p>
-                                            { request.status }
+                                            <p className={ styles.titles_requests }>Status</p>
+                                            <h1 className={ request.status === 'aberto' ? styles.status_aberto :  styles.status_fechado }>
+                                                { request.status }
+                                            </h1>
                                         </div>  
                                     </div>
                                 </div>
