@@ -6,6 +6,7 @@ import styles from './Home.module.css';
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate } from 'react-router-dom';
+import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
 
 // components
 import SideBar from '../../components/SideBar/SideBar';
@@ -17,7 +18,8 @@ import { UserContext } from '../../context/UserContext';
 const Home = () => {
     // states
     const [ redirectLogin, setRedirectLogin ] = useState(false);
-    
+    const [ iamgeField, setImageField ] = useState({ image_data: null, content_type: '' })
+
     // consts
     const navigate = useNavigate();
     const modal = useRef(null);
@@ -25,6 +27,7 @@ const Home = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
+    const divImageRef = useRef(null);
 
 
     // redirect
@@ -59,6 +62,13 @@ const Home = () => {
             setRedirectLogin(true);
         }
     }, [userData, errorRes]);
+
+
+    // get Help requests data
+    const { requestData } = useRequestData(); // array with objects...
+    useEffect(() =>{
+        console.log('dados pegos: ', requestData);
+    }, [requestData]);
 
 
     return (
@@ -110,32 +120,52 @@ const Home = () => {
                 </div>
 
                 { /* FEED PUBLICATIONS */ }
-                <div className={ styles.requests_container }>
-                    { /* REQUESTS */ }
-                    <div className={ styles.requests }>
-                        <div className={ styles.user_container }>
-                            <div className={ styles.user_image }></div>
-                            
-                            <h1 className='subtitle is-4'>Nome do usuário</h1>
-                        </div>
-            
-                        <div className={ styles.user_requests_container }>
-                            <div className={ styles.user_requests_title }>
-                                title
-                            </div>
+                {
+                    requestData && requestData.map((request) => (
+                        <div className={ styles.requests_container } key={ request.id }>
+                            { /* REQUESTS */ }
+                            <div className={ styles.requests }>
+                                <div className={ styles.user_container }>
+                                    <div className={ styles.user_image } ref={ divImageRef }
+                                    style={{ 
+                                        backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
+                                    }}>
 
-                            <div className={ styles.user_requests_description }>
-                                description
-                            </div>
+                                    </div>
+                                    
+                                    <h1 className='subtitle is-4'>{ request.user_data.name }</h1>
+                                </div>
+                    
+                                <div className={ styles.user_requests_container }>
+                                    <p>Titulo</p>
+                                    <div className={ styles.user_requests_title }>
+                                        { request.title }
+                                    </div>
 
-                            <div className={ styles.user_requests_details }>
-                                <div className={ styles.details }>category</div>  
-                                <div className={ styles.details }>urgency</div>  
-                                <div className={ styles.details }>status</div>  
+                                    <p>Descrição</p>
+                                    <div className={ styles.user_requests_description }>
+                                        { request.description }
+                                    </div>
+
+                                    <div className={ styles.user_requests_details }>
+                                        <div className={ styles.details }>
+                                            <p>Categoria</p>
+                                            { request.category }
+                                        </div>  
+                                        <div className={ styles.details }>
+                                            <p>Urgência</p>
+                                            { request.urgency }
+                                        </div>  
+                                        <div className={ styles.details }>
+                                            <p>Status</p>
+                                            { request.status }
+                                        </div>  
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    ))
+                }
             </div>
         </div>
     );

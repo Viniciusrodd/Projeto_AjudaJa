@@ -35,7 +35,7 @@ const AccountDetail = () => {
         id: '', name:'', email:'', role:'', street:'', 
         city:'', state: '', zip_code:'', actual_password: '', new_password: ''
     });
-    const [ imageField, setImageField ] = useState({image_data: null, content_type: ''});
+    const [ imageField, setImageField ] = useState({ image_data: null, content_type: '' });
     const [ redirect, setRedirect ] = useState(false);
     
     

@@ -2,6 +2,8 @@
 // data base stuffs
 const { RequestModel, UserModel, CampaignModel, OfferModel } = require('../Database/Relations');
 const connection = require('../Database/Connection/connection');
+const ProfileImage = require('../mongoDatabase/Collections/profileImages');
+const { Op } = require('sequelize');
 
 
 // class
@@ -51,6 +53,7 @@ class Request{
 
     async findRequests(req, res){
         try{
+            // get requests
             const request_data = await RequestModel.findAll();
 
             if(!request_data){
@@ -59,9 +62,52 @@ class Request{
                 });
             }
 
+            // get users ids from requests
+            const users_id = request_data.map(data => data.user_id);
+            
+            // get user data from requests user_id
+            const userData = await UserModel.findAll({
+                where: {
+                    id: {
+                        [Op.in]: users_id
+                    }
+                }
+            })
+
+            // mapping user name => requests
+            const userMap = {};
+            userData.forEach((user) =>{
+                userMap[user.id] = {
+                    name: user.name
+                };
+            });
+
+            // associated images
+            const profile_images = await ProfileImage.find({
+                user_id: { $in: users_id }
+            });
+
+            // mapping user_id => images
+            const imageMap = {};
+            profile_images.forEach((image) =>{
+                imageMap[image.user_id] = {
+                    image_data: image.image_data,
+                    content_type: image.content_type
+                };
+            });
+
+            // combine request data with images associated
+            const combined_requests = request_data.map(request =>({
+                ...request.dataValues, // sequelize instances, we need to extract the data
+                user_data: userMap[request.user_id],
+                profile_image: imageMap[request.user_id] || null
+            }));
+            // =>{} 'bloco de código'
+            // =>({}) 'objeto explicito'
+
             return res.status(200).send({
                 msg: 'Help requests find with success',
-                request_data
+                combined_requests
             });
         }
         catch(error){
