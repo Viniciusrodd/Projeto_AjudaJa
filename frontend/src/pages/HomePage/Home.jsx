@@ -19,6 +19,7 @@ const Home = () => {
     // states
     const [ redirectLogin, setRedirectLogin ] = useState(false);
     const [ noPosts, setNoPosts ] = useState(false);
+    const [ userID, setUserID ] = useState(0);
 
     // consts
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ const Home = () => {
     const modal_btt = useRef(null);
     const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
     const divImageRef = useRef(null);
+    const div_bottoms = useRef(null);
 
 
     // redirect
@@ -51,6 +53,9 @@ const Home = () => {
             setIsLogged(true);
             setUserId(userData.id)
             setUserName(userData.name);
+
+            // id for show div_bottoms
+            setUserID(userData.id)
         }
         
         if(errorRes){
@@ -148,7 +153,7 @@ const Home = () => {
                     
                                 <div className={ styles.user_requests_container }>
                                     <div className={ styles.user_requests_title }>
-                                        <h1 className='title is-2'>{ request.title }</h1>
+                                        <h1 className='title is-2' style={{color:'#00EBC7'}}>{ request.title }</h1>
                                     </div>
 
                                     <div className={ styles.user_requests_description }>
@@ -175,6 +180,21 @@ const Home = () => {
                                         </div>  
                                     </div>
                                 </div>
+                                
+                                {
+                                    request.user_id === userID ? (
+                                        <div className={ styles.div_bottoms } ref={ div_bottoms }>
+                                            <button className="button is-primary is-dark">
+                                                Editar
+                                            </button>
+                                            <button className="button is-danger is-dark">
+                                                Excluir
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )
+                                }
                             </div>
                         </div>
                     ))
