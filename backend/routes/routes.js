@@ -32,7 +32,7 @@ router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(us
 // port 2130 // RequestHelp
 router.post('/createRequest/:userID', middleware.verifyToken, RequestController.postCreate);
 router.get('/requests', middleware.verifyToken, RequestController.findRequests);
-router.put('/postsUpdate/requestID', middleware.verifyToken, RequestController.editRequest);
+router.put('/requestUpdate/:requestID', middleware.verifyToken, RequestController.editRequest);
 router.get('/request/:requestID', middleware.verifyToken, RequestController.findRequestsByPk);
 
 

@@ -6,11 +6,14 @@ import stylesHelpRequest from '../HelpRequests/HelpRequest.module.css';
 
 // hooks
 import { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
 
 // components
 import SideBar from '../../components/SideBar/SideBar';
+
+//services
+import { updateRequest } from '../../services/RequestHelpServices';
 
 
 const EditRequests = () => {
@@ -27,6 +30,7 @@ const EditRequests = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
+    const navigate = useNavigate();
 
 
     // redirect user to homepage
@@ -58,6 +62,40 @@ const EditRequests = () => {
             });
         }
     }, [requestDataById]);
+
+
+    // handle update fórm
+    const handleForm = async (e) =>{
+        e.preventDefault();
+
+        try{
+            const response = await updateRequest(data_fields, requestID);
+            
+            if(response.status === 200){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso!!!'
+                modal_msg.current.innerText = `Pedido de ajuda Atualizado! \n 
+                você será redirecionado para a página principal...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';
+
+                setRedirect(true);
+            }
+        }
+        catch(error){
+            console.log('Error at update request post: ', error);
+            if(error){
+                modal.current.style.display = 'flex';
+                modal_msg.current.innerText = 'Erro ao editar pedido de ajuda...'
+                modal_btt.current.innerText = 'Tentar novamente'
+                modal_btt_2.current.style.display = 'none';
+
+                modal_btt.current.addEventListener('click', () =>{
+                    modal.current.style.display = 'none';
+                });
+            }
+        }
+    };
 
 
     return (
@@ -95,7 +133,7 @@ const EditRequests = () => {
 
             { /* Formulário */}
             <div className={ stylesAccountDetail.form_container }>
-            <form className={ stylesAccountDetail.user_panel_container }>
+            <form onSubmit={ handleForm } className={ stylesAccountDetail.user_panel_container }>
                 <h1 className='title is-1'>Edite seu pedido de ajuda</h1>
                 <hr className='hr'/>
 
