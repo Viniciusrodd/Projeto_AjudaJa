@@ -8,6 +8,7 @@ const { Op } = require('sequelize');
 
 // class
 class Request{
+    // create request
     async postCreate(req, res){
         const user_id = req.params.userID;
         const { title, description, category, urgency, latitude, longitude } = req.body;
@@ -51,6 +52,7 @@ class Request{
     };
 
 
+    // find requests
     async findRequests(req, res){
         try{
             // get requests
@@ -111,9 +113,26 @@ class Request{
             });
         }
         catch(error){
-            console.log('Internal server error at Find requests', error);
+            console.error('Internal server error at Find requests', error);
             return res.status(500).send({
                 msgError: 'Internal server error at Find requests', error,
+                details: error.response?.data || error.message
+            });
+        };
+    };
+
+
+    // edit requests
+    async editRequest(req, res){
+        
+
+        try{
+
+        }
+        catch(error){
+            console.error('Internal server error at Edit request', error);
+            return res.status(500).send({
+                msg: 'Internal server error at Edit request',
                 details: error.response?.data || error.message
             });
         };

@@ -14,6 +14,7 @@ import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 import AccountDetail from './pages/AccountDetails/AccountDetail';
 import HelpRequest from './pages/HelpRequests/HelpRequest';
+import EditRequests from './pages/EditRequests/EditRequests';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
                 <Route path='/login' element={ <Login /> } />
                 <Route path='/detalhesDeConta/:userID' element={ <AccountDetail /> } />
                 <Route path='/pedidoDeAjuda' element={ <HelpRequest /> } />                
+                <Route path='/editarPedido/:requestID' element={ <EditRequests /> } />                
             </Routes>
         </div>
     )

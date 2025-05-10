@@ -79,6 +79,12 @@ const Home = () => {
     }, [requestData]);
 
 
+    // redirect to edit request
+    const editRequest = (id) =>{
+        navigate(`/editarPedido/${id}`);
+    };
+
+
     return (
         <div className={ styles.container_home }>
             
@@ -151,40 +157,44 @@ const Home = () => {
                                     <h1 className='title is-3'>{ request.user_data.name }</h1>
                                 </div>
                     
-                                <div className={ styles.user_requests_container }>
-                                    <div className={ styles.user_requests_title }>
-                                        <h1 className='title is-2' style={{color:'#00EBC7'}}>{ request.title }</h1>
-                                    </div>
-
-                                    <div className={ styles.user_requests_description }>
-                                        <h1 className='subtitle is-5'>{ request.description }</h1>
-                                    </div>
-
-                                    <div className={ styles.user_requests_details }>
-                                        <div className={ styles.details }>
-                                            <p className={ styles.titles_requests }>Categoria</p>
-                                            <h1 className='subtitle is-4'>{ request.category }</h1>
-                                        </div>  
-                                        <div className={ styles.details }>
-                                            <p className={ styles.titles_requests }>Urgência</p>
-                                            { request.urgency === 'media' ? 
-                                                ( <h1 className='subtitle is-4'>média</h1> ) :
-                                                ( <h1 className='subtitle is-4'>{ request.urgency }</h1> ) 
-                                            }
-                                        </div>  
-                                        <div className={ styles.details }>
-                                            <p className={ styles.titles_requests }>Status</p>
-                                            <h1 className={ request.status === 'aberto' ? styles.status_aberto :  styles.status_fechado }>
-                                                { request.status }
+                                <div className={ styles.requests_container_image }>
+                                    <div className={ styles.user_requests_container }>
+                                        <div className={ styles.user_requests_title }>
+                                            <h1 className='title is-2' style={{ color:'#00EBC7' }}>
+                                                { request.title }
                                             </h1>
-                                        </div>  
+                                        </div>
+
+                                        <div className={ styles.user_requests_description }>
+                                            <h1 className='subtitle is-5'>{ request.description }</h1>
+                                        </div>
+
+                                        <div className={ styles.user_requests_details }>
+                                            <div className={ styles.details }>
+                                                <p className={ styles.titles_requests }>Categoria</p>
+                                                <h1 className='subtitle is-4'>{ request.category }</h1>
+                                            </div>  
+                                            <div className={ styles.details }>
+                                                <p className={ styles.titles_requests }>Urgência</p>
+                                                { request.urgency === 'media' ? 
+                                                    ( <h1 className='subtitle is-4'>média</h1> ) :
+                                                    ( <h1 className='subtitle is-4'>{ request.urgency }</h1> ) 
+                                                }
+                                            </div>  
+                                            <div className={ styles.details }>
+                                                <p className={ styles.titles_requests }>Status</p>
+                                                <h2 className={ request.status === 'aberto' ? styles.status_aberto :  styles.status_fechado }>
+                                                    { request.status }
+                                                </h2>
+                                            </div>  
+                                        </div>
                                     </div>
                                 </div>
-                                
+
                                 {
                                     request.user_id === userID ? (
                                         <div className={ styles.div_bottoms } ref={ div_bottoms }>
-                                            <button className="button is-primary is-dark">
+                                            <button className="button is-primary is-dark" onClick={ () => editRequest(request.id) }>
                                                 Editar
                                             </button>
                                             <button className="button is-danger is-dark">
@@ -192,7 +202,11 @@ const Home = () => {
                                             </button>
                                         </div>
                                     ) : (
-                                        ''
+                                        <div className={ styles.div_bottoms } ref={ div_bottoms }>
+                                            <button className="button is-info is-dark">
+                                                Ajudar
+                                            </button>
+                                        </div>
                                     )
                                 }
                             </div>

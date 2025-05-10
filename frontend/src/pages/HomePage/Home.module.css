@@ -89,20 +89,31 @@
         }
     }
 
+    & .requests_container_image{
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        width: 90%;
+        background-image: url(../../../images/post_image2.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 10px;
+    }
+
     & .user_requests_container{
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
-        padding: 40px 0px 40px 0px;
-        width: 90%;
-        margin-top: 20px;
-        background-color: rgba(255, 255, 255, 0.025);
+        padding: 40px 0px 50px 0px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.761);
         border-radius: 10px;
 
-        
         & h1{
             text-align: center;
+            text-shadow: 0px 3px 4px rgba(0, 0, 0, 1);
         }
 
         & .user_requests_title{
@@ -116,7 +127,9 @@
             width: 90%;
             margin-top: 30px;
             background-color: rgb(20, 20, 20);
+            border: 2px solid white;
             border-radius: 10px;
+            box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 1);
         }
 
         & .user_requests_details{
@@ -135,8 +148,10 @@
                 align-items: center;
                 height: 90%;
                 width: 30%;
+                border: 2px solid white;
                 border-radius: 10px;
                 background-color: rgb(20, 20, 20);
+                box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 1);
             }
         }
     }
@@ -154,7 +169,7 @@
     text-align: center;
     font-size: 20px;
     font-weight: bold;
-    text-shadow: 0px 0px 15px rgb(17, 255, 0);
+    text-shadow: 0px 0px 8px rgb(17, 255, 0);
     color: #00EBC7;
 }
 
@@ -162,7 +177,7 @@
     text-align: center;
     font-size: 20px;
     font-weight: bold;
-    text-shadow: 0px 0px 15px rgb(255, 0, 0);
+    text-shadow: 0px 0px 8px rgb(255, 0, 0);
     color: rgb(255, 79, 79);
 }
 
