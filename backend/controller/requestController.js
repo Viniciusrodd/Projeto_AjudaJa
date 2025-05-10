@@ -122,6 +122,39 @@ class Request{
     };
 
 
+    // find requests by id
+    async findRequestsByPk(req, res){
+        const requestId = req.params.requestID;
+        if(!requestId){
+            return res.status(400).send({
+                error: 'Bad request at requestId params'
+            });
+        }
+
+        try{
+            const request_data = await RequestModel.findByPk(requestId);
+
+            if(!request_data){
+                return res.status(204).send({
+                    noContent: `There's no help requests...`
+                });
+            }
+
+            return res.status(200).send({
+                msg: 'Help request find with success',
+                request_data
+            });
+        }
+        catch(error){
+            console.error('Internal server error at Find request by id', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find request by id',
+                details: error.response?.data || error.message
+            });
+        }
+    };
+
+
     // edit requests
     async editRequest(req, res){
         const requestId = req.params.requestID;

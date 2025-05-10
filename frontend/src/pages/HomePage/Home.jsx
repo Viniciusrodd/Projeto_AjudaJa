@@ -75,7 +75,7 @@ const Home = () => {
         if (requestData && requestData.length === 0) {
             setNoPosts(true);
         }
-        console.log('dados pegos: ', requestData);
+        //console.log('dados pegos: ', requestData);
     }, [requestData]);
 
 

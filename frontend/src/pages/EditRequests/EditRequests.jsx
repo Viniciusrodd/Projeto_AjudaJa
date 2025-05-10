@@ -16,7 +16,7 @@ import SideBar from '../../components/SideBar/SideBar';
 const EditRequests = () => {
     // states
     const [ data_fields, setData_fields ] = useState({
-        title: '', description: '', category: '', urgency: 'baixa', status: 'aberto', latitude: 0, longitude: 0
+        title: '', description: '', category: '', urgency: 'baixa', status: 'aberto'
     });
     const [ redirect, setRedirect ] = useState(false);
 
@@ -40,54 +40,24 @@ const EditRequests = () => {
                 clearTimeout(clearMessage);
             };
         }
-    }, [redirect]);
-
-
-    // get user location + advice
-    useEffect(() =>{
-        // modal message
-        modal.current.style.display = 'flex';
-        modal_title.current.innerText = 'Lembrete...'
-        modal_msg.current.innerText = `
-        Usamos sua localização para\n complementar seu pedido !!!\n
-        FIQUE TRANQUILO/A\n
-        isso torna a ajuda ainda mais fácil,\n uma vez que sabemos ONDE ajudar...`;
-        modal_btt.current.style.display = 'none';
-        modal_btt_2.current.style.display = 'none';
-
-        
-        const clearModal = setTimeout(() =>{
-            modal_btt.current.style.display = 'flex';
-            modal_btt_2.current.style.display = 'flex';    
-            modal.current.style.display = 'none';
-
-            // get navigation location
-            if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition((position) =>
-                {
-                    setData_fields(prev =>({ ...prev, latitude: position.coords.latitude, longitude: position.coords.longitude }));
-                },
-                (error) =>{
-                    console.error('Erro ao obter geolocalização de usuário...', error);
-                },
-                {
-                    enableHighAccuracy: true, // forcing high precision
-                    timeout: 5000,
-                    maximumAge: 0
-                });
-            }else{
-                console.warn("Geolocalização não suportada neste navegador.")
-            }
-        }, 6000);
-
-        return () =>{
-            clearTimeout(clearModal);
-        };
-    }, []);    
+    }, [redirect]); 
     
 
     // get requests data
+    const { requestDataById } = useRequestData(requestID);
+    useEffect(() =>{
+        console.log('request by id data: ', requestDataById);
     
+        if(requestDataById){
+            setData_fields({...data_fields, 
+                title: requestDataById.title || '',
+                description: requestDataById.description || '',
+                category: requestDataById.category || '',
+                urgency: requestDataById.urgency || '',
+                status: requestDataById.status || ''
+            });
+        }
+    }, [requestDataById]);
 
 
     return (
@@ -176,7 +146,18 @@ const EditRequests = () => {
                         </select>
                     </div>
                 </div>                    
-                
+
+                <div className={ stylesAccountDetail.container_input }>
+                    <label className="label title is-5" id="label">Status: </label>
+                    <div className="select is-hovered" style={{ width:'70%' }}>
+                        <select style={{ width:'100%' }} name='status'
+                        value={ data_fields.status } onChange={ (e) => setData_fields({...data_fields, status: e.target.value}) }>
+                            <option value="aberto">Aberto</option>
+                            <option value="fechado">Fechado</option>
+                        </select>
+                    </div>
+                </div>
+
                 <hr className='hr'/>
                 <button className="button is-primary is-dark">
                     Editar

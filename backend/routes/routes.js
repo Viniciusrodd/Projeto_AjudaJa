@@ -33,6 +33,7 @@ router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(us
 router.post('/createRequest/:userID', middleware.verifyToken, RequestController.postCreate);
 router.get('/requests', middleware.verifyToken, RequestController.findRequests);
 router.put('/postsUpdate/requestID', middleware.verifyToken, RequestController.editRequest);
+router.get('/request/:requestID', middleware.verifyToken, RequestController.findRequestsByPk);
 
 
 module.exports = router;
