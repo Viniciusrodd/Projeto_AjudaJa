@@ -5,8 +5,9 @@ import axios from 'axios';
 // hooks
 import { useState, useEffect } from "react"
 
-export const useRequestData = () =>{
+export const useRequestData = (id) =>{
     const [ requestData, setRequestData ] = useState(null);
+    const [ requestDataById, setRequestDataById ] = useState(null);
 
     useEffect(() =>{
         const request = async () =>{
@@ -15,6 +16,12 @@ export const useRequestData = () =>{
         }
         request();
     }, []);
+
+/*
+    useEffect(() =>{
+
+    }, [id]);
+*/
 
     return { requestData };
 };
