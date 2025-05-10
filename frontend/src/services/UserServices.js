@@ -21,7 +21,7 @@ export const useLogin = async (data) => {
 
 // user edit
 export const useEditUser = async (userID, data) => {
-    const response = await axios.put(`http://localhost:2130/updateUser/${userID}`, data, {
+    const response = await axios.put(`http://localhost:2130/updateUser/${userID}`, data, { withCredentials: true }, {
         headers: {
             'Content-Type': 'multipart/form-data',
         }

@@ -124,10 +124,31 @@ class Request{
 
     // edit requests
     async editRequest(req, res){
-        
+        const requestId = req.params.requestID;
+        const { title, description, category, urgency, status } = req.body;
+
+        if(!requestId){
+            return res.status(400).send({
+                error: 'Bad request at requestId params'
+            });
+        }
 
         try{
+            const updateFields = {};
 
+            if(title){ updateFields.title = title };
+            if(description){ updateFields.description = description };
+            if(category){ updateFields.category = category };
+            if(urgency){ updateFields.urgency = urgency };
+            if(status){ updateFields.status = status };
+
+            await RequestModel.update(updateFields, {
+                where: { id: requestId }
+            });
+
+            return res.status(200).send({
+                msg: 'Request post updated with success'
+            });
         }
         catch(error){
             console.error('Internal server error at Edit request', error);

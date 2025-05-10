@@ -7,16 +7,20 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const EditRequests = () => {
-    const { requestID } = useParams();
+    // states
     const [ data_fields, setData_fields ] = useState({
-        id: 0, title: '', description: '', category: '', urgency: ''
+        title: '', description: '', category: '', urgency: 'baixa', status: 'aberto'
     });
 
+    // consts
+    const { requestID } = useParams();
+
+    
 
     return (
         <div className='container_default'>
             <h1 className='title is-1'>Edite seu pedido de ajuda</h1>
-            
+
         </div>
     );
 };

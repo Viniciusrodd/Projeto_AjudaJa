@@ -10,7 +10,7 @@ export const useRequestData = () =>{
 
     useEffect(() =>{
         const request = async () =>{
-            const response = await axios.get('http://localhost:2130/posts');
+            const response = await axios.get('http://localhost:2130/requests', { withCredentials: true });
             setRequestData(response.data.combined_requests); 
         }
         request();

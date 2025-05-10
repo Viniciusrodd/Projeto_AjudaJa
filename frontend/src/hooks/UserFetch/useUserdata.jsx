@@ -13,7 +13,7 @@ export const useUserdata = (userID) => {
     useEffect(() =>{
         const request = async () =>{
             try{
-                const res = await axios.get(`http://localhost:2130/findUser/${userID}`);
+                const res = await axios.get(`http://localhost:2130/findUser/${userID}`, { withCredentials: true });
                 setUserData(res.data.userData);
                 setUserImage(res.data.userImage);
             }

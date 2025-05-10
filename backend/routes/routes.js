@@ -23,15 +23,16 @@ router.post('/verifyToken', middleware.verifyToken, (req, res) => {
 // port 2130 // User
 router.post('/register', upload.single('image'), userController.registerUser);
 router.post('/login', userController.Login);
-router.get('/findUser/:userID', userController.findUser);
-router.put('/updateUser/:userID', upload.single('image'), userController.editUser);
+router.get('/findUser/:userID', middleware.verifyToken, userController.findUser);
+router.put('/updateUser/:userID', upload.single('image'), middleware.verifyToken, userController.editUser);
 router.delete('/deleteUser/:userID', middleware.verifyToken, userController.deleteUser.bind(userController));
 router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(userController));
 
 
 // port 2130 // RequestHelp
-router.post('/postRequest/:userID', RequestController.postCreate);
-router.get('/posts', RequestController.findRequests);
+router.post('/createRequest/:userID', middleware.verifyToken, RequestController.postCreate);
+router.get('/requests', middleware.verifyToken, RequestController.findRequests);
+router.put('/postsUpdate/requestID', middleware.verifyToken, RequestController.editRequest);
 
 
 module.exports = router;
