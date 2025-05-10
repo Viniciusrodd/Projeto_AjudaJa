@@ -5,19 +5,25 @@ span{
 }
 
 .nav_bar_register{
+    position: fixed;          /* Fixa o elemento na tela */
+    z-index: 1000; 
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 16vh;
+    width: 100vw;
     background-color: rgba(0, 0, 0, 0.162);
 }
 
 .nav_bar{
+    position: fixed;          /* Fixa o elemento na tela */
+    z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 16vh;
-    background-color: transparent;
+    width: 100vw;
+    background-color: rgb(20, 20, 20);
 }
 
 .nav_bar_container{

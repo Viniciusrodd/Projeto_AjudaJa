@@ -161,7 +161,7 @@ const Home = () => {
                                     <div className={ styles.user_requests_container }>
                                         <div className={ styles.user_requests_title }>
                                             <h1 className='title is-2' style={{ 
-                                                color:'#00EBC7', textShadow: '0px 0px 8px rgb(43, 144, 0)' 
+                                                color:'rgb(51, 194, 255)', textShadow: '0px 0px 8px rgb(0, 0, 0)' 
                                             }}>
                                                 { request.title }
                                             </h1>

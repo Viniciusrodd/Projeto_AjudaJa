@@ -13,9 +13,10 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    margin-left: 5%;
     padding: 0px 20px 30px 20px;
     width: 60vw;
+    margin-top: 9%;
+    margin-left: 27%;
 }
 
 .feed_options{
@@ -108,7 +109,7 @@
         align-items: center;
         padding: 40px 0px 50px 0px;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.761);
+        background-color: rgba(0, 0, 0, 0.787);
         border-radius: 10px;
 
         & h1{
@@ -127,7 +128,7 @@
             width: 90%;
             margin-top: 30px;
             background-color: rgb(20, 20, 20);
-            border: 2px solid white;
+            border: 3px solid white;
             border-radius: 10px;
             box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 1);
         }
@@ -148,7 +149,7 @@
                 align-items: center;
                 height: 90%;
                 width: 30%;
-                border: 2px solid white;
+                border: 3px solid white;
                 border-radius: 10px;
                 background-color: rgb(20, 20, 20);
                 box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 1);
@@ -170,7 +171,7 @@
     font-size: 20px;
     font-weight: bold;
     text-shadow: 0px 0px 8px rgb(17, 255, 0);
-    color: #00EBC7;
+    color: rgb(0, 235, 199);
 }
 
 .status_fechado{

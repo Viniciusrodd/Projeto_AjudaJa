@@ -1,13 +1,16 @@
 @charset "UTF-8";
 
 .sidebar{
+    position: fixed;          /* Fixa o elemento na tela */
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 2%;
     height: 85vh;
     width: 20vw;
+    margin-top: 7%;
+    margin-left: 2%;
     
 
     & button{
