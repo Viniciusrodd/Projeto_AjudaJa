@@ -14,12 +14,15 @@ import SideBar from '../../components/SideBar/SideBar';
 // context
 import { UserContext } from '../../context/UserContext';
 
+// services
+import { deleteRequest } from '../../services/RequestHelpServices';
 
 const Home = () => {
     // states
     const [ redirectLogin, setRedirectLogin ] = useState(false);
     const [ noPosts, setNoPosts ] = useState(false);
     const [ userID, setUserID ] = useState(0);
+    const [ requestID, setRequestID ] = useState(0);
 
     // consts
     const navigate = useNavigate();
@@ -27,6 +30,7 @@ const Home = () => {
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
+    const modal_btt_2 = useRef(null);
     const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
     const divImageRef = useRef(null);
     const div_bottoms = useRef(null);
@@ -69,7 +73,7 @@ const Home = () => {
     }, [userData, errorRes]);
 
 
-    // get Help requests data
+    // get Help requestsHelp data
     const { requestData } = useRequestData(); // array with objects...
     useEffect(() =>{
         if (requestData && requestData.length === 0) {
@@ -79,9 +83,59 @@ const Home = () => {
     }, [requestData]);
 
 
-    // redirect to edit request
+    // redirect to edit requestHelp
     const editRequest = (id) =>{
         navigate(`/editarPedido/${id}`);
+    };
+
+
+    // modal for delete requestHelp
+    const modal_deleteRequest = (id) =>{
+        modal.current.style.display = 'flex';
+        modal_msg.current.innerText = 'Tem certeza que deseja excluir seu pedido de ajuda ?'
+        modal_btt.current.innerText = 'Tenho certeza'
+        
+        modal_btt.current.onclick = () =>{
+            deleteRequest_event(id)
+        };        
+        modal_btt_2.current.onclick = () =>{
+            modal.current.style.display = 'none';
+        };
+    };
+
+
+    // delete requestHelp
+    const deleteRequest_event = async (id) =>{
+        try{
+            const res = await deleteRequest(id);
+
+            if(res.status === 200){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso'
+                modal_msg.current.innerText = `Ainda poderá criar nova pedido mais tarde...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';                
+
+                const clearMessage = setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+        
+                return () => {
+                    clearTimeout(clearMessage);
+                };
+            }
+        }
+        catch(error){
+            console.log('Error at delete request at frontend', error);
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = `Erro ao excluir pedido de ajuda...`;
+            modal_btt.current.innerText = 'Tente novamente';
+            modal_btt_2.current.style.display = 'none';
+
+            modal_btt.current.onclick = () => {
+                modal.current.style.display = 'none';
+            };           
+        };
     };
 
 
@@ -104,6 +158,9 @@ const Home = () => {
                         <div className='div-buttons'>
                             <button className="button is-danger is-dark" ref={ modal_btt }>
                                 Excluir
+                            </button>
+                            <button className="button is-primary is-dark" ref={ modal_btt_2 } style={{ marginLeft:'10px' }}>
+                                Voltar
                             </button>
                         </div>
                     </footer>
@@ -199,7 +256,7 @@ const Home = () => {
                                             <button className="button is-primary is-dark" onClick={ () => editRequest(request.id) }>
                                                 Editar
                                             </button>
-                                            <button className="button is-danger is-dark">
+                                            <button className="button is-danger is-dark" onClick={ () => modal_deleteRequest(request.id) }>
                                                 Excluir
                                             </button>
                                         </div>

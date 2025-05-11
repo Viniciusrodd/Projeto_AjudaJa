@@ -99,7 +99,6 @@ const EditRequests = () => {
 
 
     return (
-
         <div className={ stylesAccountDetail.accountDetail_container }>
             { /* Modal */ }
             <div className='modal' ref={ modal }>
