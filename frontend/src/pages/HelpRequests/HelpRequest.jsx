@@ -86,7 +86,7 @@ const HelpRequest = () => {
             }else{
                 console.warn("Geolocalização não suportada neste navegador.")
             }
-        }, 6000);
+        }, 4000);
 
         return () =>{
             clearTimeout(clearModal);

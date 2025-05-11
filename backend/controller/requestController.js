@@ -191,6 +191,42 @@ class Request{
             });
         };
     };
+
+
+    // delete request
+    async deleteRequest(req, res){
+        const requestId = req.params.requestID;
+        if(!requestId){
+            return res.status(400).send({
+                errorMsg: 'Bad request at user id params...' 
+            });
+        }
+
+        try{
+            await connection.transaction(async (t) =>{
+                await OfferModel.destroy({
+                    where: { request_id: requestId },
+                    transaction: t
+                });
+
+                await RequestModel.destroy({
+                    where: { id: requestId },
+                    transaction: t
+                });
+            });
+            
+            return res.status(200).send({
+                successMsg: 'Help request + self relations deleted with success'
+            });
+        }
+        catch(error){
+            console.error('Internal server error at delete request', error);
+            return res.status(500).send({
+                msg: 'Internal server error at delete request',
+                details: error.response?.data || error.message
+            });
+        };
+    };
 };
 
 

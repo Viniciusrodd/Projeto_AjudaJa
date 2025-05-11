@@ -9,6 +9,7 @@
     border: 2px solid white;
     border-radius: 10px;
     transition: all ease-out 0.3s;
+    margin-top: 8%;
 }
 .expiresAt_container:hover{
     transform: scale(1.02);

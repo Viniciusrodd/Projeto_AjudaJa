@@ -99,7 +99,6 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        border-radius: 10px;
     }
 
     & .user_requests_container{
@@ -109,8 +108,7 @@
         align-items: center;
         padding: 40px 0px 50px 0px;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.787);
-        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.809);
 
         & h1{
             text-align: center;

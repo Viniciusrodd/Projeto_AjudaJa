@@ -12,6 +12,6 @@ export const postRequest = async (data, userID) =>{
 
 // update requestHelp
 export const updateRequest = async (data, requestID) =>{
-    const response = await axios.put(`http://localhost:2130/requestUpdate/${requestID}`, data, { withCredentials: true });
+    const response = await axios.put(`http://localhost:2130/updateRequest/${requestID}`, data, { withCredentials: true });
     return response
 }
