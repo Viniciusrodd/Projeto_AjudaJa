@@ -22,7 +22,7 @@ const Home = () => {
     const [ redirectLogin, setRedirectLogin ] = useState(false);
     const [ noPosts, setNoPosts ] = useState(false);
     const [ userID, setUserID ] = useState(0);
-    const [ requestID, setRequestID ] = useState(0);
+    const [ search, setSearch ] = useState('');    
 
     // consts
     const navigate = useNavigate();
@@ -139,6 +139,14 @@ const Home = () => {
     };
 
 
+    // search request
+    const { requestDataByTitle } = useRequestData(null, search);
+    const search_form = (e) =>{
+        e.preventDefault();
+        console.log('busca: ', requestDataByTitle);
+    };
+
+
     return (
         <div className={ styles.container_home }>
             
@@ -183,9 +191,9 @@ const Home = () => {
                             <option>Opções aqui...</option>
                         </select>
                     </div>
-                    <form className={ styles.search_container }>
-                        <input className='input is-success' type="text" name="search" placeholder='Pesquise por ajuda' 
-                        autoComplete='off'/>
+                    <form onClick={ search_form } className={ styles.search_container }>
+                        <input className='input is-success' type="text" name="search" placeholder='Pesquise por ajuda' value={ search } 
+                        autoComplete='off' onChange={ (e) => setSearch(e.target.value) }/>
                         <button className="button is-primary is-dark" style={{ marginLeft:'5px', height:'40px' ,width:'40px' }}>
                             <i className="material-icons" id='person'>search</i>
                         </button>

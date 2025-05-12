@@ -5,9 +5,10 @@ import axios from 'axios';
 // hooks
 import { useState, useEffect } from "react"
 
-export const useRequestData = (id) =>{
+export const useRequestData = (id, title) =>{
     const [ requestData, setRequestData ] = useState(null);
     const [ requestDataById, setRequestDataById ] = useState(null);
+    const [ requestDataByTitle, setRequestDataByTitle ] = useState(null);
 
     useEffect(() =>{
         const request = async () =>{
@@ -27,5 +28,14 @@ export const useRequestData = (id) =>{
     }, [id]);
 
 
-    return { requestData, requestDataById };
+    useEffect(() =>{
+        const requestByTitle = async () =>{
+            const response = await axios.get(`http://localhost:2130/requestSearch/${title}`, { withCredentials: true });
+            setRequestDataByTitle(response.data.request_data);
+        };
+        requestByTitle();
+    }, [title]);
+
+
+    return { requestData, requestDataById, requestDataByTitle };
 };
