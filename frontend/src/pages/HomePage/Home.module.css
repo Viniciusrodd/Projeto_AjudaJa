@@ -5,7 +5,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    padding-bottom: 60px;
+    padding-bottom: 100px;
 }
 
 .container_feed{
@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 0px 20px 30px 20px;
+    padding: 0px 20px 170px 20px;
     width: 60vw;
     margin-top: 9%;
     margin-left: 27%;
@@ -184,11 +184,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10%;
+    margin: 5% 0px 5% 0px;
     height: 25vh;
     width: 45vw;
     border-radius: 10px;
     border: 2px solid white;
+
+    & h1{
+        text-align: center;
+    }
 }
 
 .div_bottoms{

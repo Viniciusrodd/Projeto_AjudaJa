@@ -127,7 +127,7 @@ class Request{
                         [Op.in]: users_id
                     }
                 }
-            })
+            });
 
             // mapping user name => requests
             const userMap = {};
@@ -220,19 +220,61 @@ class Request{
         try{
             const request_data = await RequestModel.findAll({
                 where: { 
-                    title: { [Op.like]: `%${request_title}` } 
+                    title: { [Op.like]: `%${request_title}%` } 
                 }
             });
 
             if(request_data.length === 0){
-                return res.status(404).send({
+                return res.status(204).send({
                     msg: 'No requests found matching the title'
                 });
             }
 
+            // get users ids from requests
+            const users_id = request_data.map(data => data.user_id);
+
+            // get user data from requests user_id
+            const userData = await UserModel.findAll({
+                where: {
+                    id: {
+                        [Op.in]: users_id
+                    }
+                }
+            });
+
+            // mapping user name => requests
+            const userMap = {};
+            userData.forEach((user) =>{
+                userMap[user.id] = {
+                    name: user.name
+                };
+            });
+
+            // associated images
+            const profile_images = await ProfileImage.find({
+                user_id: { $in: users_id }
+            });
+
+            // mapping user_id => images
+            const imageMap = {};
+            profile_images.forEach((image) =>{
+                imageMap[image.user_id] = {
+                    image_data: image.image_data,
+                    content_type: image.content_type
+                };
+            });
+
+            // combine request data with images associated
+            const combined_requests = request_data.map(request =>({
+                ...request.dataValues, // sequelize instances, we need to extract the data
+                user_data: userMap[request.user_id],
+                profile_image: imageMap[request.user_id] || null
+            }));
+
+
             return res.status(200).send({
                 successMsg: 'Matching requests found',
-                request_data
+                combined_requests
             });
         }
         catch(error){

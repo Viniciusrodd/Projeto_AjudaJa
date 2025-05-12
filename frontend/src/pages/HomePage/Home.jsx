@@ -2,6 +2,9 @@
 // css
 import styles from './Home.module.css';
 
+// libs
+import axios from 'axios';
+
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
@@ -23,6 +26,8 @@ const Home = () => {
     const [ noPosts, setNoPosts ] = useState(false);
     const [ userID, setUserID ] = useState(0);
     const [ search, setSearch ] = useState('');    
+    const [ noPostsFound, setNoPostsFound ] = useState(false);
+    const [searchedData, setSearchedData] = useState(null);
 
     // consts
     const navigate = useNavigate();
@@ -139,11 +144,32 @@ const Home = () => {
     };
 
 
-    // search request
-    const { requestDataByTitle } = useRequestData(null, search);
-    const search_form = (e) =>{
+    const search_form = async (e) => {
         e.preventDefault();
-        console.log('busca: ', requestDataByTitle);
+
+        if (search.trim() === '') {
+            setSearchedData(null);
+            return;
+        }
+
+        try{
+            const response = await axios.get(`http://localhost:2130/requestSearch/${search}`, { withCredentials: true });
+
+            if(response.data.combined_requests?.length > 0){
+                setSearchedData(response.data.combined_requests);
+                setNoPostsFound(false);
+            }else{
+                setSearchedData([]); // limpa resultados anteriores
+                
+                setNoPostsFound('Pedido de ajuda não encontrado');
+                setTimeout(() =>{
+                    setNoPostsFound('');
+                    setSearchedData(null);
+                }, 3000);
+            }
+        }catch(error){
+            console.error("Error at searching requests:", error);
+        }
     };
 
 
@@ -191,7 +217,7 @@ const Home = () => {
                             <option>Opções aqui...</option>
                         </select>
                     </div>
-                    <form onClick={ search_form } className={ styles.search_container }>
+                    <form onSubmit={ search_form } className={ styles.search_container }>
                         <input className='input is-success' type="text" name="search" placeholder='Pesquise por ajuda' value={ search } 
                         autoComplete='off' onChange={ (e) => setSearch(e.target.value) }/>
                         <button className="button is-primary is-dark" style={{ marginLeft:'5px', height:'40px' ,width:'40px' }}>
@@ -202,14 +228,21 @@ const Home = () => {
 
                 { /* FEED PUBLICATIONS */ }
                 {
-                    noPosts && (
+                    noPosts && !searchedData && (
                         <div className={ styles.noRequests }>
                             <h1 className='title is-2'>Sem pedidos de ajuda...</h1>
                         </div>
                     )
                 }
                 {
-                    requestData && requestData.map((request) => (
+                    noPostsFound && (
+                        <div className={ styles.noRequests }>
+                            <h1 className='title is-2'>{ noPostsFound }</h1>
+                        </div>
+                    )
+                }
+                {
+                    (searchedData || requestData)?.map((request) => (
                         <div className={ styles.requests_container } key={ request.id }>
                             { /* REQUESTS */ }
                             <div className={ styles.requests }>
