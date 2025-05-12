@@ -19,9 +19,6 @@ export const updateRequest = async (data, requestID) =>{
 
 // delete requestHelp
 export const deleteRequest = async (requestID) =>{
-    console.log('________________')
-    console.log(requestID)
-    console.log('________________')
     const response = await axios.delete(`http://localhost:2130/deleteRequest/${requestID}`, { withCredentials: true });
     return response;
 };

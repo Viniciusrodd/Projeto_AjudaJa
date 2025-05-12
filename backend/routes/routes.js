@@ -35,7 +35,7 @@ router.get('/requests', middleware.verifyToken, RequestController.findRequests.b
 router.put('/updateRequest/:requestID', middleware.verifyToken, RequestController.editRequest);
 router.get('/request/:requestID', middleware.verifyToken, RequestController.findRequestsByPk);
 router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestController.deleteRequest)
-
+router.get('/requestSearch/:requestTitle', middleware.verifyToken, RequestController.findRequestByTitle);
 
 
 module.exports = router;

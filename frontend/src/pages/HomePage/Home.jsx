@@ -183,11 +183,13 @@ const Home = () => {
                             <option>Opções aqui...</option>
                         </select>
                     </div>
-                    <div className={ styles.search_container }>
+                    <form className={ styles.search_container }>
                         <input className='input is-success' type="text" name="search" placeholder='Pesquise por ajuda' 
                         autoComplete='off'/>
-                        <i className="material-icons" id='person'>search</i>
-                    </div>
+                        <button className="button is-primary is-dark" style={{ marginLeft:'5px', height:'40px' ,width:'40px' }}>
+                            <i className="material-icons" id='person'>search</i>
+                        </button>
+                    </form>
                 </div>
 
                 { /* FEED PUBLICATIONS */ }

@@ -208,6 +208,43 @@ class Request{
     };
 
 
+    // find request by title
+    async findRequestByTitle(req, res){
+        const request_title = req.params.requestTitle;
+        if(!request_title){
+            return res.status(400).send({
+                error: 'Bad request at request_title params'
+            });
+        }
+
+        try{
+            const request_data = await RequestModel.findAll({
+                where: { 
+                    title: { [Op.like]: `%${request_title}` } 
+                }
+            });
+
+            if(request_data.length === 0){
+                return res.status(404).send({
+                    msg: 'No requests found matching the title'
+                });
+            }
+
+            return res.status(200).send({
+                successMsg: 'Matching requests found',
+                request_data
+            });
+        }
+        catch(error){
+            console.error('Internal server error at find request by title', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at find request by title',
+                details: error.response?.data || error.message
+            });
+        }
+    };
+
+
     // edit requests
     async editRequest(req, res){
         const requestId = req.params.requestID;
