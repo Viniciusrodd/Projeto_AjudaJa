@@ -79,12 +79,14 @@ const Home = () => {
 
 
     // get Help requestsHelp data
-    const { requestData } = useRequestData(); // array with objects...
+    const { requestData, setRequestData } = useRequestData(); // array with objects...
     useEffect(() =>{
         if (requestData && requestData.length === 0) {
             setNoPosts(true);
         }
+        //const filtertest = requestData?.filter((data) => data.id != 'bd3e1f9a-8722-4b10-b63b-c9d41c0908b9');
         //console.log('dados pegos: ', requestData);
+        //console.log('dados pegos filtrados: ', filtertest);
     }, [requestData]);
 
 
@@ -114,17 +116,19 @@ const Home = () => {
         try{
             const res = await deleteRequest(id);
 
-            if(res.status === 200){
+            if(res.status === 200){                
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Sucesso'
                 modal_msg.current.innerText = `Ainda poderá criar nova pedido mais tarde...`;
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';                
-
+                
+                
                 const clearMessage = setTimeout(() => {
-                    window.location.reload();
+                    modal.current.style.display = 'none';                    
+                    setRequestData(prev => prev.filter(data => data.id !== id));
                 }, 3000);
-        
+                
                 return () => {
                     clearTimeout(clearMessage);
                 };
@@ -160,7 +164,7 @@ const Home = () => {
                 setNoPostsFound(false);
             }else{
                 setSearchedData([]); // limpa resultados anteriores
-                
+
                 setNoPostsFound('Pedido de ajuda não encontrado');
                 setTimeout(() =>{
                     setNoPostsFound('');
@@ -211,16 +215,16 @@ const Home = () => {
 
                 { /* FEED OPTIONS */ }
                 <div className={ styles.feed_options }>
-                    <div className="select is-success">
-                        <select style={{ width:'100%' }}>
+                    <div className="select is-primary">
+                        <select style={{ width:'100%' }} className='is-hovered'>
                             <option>Filtro</option>
                             <option>Opções aqui...</option>
                         </select>
                     </div>
                     <form onSubmit={ search_form } className={ styles.search_container }>
-                        <input className='input is-success' type="text" name="search" placeholder='Pesquise por ajuda' value={ search } 
+                        <input className='input is-primary' type="text" name="search" placeholder='Pesquise por ajuda' value={ search }
                         autoComplete='off' onChange={ (e) => setSearch(e.target.value) }/>
-                        <button className="button is-primary is-dark" style={{ marginLeft:'5px', height:'40px' ,width:'40px' }}>
+                        <button className="button is-primary is-outlined" style={{ marginLeft:'5px', height:'40px' ,width:'40px' }}>
                             <i className="material-icons" id='person'>search</i>
                         </button>
                     </form>
@@ -243,75 +247,73 @@ const Home = () => {
                 }
                 {
                     (searchedData || requestData)?.map((request) => (
-                        <div className={ styles.requests_container } key={ request.id }>
+                        <div className={ styles.requests } key={ request.id }>
                             { /* REQUESTS */ }
-                            <div className={ styles.requests }>
-                                <div className={ styles.user_container }>
-                                    <div className={ styles.user_image } ref={ divImageRef }
-                                    style={{ 
-                                        backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
-                                    }}>
+                            <div className={ styles.user_container }>
+                                <div className={ styles.user_image } ref={ divImageRef }
+                                style={{ 
+                                    backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
+                                }}>
 
-                                    </div>
-                                    
-                                    <h1 className='title is-3'>{ request.user_data.name }</h1>
                                 </div>
-                    
-                                <div className={ styles.requests_container_image }>
-                                    <div className={ styles.user_requests_container }>
-                                        <div className={ styles.user_requests_title }>
-                                            <h1 className='title is-2' style={{ 
-                                                color:'white', textShadow: '0px 0px 10px rgb(0, 0, 0)' 
-                                            }}>
-                                                { request.title }
-                                            </h1>
-                                        </div>
-
-                                        <div className={ styles.user_requests_description }>
-                                            <h1 className='subtitle is-5'>{ request.description }</h1>
-                                        </div>
-
-                                        <div className={ styles.user_requests_details }>
-                                            <div className={ styles.details }>
-                                                <p className={ styles.titles_requests }>Categoria</p>
-                                                <h1 className='subtitle is-4'>{ request.category }</h1>
-                                            </div>  
-                                            <div className={ styles.details }>
-                                                <p className={ styles.titles_requests }>Urgência</p>
-                                                { request.urgency === 'media' ? 
-                                                    ( <h1 className='subtitle is-4'>média</h1> ) :
-                                                    ( <h1 className='subtitle is-4'>{ request.urgency }</h1> ) 
-                                                }
-                                            </div>  
-                                            <div className={ styles.details }>
-                                                <p className={ styles.titles_requests }>Status</p>
-                                                <h2 className={ request.status === 'aberto' ? styles.status_aberto :  styles.status_fechado }>
-                                                    { request.status }
-                                                </h2>
-                                            </div>  
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {
-                                    request.user_id === userID ? (
-                                        <div className={ styles.div_bottoms } ref={ div_bottoms }>
-                                            <button className="button is-primary is-dark" onClick={ () => editRequest(request.id) }>
-                                                Editar
-                                            </button>
-                                            <button className="button is-danger is-dark" onClick={ () => modal_deleteRequest(request.id) }>
-                                                Excluir
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div className={ styles.div_bottoms } ref={ div_bottoms }>
-                                            <button className="button is-info is-dark">
-                                                Ajudar
-                                            </button>
-                                        </div>
-                                    )
-                                }
+                                
+                                <h1 className='title is-3'>{ request.user_data.name }</h1>
                             </div>
+                
+                            <div className={ styles.requests_container_image }>
+                                <div className={ styles.user_requests_container }>
+                                    <div className={ styles.user_requests_title }>
+                                        <h1 className='title is-2' style={{ 
+                                            color:'white', textShadow: '0px 0px 10px rgb(0, 0, 0)' 
+                                        }}>
+                                            { request.title }
+                                        </h1>
+                                    </div>
+
+                                    <div className={ styles.user_requests_description }>
+                                        <h1 className='subtitle is-5'>{ request.description }</h1>
+                                    </div>
+
+                                    <div className={ styles.user_requests_details }>
+                                        <div className={ styles.details }>
+                                            <p className={ styles.titles_requests }>Categoria</p>
+                                            <h1 className='subtitle is-4'>{ request.category }</h1>
+                                        </div>  
+                                        <div className={ styles.details }>
+                                            <p className={ styles.titles_requests }>Urgência</p>
+                                            { request.urgency === 'media' ? 
+                                                ( <h1 className='subtitle is-4'>média</h1> ) :
+                                                ( <h1 className='subtitle is-4'>{ request.urgency }</h1> ) 
+                                            }
+                                        </div>  
+                                        <div className={ styles.details }>
+                                            <p className={ styles.titles_requests }>Status</p>
+                                            <h2 className={ request.status === 'aberto' ? styles.status_aberto :  styles.status_fechado }>
+                                                { request.status }
+                                            </h2>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+
+                            {
+                                request.user_id === userID ? (
+                                    <div className={ styles.div_bottoms } ref={ div_bottoms }>
+                                        <button className="button is-info is-outlined" onClick={ () => editRequest(request.id) }>
+                                            Editar
+                                        </button>
+                                        <button className="button is-danger is-outlined" onClick={ () => modal_deleteRequest(request.id) }>
+                                            Excluir
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className={ styles.div_bottoms } ref={ div_bottoms }>
+                                        <button className="button is-primary is-outlined">
+                                            Ajudar
+                                        </button>
+                                    </div>
+                                )
+                            }
                         </div>
                     ))
                 }

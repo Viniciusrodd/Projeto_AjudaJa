@@ -7,6 +7,7 @@ html, body{
     margin: 0;
     padding: 0;
     height: 100%;
+    background-color: rgb(20, 20, 20);
 }
 
 div#root{
@@ -64,7 +65,7 @@ div#root{
     background-size: cover;
     transition: all 0.3s ease-out;
     cursor: pointer;
-    background-color: #001F1A;
+    background-color: #001f1a00;
     border: 2px solid #00D1B2;
 }
 .img_container:hover{

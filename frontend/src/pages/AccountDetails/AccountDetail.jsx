@@ -326,13 +326,13 @@ const AccountDetail = () => {
                 </div>
 
                 <hr className='hr'/>
-                <button className="button is-primary is-dark">
+                <button className="button is-primary is-outlined">
                     Editar
                 </button>
             </form>
 
             <div className={ styles.delete_div } onClick={ modal_deleteProfile }>
-                <button className="button is-danger is-dark">
+                <button className="button is-danger is-outlined">
                     Excluir
                 </button>
             </div>

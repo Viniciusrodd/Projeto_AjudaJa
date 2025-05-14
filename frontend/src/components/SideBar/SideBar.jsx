@@ -118,7 +118,7 @@ const SideBar = () => {
                 <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
             </ul>
 
-            <button onClick={ pedidoDeAjuda_redirect } className="button is-primary is-dark">
+            <button onClick={ pedidoDeAjuda_redirect } className="button is-primary is-outlined">
                 Postar pedido de ajuda
             </button>
 
