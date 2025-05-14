@@ -1,10 +1,17 @@
-
+// libs
 const mongoose = require('mongoose');
 const supertest = require('supertest');
+const { v4: uuidv4 } = require('uuid');
+
+// configs
 const app = require('../app');
 const request = supertest(app);
 require('dotenv').config();
-const jwtToken = process.env.JWT_TOKEN_TEST;
+
+// variables
+let jwtToken = '';
+let createdUserId = '';
+let userActualPassword = '';
 
 
 // mongoDB Connection
@@ -15,6 +22,18 @@ beforeAll(async () =>{
         serverSelectionTimeoutMS: 10000 // garante que falhe rápido se não conectar
     });
     console.log('MongoDB database connected');
+
+    // login
+    const userTest = {
+        email: `vini@gmail.com`, password: 'vini123' 
+    };
+    
+    const res = await request.post('/login').send(userTest);
+    
+    if(res.status === 200){
+        console.log('USER LOGIN TEST, SUCCESS!!!');
+        jwtToken = res.body.tokenVar
+    }
 }, 15000); // dá até 15 segundos para conectar
 
 // mongoDB Disconnect
@@ -26,21 +45,20 @@ afterAll(async () => {
 
 // tests
 describe('User tests', () => {
-    // random number
-    const randomNumber = Math.floor(Math.random() * 1000) + 1; // random number
 
-
-    // user register (without image)
+    // user creation (without image)
     test('Should test a User Register (without image)...', async () =>{
         const userTest = {
-            id: 'd9ba1e35-bc5a-4b39-b115-86f08318390d',
-            name: 'userTest', email: `userTest${randomNumber}@gmail.com`, password: 'test123' 
+            id: uuidv4(),
+            name: 'userTest', email: `userTest${Date.now()}@gmail.com`, password: 'test123'
         };
         try{
             const res = await request.post('/register').send(userTest);
 
             if(res.status === 201){
                 console.log('USER REGISTER TEST (WITHOUT IMAGE), SUCCESS!!!');
+                createdUserId = userTest.id;
+                userActualPassword = userTest.password;
             }
 
             expect(res.status).toEqual(201);
@@ -49,37 +67,13 @@ describe('User tests', () => {
             console.error('ERROR AT USER REGISTER TEST (WITHOUT IMAGE)...', error);
             throw error;
         }
-    });
-
-
-    // user login
-    test('Should test a User Login...', async () =>{
-        const userTest = {
-            email: `vini@gmail.com`, password: 'vini123' 
-        };
-
-        try{
-            const res = await request.post('/login').send(userTest);
-            
-            if(res.status === 200){
-                console.log('USER LOGIN TEST, SUCCESS!!!');
-            }
-
-            expect(res.status).toEqual(200);
-        }
-        catch(error){
-            console.error('ERROR AT USER LOGIN TEST...', error);
-            throw error;
-        }
     }); 
 
 
     // user findOne
     test('Should test a findUser method...', async () =>{
-        const userId = '4dae5317-2ec2-4e0c-925a-afee03684ced';
-
         try{
-            const res = await request.get(`/findUser/${userId}`);
+            const res = await request.get(`/findUser/${createdUserId}`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200){
                 console.log('FIND USER TEST, SUCCESS!!!');
                 console.log(
@@ -99,18 +93,27 @@ describe('User tests', () => {
 
     // edit user (without image)
     test('Should test a edit user route...', async () =>{
-        const userId = '179bf611-a3a0-4e97-bbcc-4d0de572a22c';
         const userData = {
-            name: 'nameEdited', email: 'emailEdited', role: 'usuario',
-            street: 'streetEdited', city: 'cityEdited', state: 'stateEdited',
+            name: 'nameEdited', email: `${Date.now()}@gmail.com`, role: 'usuario', 
+            street: 'streetEdited', city: 'cityEdited', state: 'stateEdited', 
             zip_code: '000.000.000-00'
         };
 
         try{
-            const res = await request.put(`/updateUser/${userId}`).send(userData);
+            const res = await request.put(`/updateUser/${createdUserId}`)
+            .set('Cookie', `token=${jwtToken}`)
+            .field('name', userData.name)
+            .field('email', userData.email)
+            .field('role', userData.role)
+            .field('street', userData.street)
+            .field('city', userData.city)
+            .field('state', userData.state)
+            .field('zip_code', userData.zip_code);
+
             if(res.status === 200){
                 console.log('EDIT USER TEST, SUCCESS!!!');
             }
+
             expect(res.status).toEqual(200);
         }
         catch(error){
@@ -122,10 +125,8 @@ describe('User tests', () => {
 
     // delete user (with token send)
     test('Should test a delete user route...', async () =>{
-        const userId = 'd9ba1e35-bc5a-4b39-b115-86f08318390d';
-
         try{
-            const res = await request.delete(`/deleteUser/${userId}`).set('Cookie', `token=${jwtToken}`);
+            const res = await request.delete(`/deleteUser/${createdUserId}`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200){
                 console.log('USER DELETE TEST, SUCCESS!!!');
             }
