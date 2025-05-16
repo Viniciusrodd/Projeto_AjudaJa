@@ -32,13 +32,14 @@ class Request{
             let expires_at = new Date();
             expires_at = expires_at.setDate(expires_at.getDate() + urgencyDurations[urgency]);
 
-            await RequestModel.create({ 
+            const helpPost = await RequestModel.create({ 
                 user_id, title, description, category, urgency, status: true, latitude, longitude, expires_at 
             });
 
             console.log('Request post create with success');
             return res.status(200).send({
-                msg: 'Request post create with success'
+                msg: 'Request post create with success',
+                helpPost
             });
         }
         catch(error){
@@ -121,7 +122,7 @@ class Request{
                 msgError: 'Internal server error at Find requests', error,
                 details: error.response?.data || error.message
             });
-        };
+        }
     };
 
 

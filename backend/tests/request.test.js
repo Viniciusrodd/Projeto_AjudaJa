@@ -8,6 +8,8 @@ const request = supertest(app);
 
 // variables
 let jwtToken = '';
+let userID = '';
+let requestID = ''
 
 
 // mongoDB Connection
@@ -29,6 +31,7 @@ beforeAll(async () =>{
     if(res.status === 200){
         console.log('USER LOGIN TEST, SUCCESS!!!');
         jwtToken = res.body.tokenVar
+        userID = res.body.user.id
     }
 }, 15000); // dá até 15 segundos para conectar
 
@@ -41,9 +44,7 @@ afterAll(async () => {
 
 // tests
 describe('Request tests', () =>{
-    // userid
-    const userID = 'b582b96e-6465-4a6d-b75a-e1e9c8a22b5b';
-
+    
     // request create
     test('Should test a request creation...', async () =>{
         const postData = {
@@ -54,6 +55,7 @@ describe('Request tests', () =>{
             const res = await request.post(`/createRequest/${userID}`).set('Cookie', `token=${jwtToken}`).send(postData);
             if(res.status === 200){
                 console.log('HELP REQUEST CREATION TEST, SUCCESS!!!');
+                requestID = res.body.helpPost.id;
             }
 
             expect(res.status).toEqual(200);
@@ -78,6 +80,24 @@ describe('Request tests', () =>{
         }
         catch(error){
             console.error('ERROR AT FIND HELP POSTS REQUESTS...', error);
+            throw error;
+        }
+    });
+
+
+    // find request by id
+    test('Should test a find request by id route...', async () =>{
+        try{
+            const res = await request.get(`/request/${requestID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200 || res.status === 204){
+                console.log('FIND REQUEST BY ID TEST, SUCCESS!!!');
+            }
+
+            // can be 200 or 204...
+            expect([200, 204]).toContain(res.status);
+        }
+        catch(error){
+            console.error('ERROR AT FIND HELP POSTS REQUESTS BY ID...', error);
             throw error;
         }
     });

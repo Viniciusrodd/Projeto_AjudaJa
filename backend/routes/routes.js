@@ -32,8 +32,8 @@ router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(us
 // port 2130 // RequestHelp
 router.post('/createRequest/:userID', middleware.verifyToken, RequestController.postCreate);
 router.get('/requests', middleware.verifyToken, RequestController.findRequests.bind(RequestController));
-router.put('/updateRequest/:requestID', middleware.verifyToken, RequestController.editRequest);
 router.get('/request/:requestID', middleware.verifyToken, RequestController.findRequestsByPk);
+router.put('/updateRequest/:requestID', middleware.verifyToken, RequestController.editRequest);
 router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestController.deleteRequest)
 router.get('/requestSearch/:requestTitle', middleware.verifyToken, RequestController.findRequestByTitle);
 
