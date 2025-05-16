@@ -53,13 +53,31 @@ describe('Request tests', () =>{
         try{
             const res = await request.post(`/createRequest/${userID}`).set('Cookie', `token=${jwtToken}`).send(postData);
             if(res.status === 200){
-                console.log('HELP REQUEST CREATION SUCCESS!!!');
+                console.log('HELP REQUEST CREATION TEST, SUCCESS!!!');
             }
 
             expect(res.status).toEqual(200);
         }
         catch(error){
             console.error('ERROR AT CREATE A HELP REQUEST...', error);
+            throw error;
+        }
+    });
+
+
+    // find requests
+    test('Should test a find request route...', async () =>{
+        try{
+            const res = await request.get('/requests').set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200 || res.status === 204){
+                console.log('FIND REQUEST TEST, SUCCESS!!!');
+            }
+
+            // can be 200 or 204...
+            expect([200, 204]).toContain(res.status);
+        }
+        catch(error){
+            console.error('ERROR AT FIND HELP POSTS REQUESTS...', error);
             throw error;
         }
     });
