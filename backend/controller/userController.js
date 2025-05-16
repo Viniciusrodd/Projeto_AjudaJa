@@ -10,6 +10,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const secretToken = process.env.SECRET_TOKEN;
 
+// services
+const LogOut_service = require('../services/userServices/logOut');
 
 // class
 class User{
@@ -279,7 +281,7 @@ class User{
             });
 
             // clear token
-            this.logOut(res);
+            await LogOut_service.logOut(res);
 
             return res.status(200).send({
                 successMsg: 'User profile + self relations deleted with success'
@@ -299,7 +301,7 @@ class User{
     async logOutRoute(req, res){
         try{
             // clear token
-            this.logOut(res);
+            await LogOut_service.logOut(res);
             return res.status(200).send({ message: "User logOut successfully" });
         }
         catch(error){
@@ -309,15 +311,6 @@ class User{
                 details: error.response?.data || error.message
             });
         };
-    };
-
-
-    // util function
-    logOut(res){
-        return res.clearCookie('token',{
-            httpOnly: true,
-            sameSite: 'Strict'
-        });  
     };
 };
 
