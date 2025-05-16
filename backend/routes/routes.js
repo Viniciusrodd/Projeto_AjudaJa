@@ -33,9 +33,9 @@ router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(us
 router.post('/createRequest/:userID', middleware.verifyToken, RequestController.postCreate);
 router.get('/requests', middleware.verifyToken, RequestController.findRequests.bind(RequestController));
 router.get('/request/:requestID', middleware.verifyToken, RequestController.findRequestsByPk);
+router.get('/requestSearch/:requestTitle', middleware.verifyToken, RequestController.findRequestByTitle);
 router.put('/updateRequest/:requestID', middleware.verifyToken, RequestController.editRequest);
 router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestController.deleteRequest)
-router.get('/requestSearch/:requestTitle', middleware.verifyToken, RequestController.findRequestByTitle);
 
 
 module.exports = router;

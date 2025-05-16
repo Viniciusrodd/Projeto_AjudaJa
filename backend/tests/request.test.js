@@ -10,6 +10,7 @@ const request = supertest(app);
 let jwtToken = '';
 let userID = '';
 let requestID = ''
+let requestTitle = '';
 
 
 // mongoDB Connection
@@ -56,6 +57,7 @@ describe('Request tests', () =>{
             if(res.status === 200){
                 console.log('HELP REQUEST CREATION TEST, SUCCESS!!!');
                 requestID = res.body.helpPost.id;
+                requestTitle = res.body.helpPost.title;
             }
 
             expect(res.status).toEqual(200);
@@ -98,6 +100,24 @@ describe('Request tests', () =>{
         }
         catch(error){
             console.error('ERROR AT FIND HELP POSTS REQUESTS BY ID...', error);
+            throw error;
+        }
+    });
+
+
+    // find request by title
+    test('Should test a find request by title route...', async () =>{
+        try{
+            const res = await request.get(`/requestSearch/${requestTitle}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200 || res.status === 204){
+                console.log('FIND REQUEST BY TITLE TEST, SUCCESS!!!');
+            }
+
+            // can be 200 or 204...
+            expect([200, 204]).toContain(res.status);
+        }
+        catch(error){
+            console.error('ERROR AT FIND HELP POSTS REQUESTS BY TITLE...', error);
             throw error;
         }
     });
