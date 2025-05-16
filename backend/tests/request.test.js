@@ -99,7 +99,7 @@ describe('Request tests', () =>{
             expect([200, 204]).toContain(res.status);
         }
         catch(error){
-            console.error('ERROR AT FIND HELP POSTS REQUESTS BY ID...', error);
+            console.error('ERROR AT FIND HELP POSTS REQUESTS BY ID TEST...', error);
             throw error;
         }
     });
@@ -117,7 +117,45 @@ describe('Request tests', () =>{
             expect([200, 204]).toContain(res.status);
         }
         catch(error){
-            console.error('ERROR AT FIND HELP POSTS REQUESTS BY TITLE...', error);
+            console.error('ERROR AT FIND HELP POSTS REQUESTS BY TITLE TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // edit request
+    test('Should test a edit request route...', async () =>{
+        const requestData_edited = {
+            title: 'title edited', description: 'description edited', 
+            category: 'livre', urgency: 'alta', status: 'aberto'
+        };
+        try{
+            const res = await request.put(`/updateRequest/${requestID}`).set('Cookie', `token=${jwtToken}`).send(requestData_edited);
+            if(res.status === 200){
+                console.log('EDIT REQUEST TEST, SUCCESS!!!');
+            }
+
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROR AT EDIT REQUEST TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // delete request
+    test('Should test a delete request route...', async () =>{
+        try{
+            const res = await request.delete(`/deleteRequest/${requestID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('DELETE REQUEST TEST, SUCCESS!!!');
+            }
+
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROR AT DELETE REQUEST TEST...', error);
             throw error;
         }
     });
