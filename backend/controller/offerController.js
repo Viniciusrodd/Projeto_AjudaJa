@@ -50,9 +50,35 @@ class Offer{
                 });
             }
 
+            // get usersId from offers
+            const users_ids = offers.map(offer => offer.user_id);
+
+            // get user data from requests user_id
+            const userData = await UserModel.findAll({
+                where: {
+                    id: {
+                        [Op.in]: users_ids
+                    }
+                }
+            });
+
+            // mapping user name
+            const userMap = {};
+            userData.forEach((user) =>{
+                userMap[user.id] = {
+                    name: user.name
+                };
+            });
+
+            // combine datas
+            const combined_data = offers.map(offer =>({
+                ...offer.dataValues,
+                user_data: userMap[offer.user_id]
+            }));
+
             return res.status(200).send({
                 msg: 'Offers find with success',
-                offers
+                combined_data
             });
         }
         catch(error){

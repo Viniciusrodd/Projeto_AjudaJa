@@ -69,13 +69,13 @@ class Request{
             }
 
             // get users ids from requests
-            const users_id = request_data.map(data => data.user_id);
+            const users_ids = request_data.map(data => data.user_id);
             
             // get user data from requests user_id
             const userData = await UserModel.findAll({
                 where: {
                     id: {
-                        [Op.in]: users_id
+                        [Op.in]: users_ids
                     }
                 }
             });
@@ -90,7 +90,7 @@ class Request{
 
             // associated images
             const profile_images = await ProfileImage.find({
-                user_id: { $in: users_id }
+                user_id: { $in: users_ids }
             });
 
             // mapping user_id => images

@@ -11,7 +11,7 @@ export const useOfferData = () =>{
     useEffect(() =>{
         const request = async () =>{
             const response = await axios.get('http://localhost:2130/offers', { withCredentials: true });
-            setOfferData(response.data.offers); 
+            setOfferData(response.data.combined_data); 
         };
         request();
     }, []);
