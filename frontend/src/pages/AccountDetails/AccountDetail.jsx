@@ -248,94 +248,94 @@ const AccountDetail = () => {
 
             { /* Formulário */}
             <div className={ styles.form_container }>
-            <form onSubmit={ handleForm } className={ styles.user_panel_container }>
-                <h1 className='title is-1'>Detalhes de conta</h1>
+                <form onSubmit={ handleForm } className={ styles.user_panel_container }>
+                    <h1 className='title is-1'>Detalhes de conta</h1>
 
-                <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
-                <div className={ stylesRegister.div_imagem_perfil } ref={divImageRef}>
-                    
-                </div>
-                {/* Formulário de upload de imagem */}
-                <input type="file" name="image" accept="image/*" className={ stylesRegister.input_register } 
-                style={{ marginBottom:'30px' }} onChange={ uploadImage }/>
-
-                <hr className='hr'/>
-                <h1 className="title is-3">Seus dados</h1>
-
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Nome: </label>
-                    <input className="input is-hovered" name='name' type="text" value={ userFields.name }
-                    onChange={ (e) => setUserFields({...userFields, name: e.target.value}) } required />
-                </div>
-                
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Email: </label>
-                    <input className="input is-hovered" name='email' type="text" value={ userFields.email }
-                    onChange={ (e) => setUserFields({...userFields, email: e.target.value}) } required />
-                </div>
-
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Senha Atual: </label>
-                    <input className="input is-hovered" name='actual_password' type="password" value={ userFields.actual_password }
-                    placeholder='Senha atual (opcional)'
-                    onChange={ (e) => setUserFields({...userFields, actual_password: e.target.value}) } />
-                </div>
-
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Senha Nova: </label>
-                    <input className="input is-hovered" name='new_password' type="password" value={ userFields.new_password }
-                    placeholder='Senha nova (opcional)'
-                    onChange={ (e) => setUserFields({...userFields, new_password: e.target.value}) } />
-                </div>
-
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Papel: </label>
-                    <div className="select is-hovered" style={{ width:'70%' }}>
-                        <select 
-                            style={{ width:'100%' }} name='role' value={ userFields.role }
-                            onChange={ (e) => setUserFields({...userFields, role: e.target.value}) }
-                        >
-                            <option value="usuario">Usuário</option>
-                            <option value="moderador">Moderador</option>
-                        </select>
+                    <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
+                    <div className={ stylesRegister.div_imagem_perfil } ref={divImageRef}>
+                        
                     </div>
-                </div>
+                    {/* Formulário de upload de imagem */}
+                    <input type="file" name="image" accept="image/*" className={ stylesRegister.input_register } 
+                    style={{ marginBottom:'30px' }} onChange={ uploadImage }/>
 
-                <hr className='hr'/>
-                <h1 className="title is-3">Endereço</h1>
+                    <hr className='hr'/>
+                    <h1 className="title is-3">Seus dados</h1>
 
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Rua: </label>
-                    <input className="input is-hovered" name='street' type="text" value={ userFields.street }
-                    onChange={ (e) => setUserFields({...userFields, street: e.target.value}) } />
-                </div>
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Cidade: </label>
-                    <input className="input is-hovered" name='city' type="text" value={ userFields.city }
-                    onChange={ (e) => setUserFields({...userFields, city: e.target.value}) } />
-                </div>
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">Estado: </label>
-                    <input className="input is-hovered" name='state' type="text" value={ userFields.state }
-                    onChange={ (e) => setUserFields({...userFields, state: e.target.value}) } />
-                </div>
-                <div className={ styles.container_input }>
-                    <label className="label title is-5" id="label">CEP: </label>
-                    <input className="input is-hovered" name='cep' type="text" value={ userFields.zip_code }
-                    onChange={ (e) => setUserFields({...userFields, zip_code: e.target.value}) } />
-                </div>
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">Nome: </label>
+                        <input className="input is-hovered" name='name' type="text" value={ userFields.name }
+                        onChange={ (e) => setUserFields({...userFields, name: e.target.value}) } required />
+                    </div>
+                    
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">Email: </label>
+                        <input className="input is-hovered" name='email' type="text" value={ userFields.email }
+                        onChange={ (e) => setUserFields({...userFields, email: e.target.value}) } required />
+                    </div>
 
-                <hr className='hr'/>
-                <button className="button is-primary is-outlined">
-                    Editar
-                </button>
-            </form>
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">Senha Atual: </label>
+                        <input className="input is-hovered" name='actual_password' type="password" value={ userFields.actual_password }
+                        placeholder='Senha atual (opcional)'
+                        onChange={ (e) => setUserFields({...userFields, actual_password: e.target.value}) } />
+                    </div>
 
-            <div className={ styles.delete_div } onClick={ modal_deleteProfile }>
-                <button className="button is-danger is-outlined">
-                    Excluir
-                </button>
-            </div>
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">Senha Nova: </label>
+                        <input className="input is-hovered" name='new_password' type="password" value={ userFields.new_password }
+                        placeholder='Senha nova (opcional)'
+                        onChange={ (e) => setUserFields({...userFields, new_password: e.target.value}) } />
+                    </div>
+
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">Papel: </label>
+                        <div className="select is-hovered" style={{ width:'70%' }}>
+                            <select 
+                                style={{ width:'100%' }} name='role' value={ userFields.role }
+                                onChange={ (e) => setUserFields({...userFields, role: e.target.value}) }
+                            >
+                                <option value="usuario">Usuário</option>
+                                <option value="moderador">Moderador</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr className='hr'/>
+                    <h1 className="title is-3">Endereço</h1>
+
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">Rua: </label>
+                        <input className="input is-hovered" name='street' type="text" value={ userFields.street }
+                        onChange={ (e) => setUserFields({...userFields, street: e.target.value}) } />
+                    </div>
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">Cidade: </label>
+                        <input className="input is-hovered" name='city' type="text" value={ userFields.city }
+                        onChange={ (e) => setUserFields({...userFields, city: e.target.value}) } />
+                    </div>
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">Estado: </label>
+                        <input className="input is-hovered" name='state' type="text" value={ userFields.state }
+                        onChange={ (e) => setUserFields({...userFields, state: e.target.value}) } />
+                    </div>
+                    <div className={ styles.container_input }>
+                        <label className="label title is-5" id="label">CEP: </label>
+                        <input className="input is-hovered" name='cep' type="text" value={ userFields.zip_code }
+                        onChange={ (e) => setUserFields({...userFields, zip_code: e.target.value}) } />
+                    </div>
+
+                    <hr className='hr'/>
+                    <button className="button is-primary is-outlined">
+                        Editar
+                    </button>
+                </form>
+
+                <div className={ styles.delete_div } onClick={ modal_deleteProfile }>
+                    <button className="button is-danger is-outlined">
+                        Excluir
+                    </button>
+                </div>
             </div>
         </div>
     );

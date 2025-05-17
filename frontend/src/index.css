@@ -89,10 +89,3 @@ input{
     margin: 30px;
     background-color: rgba(255, 255, 255, 0.323);
 }
-
-.btt{
-    transition: all 0.2s ease-out;
-}
-.btt:hover{
-    transform: scale(1.04);
-}

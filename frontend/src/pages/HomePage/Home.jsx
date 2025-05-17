@@ -30,6 +30,7 @@ const Home = () => {
     const [ noPostsFound, setNoPostsFound ] = useState(false);
     const [ searchedData, setSearchedData ] = useState(null);
     const [ offers, setOffers ] = useState([]);
+    const [ showOffers, setShowOffers ] = useState(false);
 
     // consts
     const navigate = useNavigate();
@@ -150,6 +151,7 @@ const Home = () => {
     };
 
 
+    // search
     const search_form = async (e) => {
         e.preventDefault();
 
@@ -193,6 +195,12 @@ const Home = () => {
             setOffers(offerData)
         }
     }, [offerData]);
+
+
+    // show offers
+    const showOffers_function = () =>{
+        setShowOffers(!showOffers);
+    };
 
 
     return (
@@ -319,20 +327,6 @@ const Home = () => {
                                 </div>
 
                                 {
-                                    relatedOffers.length > 0 && (
-                                        <div>
-                                            {relatedOffers.map((offer) =>(
-                                                <div key={ offer.id }>
-                                                    <p>Oferecimento de ajuda: { offer.user_data.name }</p>
-                                                    <p>Ajuda descrição: { offer.description }</p>
-                                                    <p>Ajuda status: { offer.status }</p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )
-                                }
-
-                                {
                                     request.user_id === userID ? (
                                         <div className={ styles.div_bottoms } ref={ div_bottoms }>
                                             <button className="button is-info is-outlined" onClick={ () => editRequest(request.id) }>
@@ -347,6 +341,47 @@ const Home = () => {
                                             <button onClick={ () => helpOffer_redirect(request.id) } className="button is-primary is-outlined">
                                                 Ajudar
                                             </button>
+                                        </div>
+                                    )
+                                }
+
+                                {
+                                    relatedOffers.length > 0 && (
+                                        <button onClick={ showOffers_function } className='button is-primary is-outlined' 
+                                        style={{ marginTop: '20px', padding:'15px' }}>
+                                            { !showOffers ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
+                                        </button>
+                                    )
+                                }
+
+                                {
+                                    showOffers && relatedOffers.length > 0 && (
+                                        <div className={ styles.relatedOffers_container }>
+                                            <div className={ styles.user_requests_title }>
+                                                <h1 className='title is-2' style={{ color:'#00EBC7' }}>
+                                                    <ins>Ajudas oferecidas:</ins>
+                                                </h1>
+                                            </div>
+
+                                            {relatedOffers.map((offer) =>(
+                                                <div className={ styles.relatedOffers }>
+                                                    <div className={ styles.user_requests_details }>
+                                                        <div className={ styles.details }>
+                                                            <p className={ styles.titles_requests }>Nome: </p>
+                                                            <h1 className='subtitle is-4'>{ offer.user_data.name }</h1>
+                                                        </div>
+                                                        <div className={ styles.details }>
+                                                            <p className={ styles.titles_requests }>Status: </p>
+                                                            <h1 className='subtitle is-4'>{ offer.status }</h1>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className={ styles.user_requests_description }>
+                                                        <p className={ styles.titles_requests }>Descrição: </p>
+                                                        <h1 className='subtitle is-5'>{ offer.description }</h1>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     )
                                 }
