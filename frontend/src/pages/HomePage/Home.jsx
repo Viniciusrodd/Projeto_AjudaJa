@@ -10,6 +10,7 @@ import { useEffect, useState, useRef, useContext } from 'react';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate } from 'react-router-dom';
 import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
+import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
 
 // components
 import SideBar from '../../components/SideBar/SideBar';
@@ -181,6 +182,15 @@ const Home = () => {
     const helpOffer_redirect = (requestId) =>{
         navigate(`/oferecerAjuda/${requestId}`);
     };
+
+
+    // get offers data
+    const { offerData } = useOfferData();
+    useEffect(() =>{
+        if(offerData && offerData.length > 0){
+            console.log(offerData);
+        }
+    }, [offerData]);
 
 
     return (
