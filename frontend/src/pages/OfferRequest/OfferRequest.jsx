@@ -5,11 +5,19 @@ import stylesAccountDetail from '../AccountDetails/AccountDetail.module.css';
 import stylesHelpRequest from '../HelpRequests/HelpRequest.module.css'; 
 
 // hooks
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 
 
+// components
+import SideBar from '../../components/SideBar/SideBar';
+
+
 const OfferRequest = () => {
+    // states
+    const [ description, setDescription ] = useState('');
+    const [ redirect, setRedirect ] = useState(false);
+
     // consts
     const { requestID } = useParams();
     const modal = useRef(null);
@@ -18,6 +26,52 @@ const OfferRequest = () => {
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
     const navigate = useNavigate();
+
+
+    // redirect user to homepage
+    useEffect(() => {
+        if(redirect === true){   
+            const clearMessage = setTimeout(() => {
+                navigate('/');
+            }, 3000);
+            
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [redirect]); 
+
+
+    // handle offer
+    const handleForm = async (e) =>{
+        e.preventDefault();
+
+        try{
+            console.log(description);
+
+            modal.current.style.display = 'flex';
+            modal_title.current.innerText = 'Sucesso!!!'
+            modal_msg.current.innerText = `Oferta de ajuda enviada! \n
+            você será redirecionado para a página principal...`;
+            modal_btt.current.style.display = 'none';
+            modal_btt_2.current.style.display = 'none';
+
+            setRedirect(true);
+        }
+        catch(error){
+            console.log('Error at handle offer form...', error);
+            if(error){
+                modal.current.style.display = 'flex';
+                modal_msg.current.innerText = 'Erro ao enviar oferta de ajuda...'
+                modal_btt.current.innerText = 'Tentar novamente'
+                modal_btt_2.current.style.display = 'none';
+
+                modal_btt.current.addEventListener('click', () =>{
+                    modal.current.style.display = 'none';
+                });
+            }
+        }
+    };
 
 
     return (
@@ -47,8 +101,30 @@ const OfferRequest = () => {
                 </div>
             </div>
 
-            <h1 className='title is-1'>Ofereça ajuda</h1>
-            <h2 className='title is-2'>id: { requestID }</h2>
+            { /* sidebar */ }
+            <SideBar />
+
+            <div className={ stylesAccountDetail.form_container }>
+                <form onSubmit={ handleForm } className={ stylesAccountDetail.user_panel_container }>
+                    <h1 className='title is-1'>Ofereça ajuda</h1>
+                    <hr className='hr'/>
+
+                    <div className={`control ${stylesAccountDetail.textarea_container}`}>
+                        <label className="label title is-5" id="label">Descrição de ajuda: </label>
+                        <textarea className="textarea is-hovered" name='description' style={{ height:'20vh' }}
+                        value={ description } onChange={(e) => setDescription(e.target.value)}
+                        placeholder='Descreva de forma detalhada como você pode ajudar nesta categoria. Ex: Tenho roupas em bom estado para doar, posso oferecer transporte até hospitais, dar aulas de reforço, ou ajudar com cuidados de animais. Qualquer contribuição será bem-vinda!
+'>
+                                                
+                        </textarea>
+                    </div>
+
+                    <hr className='hr'/>
+                    <button className="button is-primary is-dark">
+                        Ajudar
+                    </button>          
+                </form>
+            </div>
         </div>
     );
 };
