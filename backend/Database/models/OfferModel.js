@@ -1,10 +1,13 @@
 
 const { DataTypes } = require('sequelize');
 const Connection = require('../Connection/connection');
+const { v4: uuidv4 } = require('uuid');
+
 
 const Offer = Connection.define('Offers', {
     id: {
         type: DataTypes.CHAR(36),
+        defaultValue: DataTypes.UUIDV4, // generating random uuid with lib 'uuid'
         allowNull: false,
         primaryKey: true
     },

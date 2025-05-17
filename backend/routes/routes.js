@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controller/userController.js');
 const RequestController = require('../controller/requestController.js');
+const OfferController = require('../controller/offerController.js');
 
 
 // multer
@@ -35,7 +36,11 @@ router.get('/requests', middleware.verifyToken, RequestController.findRequests.b
 router.get('/request/:requestID', middleware.verifyToken, RequestController.findRequestsByPk);
 router.get('/requestSearch/:requestTitle', middleware.verifyToken, RequestController.findRequestByTitle);
 router.put('/updateRequest/:requestID', middleware.verifyToken, RequestController.editRequest);
-router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestController.deleteRequest)
+router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestController.deleteRequest);
+
+
+// port 2130 // OfferHelp
+router.post('/createOffer/:userID/:requestID', middleware.verifyToken, OfferController.offerCreate);
 
 
 module.exports = router;
