@@ -8,15 +8,21 @@ import stylesHelpRequest from '../HelpRequests/HelpRequest.module.css';
 import { useRef, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 
-
 // components
 import SideBar from '../../components/SideBar/SideBar';
+
+// services
+import { postOffer } from '../../services/OfferHelpServices';
+
+// hooks
+import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify';
 
 
 const OfferRequest = () => {
     // states
     const [ description, setDescription ] = useState('');
     const [ redirect, setRedirect ] = useState(false);
+    const [ userID, setUserID ] = useState(0);
 
     // consts
     const { requestID } = useParams();
@@ -26,6 +32,19 @@ const OfferRequest = () => {
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
     const navigate = useNavigate();
+
+
+    // get user data
+    const { userData, errorRes } = useTokenVerify();
+    useEffect(() =>{
+        if(userData){
+            setUserID(userData.id);
+        }
+        
+        if(errorRes){
+            console.log('Error in fetchToken at navbar component: ', errorRes);
+        }  
+    }, [userData, errorRes]);
 
 
     // redirect user to homepage
@@ -47,16 +66,18 @@ const OfferRequest = () => {
         e.preventDefault();
 
         try{
-            console.log(description);
+            const response = await postOffer({description}, userID, requestID);
 
-            modal.current.style.display = 'flex';
-            modal_title.current.innerText = 'Sucesso!!!'
-            modal_msg.current.innerText = `Oferta de ajuda enviada! \n
-            você será redirecionado para a página principal...`;
-            modal_btt.current.style.display = 'none';
-            modal_btt_2.current.style.display = 'none';
-
-            setRedirect(true);
+            if(response.status === 200){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso!!!'
+                modal_msg.current.innerText = `Oferta de ajuda enviada! \n
+                você será redirecionado para a página principal...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';
+    
+                setRedirect(true);
+            }
         }
         catch(error){
             console.log('Error at handle offer form...', error);
