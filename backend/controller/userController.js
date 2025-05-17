@@ -1,10 +1,10 @@
 
-// data base stuffs
+// data base
 const { UserModel, CampaignModel, OfferModel, RequestModel } = require('../Database/Relations');
 const profileImage = require('../mongoDatabase/Collections/profileImages');
 const connection = require('../Database/Connection/connection');
 
-// security stuffs
+// security
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();

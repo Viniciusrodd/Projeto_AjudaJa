@@ -177,6 +177,12 @@ const Home = () => {
     };
 
 
+    // help offer redirect
+    const helpOffer_redirect = (requestId) =>{
+        navigate(`/oferecerAjuda/${requestId}`);
+    };
+
+
     return (
         <div className={ styles.container_home }>
             
@@ -308,7 +314,7 @@ const Home = () => {
                                     </div>
                                 ) : (
                                     <div className={ styles.div_bottoms } ref={ div_bottoms }>
-                                        <button className="button is-primary is-outlined">
+                                        <button onClick={ () => helpOffer_redirect(request.id) } className="button is-primary is-outlined">
                                             Ajudar
                                         </button>
                                     </div>

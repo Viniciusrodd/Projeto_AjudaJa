@@ -1,5 +1,5 @@
 
-// data base stuffs
+// data base
 const { RequestModel, UserModel, CampaignModel, OfferModel } = require('../Database/Relations');
 const connection = require('../Database/Connection/connection');
 const ProfileImage = require('../mongoDatabase/Collections/profileImages');

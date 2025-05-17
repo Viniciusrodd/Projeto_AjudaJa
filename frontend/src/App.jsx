@@ -15,6 +15,7 @@ import Login from './pages/Login/Login';
 import AccountDetail from './pages/AccountDetails/AccountDetail';
 import HelpRequest from './pages/HelpRequests/HelpRequest';
 import EditRequests from './pages/EditRequests/EditRequests';
+import OfferRequest from './pages/OfferRequest/OfferRequest';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                 <Route path='/detalhesDeConta/:userID' element={ <AccountDetail /> } />
                 <Route path='/pedidoDeAjuda' element={ <HelpRequest /> } />                
                 <Route path='/editarPedido/:requestID' element={ <EditRequests /> } />                
+                <Route path='/oferecerAjuda/:requestID' element={ <OfferRequest /> } />                
             </Routes>
         </div>
     )
