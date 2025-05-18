@@ -348,7 +348,7 @@ const Home = () => {
                                 {
                                     relatedOffers.length > 0 && (
                                         <button onClick={ showOffers_function } className='button is-primary is-outlined' 
-                                        style={{ marginTop: '20px', padding:'15px' }}>
+                                        style={{ marginTop: '15px', marginRight:'8px', padding:'15px', width:'25%' }}>
                                             { !showOffers ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
                                         </button>
                                     )
@@ -359,26 +359,39 @@ const Home = () => {
                                         <div className={ styles.relatedOffers_container }>
                                             <div className={ styles.user_requests_title }>
                                                 <h1 className='title is-2' style={{ color:'#00EBC7' }}>
-                                                    <ins>Ajudas oferecidas:</ins>
+                                                    Ajudas oferecidas:
                                                 </h1>
                                             </div>
 
                                             {relatedOffers.map((offer) =>(
-                                                <div className={ styles.relatedOffers }>
-                                                    <div className={ styles.user_requests_details }>
-                                                        <div className={ styles.details }>
-                                                            <p className={ styles.titles_requests }>Nome: </p>
-                                                            <h1 className='subtitle is-4'>{ offer.user_data.name }</h1>
+                                                <div className={ styles.relatedOffers_image }>
+                                                    <div className={ styles.relatedOffers }>
+                                                        <div className={ styles.user_requests_details }>
+                                                            <div className={ styles.details }>
+                                                                <p className={ styles.titles_requests }>Nome: </p>
+                                                                <h1 className='subtitle is-4'>{ offer.user_data.name }</h1>
+                                                            </div>
+                                                            <div className={ styles.details }>
+                                                                <p className={ styles.titles_requests }>Status: </p>
+                                                                <h2 className={ offer.status === 'aceito' ? styles.status_aberto : offer.status === 'pendente' ? styles.status_pendente : styles.status_fechado }>
+                                                                    { offer.status }
+                                                                </h2>
+                                                            </div>
                                                         </div>
-                                                        <div className={ styles.details }>
-                                                            <p className={ styles.titles_requests }>Status: </p>
-                                                            <h1 className='subtitle is-4'>{ offer.status }</h1>
-                                                        </div>
-                                                    </div>
 
-                                                    <div className={ styles.user_requests_description }>
-                                                        <p className={ styles.titles_requests }>Descrição: </p>
-                                                        <h1 className='subtitle is-5'>{ offer.description }</h1>
+                                                        <div className={ styles.user_requests_description }>
+                                                            <p className={ styles.titles_requests }>Descrição: </p>
+                                                            <h1 className='subtitle is-5'>{ offer.description }</h1>
+                                                        </div>
+
+                                                        <div className={ styles.div_bottoms }>
+                                                            <button className='button is-primary is-dark' style={{ width:'120px' }}>
+                                                                Aceitar ajuda
+                                                            </button>
+                                                            <button className='button is-danger is-dark' style={{ width:'120px' }}>
+                                                                Rejeitar ajuda
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ))}

@@ -170,6 +170,14 @@ h1{
     color: rgb(255, 79, 79);
 }
 
+.status_pendente{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0px 0px 8px rgb(255, 225, 0);
+    color: rgb(255, 249, 79);
+}
+
 .noRequests{
     display: flex;
     justify-content: center;
@@ -207,14 +215,21 @@ h1{
     width: 90%;
 }
 
+.relatedOffers_image{
+    margin-top: 5%;
+    width: 90%;
+    border-radius: 20px;
+    background-image: url(../../../public/images/post_image7.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
 .relatedOffers{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 90%;
-    margin-top: 5%;
     padding: 30px 10px 30px 10px;
     border-radius: 20px;
-    background-color: rgba(144, 249, 233, 0.203);
+    background-color: rgba(1, 20, 18, 0.774);
 }
