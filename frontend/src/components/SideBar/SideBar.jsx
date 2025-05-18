@@ -76,10 +76,18 @@ const SideBar = () => {
         navigate('/');
     };
 
+
     // pedidoDeAjuda redirect
     const pedidoDeAjuda_redirect = () =>{
         navigate('/pedidoDeAjuda');
     };
+
+
+    // my Help Requests redirect
+    const myHelpRequests_redirect = () =>{
+        navigate('/meusPedidosDeAjuda');
+    };
+
 
     return (
         <aside className={ styles.sidebar }>
@@ -110,9 +118,10 @@ const SideBar = () => {
                 <li onClick={ homePage_redirect }> <i className="material-icons">home</i> 
                     Página principal 
                 </li>
-                <li> <i className="material-icons">shopping_bag</i> Doações </li>
-                <li> <i className="material-icons">forum</i> Conversas </li>
-                <li> <i className="material-icons">notifications</i> Notificações </li>
+                <li onClick={ myHelpRequests_redirect }> <i className="material-icons">emoji_people</i> 
+                    Pedidos de ajuda 
+                </li>
+                <li> <i className="material-icons">volunteer_activism</i> Ajudas oferecidas </li>
                 <li> <i className="material-icons">group</i> Grupos </li>
                 <li> <i className="material-icons">campaign</i> Campanhas </li>
                 <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
