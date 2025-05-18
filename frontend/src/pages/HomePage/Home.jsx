@@ -20,7 +20,7 @@ import { UserContext } from '../../context/UserContext';
 
 // services
 import { deleteRequest } from '../../services/RequestHelpServices';
-import { statusChange } from '../../services/OfferHelpServices';
+import { statusChangeService } from '../../services/OfferHelpServices';
 
 
 const Home = () => {
@@ -204,21 +204,21 @@ const Home = () => {
     };
 
 
-    // accept offer
-    const acceptHelp = async (id) =>{
+    // decision
+    const statusChange = async (id, decision) =>{
         try{
-            const response = await statusChange({ decision: 'aceito' }, id);
+            const response = await statusChangeService({ decision }, id);
 
             if(response.status === 200){
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Sucesso!!!';
-                modal_msg.current.innerText = 'Oferta de ajuda aceitada!';
+                modal_msg.current.innerText = `Oferta de ajuda ${decision === 'aceito' ? 'aceitada' : 'rejeitada'}!`;
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';
 
                 const clearMessage = setTimeout(() => {
                     modal.current.style.display = 'none';                    
-                    setOffers(prevOffers => prevOffers.map(offer => offer.id === id ? { ...offer, status: 'aceito' } : offer));
+                    setOffers(prevOffers => prevOffers.map(offer => offer.id === id ? { ...offer, status: decision } : offer));
                 }, 3000);
                 
                 return () => {
@@ -230,7 +230,7 @@ const Home = () => {
             console.log('Error at accept help');
 
             modal.current.style.display = 'flex';
-            modal_msg.current.innerText = `Erro ao aceitar oferta de ajuda...`;
+            modal_msg.current.innerText = `Erro ao ${decision === 'aceito' ? 'aceitar' : 'rejeitar'} oferta de ajuda...`;
             modal_btt.current.innerText = 'Tente novamente';
             modal_btt_2.current.style.display = 'none';
 
@@ -423,10 +423,10 @@ const Home = () => {
                                                         </div>
 
                                                         <div className={ styles.div_bottoms }>
-                                                            <button onClick={ () => acceptHelp(offer.id) } className='button is-primary is-dark' style={{ width:'120px' }}>
+                                                            <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
                                                                 Aceitar ajuda
                                                             </button>
-                                                            <button className='button is-danger is-dark' style={{ width:'120px' }}>
+                                                            <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
                                                                 Rejeitar ajuda
                                                             </button>
                                                         </div>
