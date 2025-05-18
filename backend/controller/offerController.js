@@ -89,6 +89,42 @@ class Offer{
             });
         }
     };
+
+
+    async offerStatusDecision(req, res){
+        const offerId = req.params.offerID;
+        const decision = req.body.decision;
+
+        if(!offerId || !decision){
+            return res.status(400).send({
+                error: 'Bad request at parameters/data sended'
+            });
+        }
+
+        try{
+            const allowedStatuses = ['aceito', 'rejeitado'];
+            if (!allowedStatuses.includes(decision)) {
+                return res.status(400).send({
+                    error: 'Invalid status field'
+                });
+            }
+
+            await OfferModel.update({ status: decision }, {
+                where: { id: offerId }
+            });
+
+            return res.status(200).send({
+                msg: 'Offer status updated with success'
+            });
+        }
+        catch(error){
+            console.error('Internal server error at Offer Decision', error);
+            res.status(500).send({
+                msgError: 'Internal server error at Offer Decision',
+                details: error.response?.data || error.message
+            });
+        }
+    };
 };
 
 module.exports = new Offer();
