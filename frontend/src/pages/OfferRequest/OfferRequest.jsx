@@ -66,7 +66,7 @@ const OfferRequest = () => {
         e.preventDefault();
 
         try{
-            const response = await postOffer({description}, userID, requestID);
+            const response = await postOffer({ description }, userID, requestID);
 
             if(response.status === 200){
                 modal.current.style.display = 'flex';

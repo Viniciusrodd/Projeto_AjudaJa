@@ -8,3 +8,9 @@ export const postOffer = async (data, userID, requestID) =>{
     const response = await axios.post(`http://localhost:2130/createOffer/${userID}/${requestID}`, data, { withCredentials: true });
     return response;
 };
+
+
+export const statusChange = async (data, offerID) =>{
+    const response = await axios.put(`http://localhost:2130/offerStatus/${offerID}`, data, { withCredentials: true });
+    return response;    
+}
