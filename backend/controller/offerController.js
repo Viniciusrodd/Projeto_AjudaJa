@@ -102,7 +102,7 @@ class Offer{
         }
 
         try{
-            const allowedStatuses = ['aceito', 'rejeitado'];
+            const allowedStatuses = ['aceito', 'rejeitado', 'pendente'];
             if (!allowedStatuses.includes(decision)) {
                 return res.status(400).send({
                     error: 'Invalid status field'

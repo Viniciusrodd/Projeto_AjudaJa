@@ -9,7 +9,8 @@ const request = supertest(app);
 // variables
 let jwtToken = '';
 let userID = '';
-let requestID = 'bd3e1f9a-8722-4b10-b63b-c9d41c0908b9'
+const requestID = 'bd3e1f9a-8722-4b10-b63b-c9d41c0908b9'
+let offerID = '';
 
 
 // mongoDB Connection
@@ -51,6 +52,7 @@ describe('Offers tests', () =>{
             const res = await request.post(`/createOffer/${userID}/${requestID}`).set('Cookie', `token=${jwtToken}`).send({ description });
             if(res.status === 200){
                 console.log('OFFER CREATION TEST, SUCCESS!!!');
+                offerID = res.body.offers.id
             }
 
             expect(res.status).toEqual(200);
@@ -74,6 +76,25 @@ describe('Offers tests', () =>{
         }
         catch(error){
             console.error('ERROT AT FIND ALL OFFERS TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // offer status change
+    test('Should test a offers status change...', async () =>{
+        const decision = 'pendente';
+
+        try{
+            const res = await request.put(`/offerStatus/${offerID}`).set('Cookie', `token=${jwtToken}`).send({ decision });
+            if(res.status === 200){
+                console.log('OFFERS STATUS CHANGE TEST, SUCCESS!!!');
+            }
+
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROT AT OFFERS STATUS CHANGE TEST...', error);
             throw error;
         }
     });
