@@ -44,6 +44,8 @@ const Home = () => {
     const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
     const divImageRef = useRef(null);
     const div_bottoms = useRef(null);
+    const acceptButton = useRef(null);
+    const rejectButton = useRef(null);
 
 
     // redirect
@@ -204,7 +206,7 @@ const Home = () => {
     };
 
 
-    // decision
+    // status decision
     const statusChange = async (id, decision) =>{
         try{
             const response = await statusChangeService({ decision }, id);
@@ -422,14 +424,31 @@ const Home = () => {
                                                             <h1 className='subtitle is-5'>{ offer.description }</h1>
                                                         </div>
 
-                                                        <div className={ styles.div_bottoms }>
-                                                            <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
-                                                                Aceitar ajuda
-                                                            </button>
-                                                            <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
-                                                                Rejeitar ajuda
-                                                            </button>
-                                                        </div>
+                                                        { 
+                                                            offer.status === 'aceito' ? (
+                                                                <div className={ styles.div_bottoms }>
+                                                                    <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }} ref={ rejectButton }>
+                                                                        Rejeitar ajuda
+                                                                    </button>
+                                                                </div>
+                                                            ) : offer.status === 'pendente' ? (
+                                                                <div className={ styles.div_bottoms }>
+                                                                    <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }} ref={ acceptButton }>
+                                                                        Aceitar ajuda
+                                                                    </button>
+                                                                    
+                                                                    <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }} ref={ rejectButton }>
+                                                                        Rejeitar ajuda
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div className={ styles.div_bottoms }>
+                                                                    <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }} ref={ acceptButton }>
+                                                                        Aceitar ajuda
+                                                                    </button>
+                                                                </div>
+                                                            ) 
+                                                        }
                                                     </div>
                                                 </div>
                                             ))}
