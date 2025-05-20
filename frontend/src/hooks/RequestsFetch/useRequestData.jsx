@@ -5,9 +5,10 @@ import axios from 'axios';
 // hooks
 import { useState, useEffect } from "react"
 
-export const useRequestData = (id) =>{
+export const useRequestData = (id, userID) =>{
     const [ requestData, setRequestData ] = useState(null);
     const [ requestDataById, setRequestDataById ] = useState(null);
+    const [ requestDataByUserId, setRequestDataByUserId ] = useState(null);
 
     useEffect(() =>{
         const request = async () =>{
@@ -27,5 +28,14 @@ export const useRequestData = (id) =>{
     }, [id]);
 
 
-    return { requestData, setRequestData, requestDataById };
+    useEffect(() =>{
+        const requestByUserId = async () =>{
+            const response = await axios.get(`http://localhost:2130/requests/${userID}`, { withCredentials: true });
+            setRequestDataByUserId(response.data.combined_requests);
+        }
+        requestByUserId();
+    }, [userID]);
+
+
+    return { requestData, setRequestData, requestDataById, requestDataByUserId };
 };

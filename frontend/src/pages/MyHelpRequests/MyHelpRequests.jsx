@@ -14,9 +14,6 @@ import SideBar from '../../components/SideBar/SideBar';
 
 const MyHelpRequests = () => {
     // states
-    const [ data_fields, setData_fields ] = useState({
-        title: '', description: '', category: '', urgency: 'baixa', status: 'aberto'
-    });
     const [ redirect, setRedirect ] = useState(false);
 
     // consts
@@ -41,6 +38,8 @@ const MyHelpRequests = () => {
         }
     }, [redirect]); 
 
+
+    
 
 
     return (
