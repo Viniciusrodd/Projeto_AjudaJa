@@ -35,6 +35,7 @@ router.post('/createRequest/:userID', middleware.verifyToken, RequestController.
 router.get('/requests', middleware.verifyToken, RequestController.findRequests.bind(RequestController));
 router.get('/request/:requestID', middleware.verifyToken, RequestController.findRequestsByPk);
 router.get('/requestSearch/:requestTitle', middleware.verifyToken, RequestController.findRequestByTitle);
+router.get('/requests/:userID', middleware.verifyToken, RequestController.findRequestByUserId);
 router.put('/updateRequest/:requestID', middleware.verifyToken, RequestController.editRequest);
 router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestController.deleteRequest);
 

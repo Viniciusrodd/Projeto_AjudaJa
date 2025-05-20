@@ -91,9 +91,6 @@ const Home = () => {
         if (requestData && requestData.length === 0) {
             setNoPosts(true);
         }
-        //const filtertest = requestData?.filter((data) => data.id != 'bd3e1f9a-8722-4b10-b63b-c9d41c0908b9');
-        //console.log('dados pegos: ', requestData);
-        //console.log('dados pegos filtrados: ', filtertest);
     }, [requestData]);
 
 

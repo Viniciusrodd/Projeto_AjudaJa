@@ -238,6 +238,80 @@ class Request{
     };
 
 
+    // find requests by userId
+    async findRequestByUserId(req, res){
+        const userId = req.params.userID;
+        if(!userId){
+            return res.status(400).send({
+                error: 'Bad request at userId params'
+            });
+        }
+
+        try{
+            const request_data = await RequestModel.findAll({
+                where: { 
+                    user_id: userId 
+                }
+            });
+
+            if(request_data.length === 0){
+                return res.status(204).send({
+                    msg: 'No requests found matching the title'
+                });
+            }
+
+            // get user data from requests user_id
+            const userData = await UserModel.findAll({
+                where: {
+                    id: userId
+                }
+            });
+
+            // mapping user name => requests
+            const userMap = {};
+            userData.forEach((user) =>{
+                userMap[user.id] = {
+                    name: user.name
+                };
+            });
+
+            // associated images
+            const profile_images = await ProfileImage.find({
+                user_id: { $in: userId }
+            });
+
+            // mapping user_id => images
+            const imageMap = {};
+            profile_images.forEach((image) =>{
+                imageMap[image.user_id] = {
+                    image_data: image.image_data,
+                    content_type: image.content_type
+                };
+            });
+
+            // combine request data with images associated
+            const combined_requests = request_data.map(request =>({
+                ...request.dataValues, // sequelize instances, we need to extract the data
+                user_data: userMap[request.user_id],
+                profile_image: imageMap[request.user_id] || null
+            }));
+
+
+            return res.status(200).send({
+                successMsg: 'Matching requests found',
+                combined_requests
+            });
+        }
+        catch(error){
+            console.error('Internal server error at find request by userId', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at find request by userId',
+                details: error.response?.data || error.message
+            });
+        }
+    };
+
+
     // edit requests
     async editRequest(req, res){
         const requestId = req.params.requestID;

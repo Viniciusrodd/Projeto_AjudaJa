@@ -6,12 +6,19 @@ import styles_homepage from '../HomePage/Home.module.css';
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
 
 // components
 import SideBar from '../../components/SideBar/SideBar';
 
 
 const MyHelpRequests = () => {
+    // states
+    const [ data_fields, setData_fields ] = useState({
+        title: '', description: '', category: '', urgency: 'baixa', status: 'aberto'
+    });
+    const [ redirect, setRedirect ] = useState(false);
+
     // consts
     const navigate = useNavigate();
     const modal = useRef(null);
@@ -19,6 +26,21 @@ const MyHelpRequests = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
+
+
+    // redirect user to homepage
+    useEffect(() => {
+        if(redirect === true){   
+            const clearMessage = setTimeout(() => {
+                navigate('/');
+            }, 3000);
+            
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [redirect]); 
+
 
 
     return (
