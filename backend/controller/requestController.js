@@ -256,7 +256,7 @@ class Request{
 
             if(request_data.length === 0){
                 return res.status(204).send({
-                    msg: 'No requests found matching the title'
+                    msg: 'No requests found matching the userId'
                 });
             }
 
@@ -295,7 +295,6 @@ class Request{
                 user_data: userMap[request.user_id],
                 profile_image: imageMap[request.user_id] || null
             }));
-
 
             return res.status(200).send({
                 successMsg: 'Matching requests found',

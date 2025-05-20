@@ -11,12 +11,17 @@ import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // cu
 // components
 import SideBar from '../../components/SideBar/SideBar';
 
+// context
+import { UserContext } from '../../context/UserContext';
+
 
 const MyHelpRequests = () => {
     // states
-    const [ redirect, setRedirect ] = useState(false);
+    const [ redirect, setRedirect ] = useState(false);    
+    const [ noPosts, setNoPosts ] = useState(false);
 
     // consts
+    const { userId } = useContext(UserContext); // context
     const navigate = useNavigate();
     const modal = useRef(null);
     const modal_title = useRef(null);
@@ -36,10 +41,16 @@ const MyHelpRequests = () => {
                 clearTimeout(clearMessage);
             };
         }
-    }, [redirect]); 
+    }, [redirect]);
 
 
-    
+    // get request data
+    const { requestDataByUserId } = useRequestData(null, userId);
+    useEffect(() =>{
+        if (requestDataByUserId && requestDataByUserId.length === 0) {
+            setNoPosts(true);
+        }
+    }, [requestDataByUserId]);
 
 
     return (
@@ -78,49 +89,69 @@ const MyHelpRequests = () => {
             { /* FEED CONTAINER */ }
             <div className={ styles_homepage.container_feed }>
                 { /* FEED PUBLICATIONS */ }
-                <div className={ styles_homepage.requests }>
-                    { /* REQUESTS */ }
-                    <div className={ styles_homepage.user_container }>
-                        <div className={ styles_homepage.user_image }>
+                <h1 className='title is-1'>Meus pedidos de ajuda</h1>
 
+                {
+                    noPosts && (
+                        <div className={ styles_homepage.noRequests }>
+                            <h1 className='title is-2'>Sem pedidos de ajuda...</h1>
                         </div>
-                        
-                        <h1 className='title is-3'>nome de user</h1>
-                    </div>
-                    
-                    <div className={ styles_homepage.requests_container_image }>
-                        <div className={ styles_homepage.user_requests_container }>
-                            <div className={ styles_homepage.user_requests_title }>
-                                <h1 className='title is-2' style={{ 
-                                    color:'white', textShadow: '0px 0px 10px rgb(0, 0, 0)' 
+                    )
+                }
+                {
+                    requestDataByUserId && requestDataByUserId.map((request) => (
+                        <div className={ styles_homepage.requests }>
+                            { /* REQUESTS */ }
+                            <div className={ styles_homepage.user_container }>
+                                <div className={ styles_homepage.user_image }
+                                style={{ 
+                                    backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
                                 }}>
-                                    titulo
-                                </h1>
-                            </div>
 
-                            <div className={ styles_homepage.user_requests_description }>
-                                <h1 className='subtitle is-5'>Descrição</h1>
+                                </div>
+                                
+                                <h1 className='title is-3'>{ request.user_data.name }</h1>
                             </div>
+                            
+                            <div className={ styles_homepage.requests_container_image }>
+                                <div className={ styles_homepage.user_requests_container }>
+                                    <div className={ styles_homepage.user_requests_title }>
+                                        <h1 className='title is-2' style={{ 
+                                            color:'white', textShadow: '0px 0px 10px rgb(0, 0, 0)' 
+                                        }}>
+                                            { request.title }
+                                        </h1>
+                                    </div>
 
-                            <div className={ styles_homepage.user_requests_details }>
-                                <div className={ styles_homepage.details }>
-                                    <p className={ styles_homepage.titles_requests }>Categoria</p>
-                                    <h1 className='subtitle is-4'>categoria</h1>
-                                </div>  
-                                <div className={ styles_homepage.details }>
-                                    <p className={ styles_homepage.titles_requests }>Urgência</p>
-                                    <h1 className='subtitle is-4'>urgencia</h1>
-                                </div>  
-                                <div className={ styles_homepage.details }>
-                                    <p className={ styles_homepage.titles_requests }>Status</p>
-                                    <h2 className='subtitle is-4'>
-                                        status
-                                    </h2>
-                                </div>  
+                                    <div className={ styles_homepage.user_requests_description }>
+                                        <h1 className='subtitle is-5'>{ request.description }</h1>
+                                    </div>
+
+                                    <div className={ styles_homepage.user_requests_details }>
+                                        <div className={ styles_homepage.details }>
+                                            <p className={ styles_homepage.titles_requests }>Categoria</p>
+                                            <h1 className='subtitle is-4'>{ request.category }</h1>
+                                        </div>  
+                                        <div className={ styles_homepage.details }>
+                                            <p className={ styles_homepage.titles_requests }>Urgência</p>
+                                            { request.urgency === 'media' ? 
+                                                ( <h1 className='subtitle is-4'>média</h1> ) :
+                                                ( <h1 className='subtitle is-4'>{ request.urgency }</h1> ) 
+                                            }
+                                        </div>  
+                                        <div className={ styles_homepage.details }>
+                                            <p className={ styles_homepage.titles_requests }>Status</p>
+                                            <h2 className={ request.status === 'aberto' ? styles_homepage.status_aberto :  styles_homepage.status_fechado }>
+                                                { request.status }
+                                            </h2>
+                                        </div>  
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    ))
+                }
+
             </div>
         </div>
     );

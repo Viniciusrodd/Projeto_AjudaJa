@@ -75,7 +75,7 @@ const Home = () => {
         }
         
         if(errorRes){
-            console.log('Error at fetchToken at Homepage: ', errorRes);            
+            console.log('Error at fetchToken in Homepage: ', errorRes);            
             modal.current.style.display = 'flex';
             modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
             modal_btt.current.style.display = 'none';
