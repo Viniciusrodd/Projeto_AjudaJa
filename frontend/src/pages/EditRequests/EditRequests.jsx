@@ -50,8 +50,6 @@ const EditRequests = () => {
     // get requests data
     const { requestDataById } = useRequestData(requestID);
     useEffect(() =>{
-        console.log('request by id data: ', requestDataById);
-    
         if(requestDataById){
             setData_fields({...data_fields, 
                 title: requestDataById.title || '',

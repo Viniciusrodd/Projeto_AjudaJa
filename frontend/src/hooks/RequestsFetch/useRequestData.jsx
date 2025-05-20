@@ -37,5 +37,5 @@ export const useRequestData = (id, userID) =>{
     }, [userID]);
 
 
-    return { requestData, setRequestData, requestDataById, requestDataByUserId };
+    return { requestData, setRequestData, requestDataById, requestDataByUserId, setRequestDataByUserId };
 };

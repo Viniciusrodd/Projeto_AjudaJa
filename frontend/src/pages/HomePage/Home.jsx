@@ -94,64 +94,6 @@ const Home = () => {
     }, [requestData]);
 
 
-    // redirect to edit requestHelp
-    const editRequest = (id) =>{
-        navigate(`/editarPedido/${id}`);
-    };
-
-
-    // modal for delete requestHelp
-    const modal_deleteRequest = (id) =>{
-        modal.current.style.display = 'flex';
-        modal_msg.current.innerText = 'Tem certeza que deseja excluir seu pedido de ajuda ?'
-        modal_btt.current.innerText = 'Tenho certeza'
-        
-        modal_btt.current.onclick = () =>{
-            deleteRequest_event(id)
-        };        
-        modal_btt_2.current.onclick = () =>{
-            modal.current.style.display = 'none';
-        };
-    };
-
-
-    // delete requestHelp
-    const deleteRequest_event = async (id) =>{
-        try{
-            const res = await deleteRequest(id);
-
-            if(res.status === 200){                
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Sucesso'
-                modal_msg.current.innerText = `Ainda poderá criar nova pedido mais tarde...`;
-                modal_btt.current.style.display = 'none';
-                modal_btt_2.current.style.display = 'none';                
-                
-                
-                const clearMessage = setTimeout(() => {
-                    modal.current.style.display = 'none';                    
-                    setRequestData(prev => prev.filter(data => data.id !== id));
-                }, 3000);
-                
-                return () => {
-                    clearTimeout(clearMessage);
-                };
-            }
-        }
-        catch(error){
-            console.log('Error at delete request at frontend', error);
-            modal.current.style.display = 'flex';
-            modal_msg.current.innerText = `Erro ao excluir pedido de ajuda...`;
-            modal_btt.current.innerText = 'Tente novamente';
-            modal_btt_2.current.style.display = 'none';
-
-            modal_btt.current.onclick = () => {
-                modal.current.style.display = 'none';
-            };           
-        };
-    };
-
-
     // search
     const search_form = async (e) => {
         e.preventDefault();
@@ -364,18 +306,10 @@ const Home = () => {
                                 </div>
 
                                 {
-                                    request.user_id === userID ? (
+                                    request.user_id !== userID && (
                                         <div className={ styles.div_bottoms } ref={ div_bottoms }>
-                                            <button className="button is-info is-outlined" onClick={ () => editRequest(request.id) }>
-                                                Editar
-                                            </button>
-                                            <button className="button is-danger is-outlined" onClick={ () => modal_deleteRequest(request.id) }>
-                                                Excluir
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div className={ styles.div_bottoms } ref={ div_bottoms }>
-                                            <button onClick={ () => helpOffer_redirect(request.id) } className="button is-primary is-outlined">
+                                            <button onClick={ () => helpOffer_redirect(request.id) } className="button is-primary is-outlined"
+                                            style={{ width:'13.5vw', padding:'10px' }}>
                                                 Ajudar
                                             </button>
                                         </div>

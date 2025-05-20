@@ -98,7 +98,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    padding: 40px 0px 50px 0px;
+    padding: 10px 0px 50px 0px;
     width: 100%;
     background-color: #000000c3;
 }
@@ -116,7 +116,7 @@ h1{
 .user_requests_description{
     padding: 30px;
     width: 90%;
-    margin-top: 40px;
+    margin-top: 20px;
     background-color: rgb(20, 20, 20);
     border: 1px solid white;
     border-radius: 10px;

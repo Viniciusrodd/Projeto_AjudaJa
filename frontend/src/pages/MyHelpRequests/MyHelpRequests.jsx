@@ -14,6 +14,10 @@ import SideBar from '../../components/SideBar/SideBar';
 // context
 import { UserContext } from '../../context/UserContext';
 
+// services
+import { deleteRequest } from '../../services/RequestHelpServices';
+
+
 
 const MyHelpRequests = () => {
     // states
@@ -45,12 +49,70 @@ const MyHelpRequests = () => {
 
 
     // get request data
-    const { requestDataByUserId } = useRequestData(null, userId);
+    const { requestDataByUserId, setRequestDataByUserId } = useRequestData(null, userId);
     useEffect(() =>{
         if (requestDataByUserId && requestDataByUserId.length === 0) {
             setNoPosts(true);
         }
-    }, [requestDataByUserId]);
+    }, [requestDataByUserId, setRequestDataByUserId]);
+
+
+    // redirect to edit requestHelp
+    const editRequest = (id) =>{
+        navigate(`/editarPedido/${id}`);
+    };
+
+
+    // modal for delete requestHelp
+    const modal_deleteRequest = (id) =>{
+        modal.current.style.display = 'flex';
+        modal_msg.current.innerText = 'Tem certeza que deseja excluir seu pedido de ajuda ?'
+        modal_btt.current.innerText = 'Tenho certeza'
+        
+        modal_btt.current.onclick = () =>{
+            deleteRequest_event(id)
+        };        
+        modal_btt_2.current.onclick = () =>{
+            modal.current.style.display = 'none';
+        };
+    };
+
+
+    // delete requestHelp
+    const deleteRequest_event = async (id) =>{
+        try{
+            const res = await deleteRequest(id);
+
+            if(res.status === 200){                
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso'
+                modal_msg.current.innerText = `Ainda poderá criar nova pedido mais tarde...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';                
+                
+                
+                const clearMessage = setTimeout(() => {
+                    modal.current.style.display = 'none';                    
+                    setRequestDataByUserId(prev => prev.filter(data => data.id !== id));
+                }, 3000);
+                
+                return () => {
+                    clearTimeout(clearMessage);
+                };
+            }
+        }
+        catch(error){
+            console.log('Error at delete request at frontend', error);
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = `Erro ao excluir pedido de ajuda...`;
+            modal_btt.current.innerText = 'Tente novamente';
+            modal_btt_2.current.style.display = 'none';
+
+            modal_btt.current.onclick = () => {
+                modal.current.style.display = 'none';
+            };           
+        };
+    };
 
 
     return (
@@ -100,7 +162,7 @@ const MyHelpRequests = () => {
                 }
                 {
                     requestDataByUserId && requestDataByUserId.map((request) => (
-                        <div className={ styles_homepage.requests }>
+                        <div className={ styles_homepage.requests } key={request.id}>
                             { /* REQUESTS */ }
                             <div className={ styles_homepage.user_container }>
                                 <div className={ styles_homepage.user_image }
@@ -148,10 +210,18 @@ const MyHelpRequests = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className={ styles_homepage.div_bottoms }>
+                                <button className="button is-info is-outlined" onClick={ () => editRequest(request.id) }>
+                                    Editar
+                                </button>
+                                <button className="button is-danger is-outlined" onClick={ () => modal_deleteRequest(request.id) }>
+                                    Excluir
+                                </button>
+                            </div>
                         </div>
                     ))
                 }
-
             </div>
         </div>
     );
