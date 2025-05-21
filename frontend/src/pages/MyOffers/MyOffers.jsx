@@ -114,6 +114,15 @@ const MyOffers = () => {
                                     <p className={ styles_homepage.titles_requests }>Descrição: </p>
                                     <h1 className='subtitle is-5'>{ offer.description }</h1>
                                 </div>
+
+                                <div className={ styles_homepage.div_bottoms }>
+                                    <button className="button is-info is-dark">
+                                        Editar
+                                    </button>
+                                    <button className="button is-danger is-dark">
+                                        Excluir
+                                    </button>
+                                </div>                            
                             </div>
                         </div>                                
                     ))

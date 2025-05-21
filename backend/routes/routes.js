@@ -45,6 +45,8 @@ router.post('/createOffer/:userID/:requestID', middleware.verifyToken, OfferCont
 router.get('/offers', middleware.verifyToken, OfferController.findOffers);
 router.get('/offers/:userID', middleware.verifyToken, OfferController.findOffersByUserId);
 router.put('/offerStatus/:offerID', middleware.verifyToken, OfferController.offerStatusDecision);
+router.put('/updateOffer/:offerID', middleware.verifyToken, OfferController.editOffers);
+
 
 
 module.exports = router;

@@ -332,7 +332,7 @@ const Home = () => {
                                 {
                                     request.user_id !== userID && (
                                         <div className={ styles.div_bottoms }>
-                                            <button onClick={ () => helpOffer_redirect(request.id) } className="button is-primary is-outlined"
+                                            <button onClick={ () => helpOffer_redirect(request.id) } className="button is-primary is-dark"
                                             style={{ width:'13.5vw', padding:'10px' }}>
                                                 Ajudar
                                             </button>

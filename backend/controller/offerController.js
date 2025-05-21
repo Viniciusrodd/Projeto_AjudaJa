@@ -201,6 +201,36 @@ class Offer{
             });
         }
     };
+
+
+    // edit offers
+    async editOffers(req, res){
+        const offerId = req.params.offerID;
+        const description = req.body.description;
+
+        if(!offerId || !description){
+            return res.status(400).send({
+                error: 'Bad request at parameters/data sended'
+            });
+        }
+
+        try{
+            await OfferModel.update(description, {
+                where: { id: offerId }
+            });
+
+            return res.status(200).send({
+                msg: 'Offer updated with success'
+            });
+        }
+        catch(error){
+            console.error('Internal server error at Edit offer', error);
+            res.status(500).send({
+                msgError: 'Internal server error at Edit offer',
+                details: error.response?.data || error.message
+            });
+        }
+    };
 };
 
 module.exports = new Offer();
