@@ -43,9 +43,6 @@ const Home = () => {
     const modal_btt_2 = useRef(null);
     const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
     const divImageRef = useRef(null);
-    const div_bottoms = useRef(null);
-    const acceptButton = useRef(null);
-    const rejectButton = useRef(null);
 
 
     // redirect
@@ -254,7 +251,6 @@ const Home = () => {
                     (searchedData || requestData)?.map((request) => {
                         const relatedOffers = offers.filter(offer => offer.request_id === request.id);
 
-
                         return (
                             <div className={ styles.requests } key={ request.id }>
                                 { /* REQUESTS */ }
@@ -307,7 +303,7 @@ const Home = () => {
 
                                 {
                                     request.user_id !== userID && (
-                                        <div className={ styles.div_bottoms } ref={ div_bottoms }>
+                                        <div className={ styles.div_bottoms }>
                                             <button onClick={ () => helpOffer_redirect(request.id) } className="button is-primary is-outlined"
                                             style={{ width:'13.5vw', padding:'10px' }}>
                                                 Ajudar
