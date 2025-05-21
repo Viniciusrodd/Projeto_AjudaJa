@@ -16,6 +16,9 @@ import { UserContext } from '../../context/UserContext';
 
 
 const MyOffers = () => {
+    // states
+    const [ noPosts, setNoPosts ] = useState(false);
+
     // consts
     const { userId } = useContext(UserContext); // context
     const navigate = useNavigate();
@@ -29,7 +32,17 @@ const MyOffers = () => {
     // get offers by user id
     const { offerDataByUserId } = useOfferData(userId);
     useEffect(() =>{
-        console.log(offerDataByUserId)
+        if(offerDataByUserId === null){
+            // It's still loading, it's not doing anything
+            return;
+        }
+
+        if(offerDataByUserId && offerDataByUserId.length === 0){
+            setNoPosts(true);
+        }else{
+            setNoPosts(false);
+        }
+        console.log(offerDataByUserId);
     }, [offerDataByUserId]);
 
 
@@ -67,7 +80,41 @@ const MyOffers = () => {
 
             { /* OFFERS CONTAINER */ }
             <div className={ styles_homepage.container_feed }>
-                <h1 className='title is-1'>Minhas ofertas de ajuda</h1>            
+                <h1 className='title is-1'>Minhas ofertas de ajuda</h1>
+
+                {
+                    noPosts && (
+                        <div className={ styles_homepage.noRequests }>
+                            <h1 className='title is-2'>Sem pedidos de ajuda...</h1>
+                        </div>
+                    )
+                }
+
+                {
+                    offerDataByUserId && offerDataByUserId.map((offer) => (
+                        <div key={ offer.id } className={ styles_homepage.relatedOffers_image }>
+                            <div className={ styles_homepage.relatedOffers } style={{ padding:'30px 10px 50px 10px' }}>
+                                <div className={ styles_homepage.user_requests_details }>
+                                    <div className={ styles_homepage.details }>
+                                        <p className={ styles_homepage.titles_requests }>Nome: </p>
+                                        <h1 className='subtitle is-4'>{ offer.user_data.name }</h1>
+                                    </div>
+                                    <div className={ styles_homepage.details }>
+                                        <p className={ styles_homepage.titles_requests }>Status: </p>
+                                        <h2 className={ offer.status === 'aceito' ? styles_homepage.status_aberto : offer.status === 'pendente' ? styles_homepage.status_pendente : styles_homepage.status_fechado }>
+                                            { offer.status }
+                                        </h2>
+                                    </div>
+                                </div>
+
+                                <div className={ styles_homepage.user_requests_description }>
+                                    <p className={ styles_homepage.titles_requests }>Descrição: </p>
+                                    <h1 className='subtitle is-5'>{ offer.description }</h1>
+                                </div>
+                            </div>
+                        </div>                                
+                    ))
+                }            
             </div>
         </div>
     );

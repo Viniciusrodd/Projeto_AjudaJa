@@ -271,7 +271,7 @@ const MyHelpRequests = () => {
                                 {
                                     relatedOffers.length > 0 && (
                                         <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined' 
-                                        style={{ marginTop: '15px', marginRight:'8px', padding:'15px', width:'25%' }}>
+                                        style={{ marginTop: '15px', marginRight:'8px', padding:'15px', width:'26%' }}>
                                             { !isVisible ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
                                         </button>
                                     )
