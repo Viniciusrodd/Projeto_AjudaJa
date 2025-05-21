@@ -33,6 +33,7 @@ const Home = () => {
     const [ searchedData, setSearchedData ] = useState(null);
     const [ offers, setOffers ] = useState([]);
     const [showOffersMap, setShowOffersMap] = useState({});
+    const [ isSearching, setIsSearching ] = useState(false);
 
     // consts
     const navigate = useNavigate();
@@ -118,6 +119,23 @@ const Home = () => {
         }catch(error){
             console.error("Error at searching requests:", error);
         }
+    };
+
+
+    // is searching ?
+    useEffect(() =>{
+        if(search != ''){
+            setIsSearching(true);
+        }
+    }, [search]);
+
+
+    // clean search
+    const cleanSearch = () =>{
+        setSearch('');
+        setSearchedData(null);
+        setIsSearching(false);
+        return;
     };
 
 
@@ -227,9 +245,15 @@ const Home = () => {
                         </select>
                     </div>
                     <form onSubmit={ search_form } className={ styles.search_container }>
+                        <button onClick={ () => cleanSearch() } className="button is-primary is-outlined" 
+                        style={{ marginBottom:'5px', opacity: isSearching ? 1 : 0, visibility: isSearching ? 'visible' : 'hidden', transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' }}>
+                            Limpar pesquisa...
+                        </button>
+
                         <input className='input is-primary' type="text" name="search" placeholder='Pesquise por ajuda' value={ search }
                         autoComplete='off' onChange={ (e) => setSearch(e.target.value) }/>
-                        <button className="button is-primary is-outlined" style={{ marginLeft:'5px', height:'40px' ,width:'40px' }}>
+                
+                        <button className="button is-primary is-outlined" style={{ height:'40px' ,width:'40px' }}>
                             <i className="material-icons" id='person'>search</i>
                         </button>
                     </form>

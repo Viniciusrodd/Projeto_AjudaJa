@@ -15,7 +15,7 @@
     justify-content: flex-start;
     align-items: center;
     width: 60vw;
-    margin-top: 9%;
+    margin-top: 8%;
     margin-left: 27%;
 }
 
@@ -23,18 +23,21 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: flex-end;
     width: 95%;
-    height: 8vh;
+    height: 12vh;
 
     .search_container{
         display: flex;
+        justify-content: flex-end;
         flex-direction: row;
-        width: 30%;
+        flex-wrap: wrap;
+        width: 40%;
 
         & input{
             text-align: center;
-            width: 90%;
+            margin-right: 5px;
+            width: 70%;
         }
     
         & i{
@@ -59,7 +62,7 @@
     background-color: transparent;
     border: 1px solid white;
     border-radius: 10px;
-    margin: 10px 0px 50px 0px;
+    margin: 20px 0px 50px 0px;
 }
 
 .user_container{
