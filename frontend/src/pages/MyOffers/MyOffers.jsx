@@ -85,7 +85,9 @@ const MyOffers = () => {
                 {
                     noPosts && (
                         <div className={ styles_homepage.noRequests }>
-                            <h1 className='title is-2'>Sem pedidos de ajuda...</h1>
+                            <h1 className='title is-2' style={{ marginBottom: '0px' }}>
+                                Sem pedidos de ajuda...
+                            </h1>
                         </div>
                     )
                 }
@@ -96,9 +98,10 @@ const MyOffers = () => {
                             <div className={ styles_homepage.relatedOffers } style={{ padding:'30px 10px 50px 10px' }}>
                                 <div className={ styles_homepage.user_requests_details }>
                                     <div className={ styles_homepage.details }>
-                                        <p className={ styles_homepage.titles_requests }>Nome: </p>
+                                        <p className={ styles_homepage.titles_requests }>Ofereceu para: </p>
                                         <h1 className='subtitle is-4'>{ offer.user_data.name }</h1>
                                     </div>
+
                                     <div className={ styles_homepage.details }>
                                         <p className={ styles_homepage.titles_requests }>Status: </p>
                                         <h2 className={ offer.status === 'aceito' ? styles_homepage.status_aberto : offer.status === 'pendente' ? styles_homepage.status_pendente : styles_homepage.status_fechado }>

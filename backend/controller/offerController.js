@@ -104,39 +104,53 @@ class Offer{
             const offers = await OfferModel.findAll({
                 where: { user_id: userId }
             });
-
             if(!offers){
                 return res.status(204).send({
                     noContent: `There's no offers...`
                 });
             }
 
-            // get usersId from offers
-            const users_ids = offers.map(offer => offer.user_id);
-
-            // get user data from requests user_id
-            const userData = await UserModel.findAll({
+            // get requests from offers
+            const requests_id = offers.map(offer => offer.request_id);
+            const requestData = await RequestModel.findAll({
                 where: {
-                    id: {
-                        [Op.in]: users_ids
-                    }
+                    id: { [Op.in]: requests_id }
+                }
+            });
+            
+            // mapping requests by id
+            const requestMap = {};
+            requestData.forEach((request) => {
+                requestMap[request.id] = request; // id → objeto do request
+            });
+
+            // get users from requests
+            const users_ids = requestData.map(request => request.user_id);
+            const userData = await UserModel.findAll({
+                where: { 
+                    id: { [Op.in]: users_ids } 
                 }
             });
 
-            // mapping user name
+            // get users names from users
             const userMap = {};
-            userData.forEach((user) =>{
+            userData.forEach((user) => {
                 userMap[user.id] = {
                     name: user.name
                 };
             });
 
-            // combine datas
-            const combined_data = offers.map(offer =>({
-                ...offer.dataValues,
-                user_data: userMap[offer.user_id]
-            }));
+            const combined_data = offers.map(offer => {
+                const relatedRequest = requestMap[offer.request_id]; // get relacionated request
+                const relatedUserId = relatedRequest?.user_id;       // get request owner
+                // "?" =  operador de encadeamento opcional do JavaScript
 
+                return {
+                    ...offer.dataValues,
+                    user_data: userMap[relatedUserId] // requests owners names
+                };
+            });
+            
             return res.status(200).send({
                 msg: 'Offers find by userId with success',
                 combined_data
