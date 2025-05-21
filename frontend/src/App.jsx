@@ -18,6 +18,7 @@ import EditRequests from './pages/EditRequests/EditRequests';
 import OfferRequest from './pages/OfferRequest/OfferRequest';
 import MyHelpRequests from './pages/MyHelpRequests/myHelpRequests';
 import MyOffers from './pages/MyOffers/MyOffers';
+import EditOffers from './pages/EditOffers/EditOffers';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                 <Route path='/oferecerAjuda/:requestID' element={ <OfferRequest /> } />                
                 <Route path='/meusPedidosDeAjuda' element={ <MyHelpRequests /> } />                
                 <Route path='/minhasOfertasDeAjuda' element={ <MyOffers /> } />                
+                <Route path='/editarOfertaDeAjuda' element={ <EditOffers /> } />                
             </Routes>
         </div>
     )

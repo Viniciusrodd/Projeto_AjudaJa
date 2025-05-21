@@ -46,6 +46,12 @@ const MyOffers = () => {
     }, [offerDataByUserId]);
 
 
+    // edit offer redirect
+    const editOffer_redirect = () =>{
+        navigate('/editarOfertaDeAjuda');
+    };
+
+
     return (
         <div className={ styles_homepage.container_home }>
             { /* Modal */ }
@@ -94,7 +100,7 @@ const MyOffers = () => {
 
                 {
                     offerDataByUserId && offerDataByUserId.map((offer) => (
-                        <div key={ offer.id } className={ styles_homepage.relatedOffers_image }>
+                        <div key={ offer.id } className={ styles_homepage.relatedOffers_image } style={{ margin:'8px 0px 8% 0px' }}>
                             <div className={ styles_homepage.relatedOffers } style={{ padding:'30px 10px 50px 10px' }}>
                                 <div className={ styles_homepage.user_requests_details }>
                                     <div className={ styles_homepage.details }>
@@ -116,7 +122,7 @@ const MyOffers = () => {
                                 </div>
 
                                 <div className={ styles_homepage.div_bottoms }>
-                                    <button className="button is-info is-dark">
+                                    <button className="button is-info is-dark" onClick={ editOffer_redirect }>
                                         Editar
                                     </button>
                                     <button className="button is-danger is-dark">
