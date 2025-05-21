@@ -89,6 +89,12 @@ const SideBar = () => {
     };
 
 
+    // my offers redirect
+    const myOffers_redirect = () =>{
+        navigate('/minhasOfertasDeAjuda');
+    };
+
+
     return (
         <aside className={ styles.sidebar }>
             { /* Modal */ }
@@ -121,7 +127,9 @@ const SideBar = () => {
                 <li onClick={ myHelpRequests_redirect }> <i className="material-icons">emoji_people</i> 
                     Pedidos de ajuda 
                 </li>
-                <li> <i className="material-icons">volunteer_activism</i> Ajudas oferecidas </li>
+                <li onClick={ myOffers_redirect }> <i className="material-icons">volunteer_activism</i> 
+                    Ajudas oferecidas 
+                </li>
                 <li> <i className="material-icons">group</i> Grupos </li>
                 <li> <i className="material-icons">campaign</i> Campanhas </li>
                 <li> <i className="material-icons">person_add</i> Convide vizinhos </li>

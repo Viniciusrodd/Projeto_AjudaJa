@@ -22,7 +22,6 @@ import { statusChangeService } from '../../services/OfferHelpServices';
 
 const MyHelpRequests = () => {
     // states
-    const [ redirect, setRedirect ] = useState(false);    
     const [ noPosts, setNoPosts ] = useState(false);
     const [ offers, setOffers ] = useState([]);
     const [ showOffers, setShowOffers ] = useState(false);
@@ -35,20 +34,6 @@ const MyHelpRequests = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
-
-
-    // redirect user to homepage
-    useEffect(() => {
-        if(redirect === true){   
-            const clearMessage = setTimeout(() => {
-                navigate('/');
-            }, 3000);
-            
-            return () => {
-                clearTimeout(clearMessage);
-            };
-        }
-    }, [redirect]);
 
 
     // get request data
