@@ -9,7 +9,7 @@ const request = supertest(app);
 // variables
 let jwtToken = '';
 let userID = '';
-const requestID = 'bd3e1f9a-8722-4b10-b63b-c9d41c0908b9'
+const requestID = '329046ea-c6d2-4cdb-bbda-d90791ed06f3'
 let offerID = '';
 
 
@@ -76,6 +76,23 @@ describe('Offers tests', () =>{
         }
         catch(error){
             console.error('ERROT AT FIND ALL OFFERS TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // find offers by user id
+    test('Should test a findAll offers by user id...', async () =>{
+        try{
+            const res = await request.get(`/offers/${userID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('FIND ALL OFFERS BY ID TEST, SUCCESS!!!');
+            }
+
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROT AT FIND ALL OFFERS BY ID TEST...', error);
             throw error;
         }
     });
