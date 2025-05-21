@@ -43,6 +43,7 @@ router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestContro
 // port 2130 // OfferHelp
 router.post('/createOffer/:userID/:requestID', middleware.verifyToken, OfferController.offerCreate);
 router.get('/offers', middleware.verifyToken, OfferController.findOffers);
+router.get('/offers/:userID', middleware.verifyToken, OfferController.findOffersByUserId);
 router.put('/offerStatus/:offerID', middleware.verifyToken, OfferController.offerStatusDecision);
 
 

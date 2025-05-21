@@ -292,7 +292,7 @@ const MyHelpRequests = () => {
                                                             </div>
                                                             <div className={ styles_homepage.details }>
                                                                 <p className={ styles_homepage.titles_requests }>Status: </p>
-                                                                <h2 className={ offer.status === 'aceito' ? styles_homepage.status_aberto : offer.status === 'pendente' ? styles.status_pendente : styles.status_fechado }>
+                                                                <h2 className={ offer.status === 'aceito' ? styles_homepage.status_aberto : offer.status === 'pendente' ? styles_homepage.status_pendente : styles_homepage.status_fechado }>
                                                                     { offer.status }
                                                                 </h2>
                                                             </div>

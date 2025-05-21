@@ -354,23 +354,23 @@ const Home = () => {
                                                         { 
                                                             offer.status === 'aceito' ? (
                                                                 <div className={ styles.div_bottoms }>
-                                                                    <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }} ref={ rejectButton }>
+                                                                    <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
                                                                         Rejeitar ajuda
                                                                     </button>
                                                                 </div>
                                                             ) : offer.status === 'pendente' ? (
                                                                 <div className={ styles.div_bottoms }>
-                                                                    <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }} ref={ acceptButton }>
+                                                                    <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
                                                                         Aceitar ajuda
                                                                     </button>
                                                                     
-                                                                    <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }} ref={ rejectButton }>
+                                                                    <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
                                                                         Rejeitar ajuda
                                                                     </button>
                                                                 </div>
                                                             ) : (
                                                                 <div className={ styles.div_bottoms }>
-                                                                    <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }} ref={ acceptButton }>
+                                                                    <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
                                                                         Aceitar ajuda
                                                                     </button>
                                                                 </div>

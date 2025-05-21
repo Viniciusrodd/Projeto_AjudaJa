@@ -46,7 +46,7 @@ class Offer{
 
             if(!offers){
                 return res.status(204).send({
-                    noContent: `There's no help requests...`
+                    noContent: `There's no offers...`
                 });
             }
 
@@ -91,6 +91,68 @@ class Offer{
     };
 
 
+    // find offers by user id
+    async findOffersByUserId(req, res){
+        const userId = req.params.userID;
+        if(!userId){
+            return res.status(400).send({
+                error: 'Bad request at parameters sended'
+            });            
+        }
+
+        try{
+            const offers = await OfferModel.findAll({
+                where: { user_id: userId }
+            });
+
+            if(!offers){
+                return res.status(204).send({
+                    noContent: `There's no offers...`
+                });
+            }
+
+            // get usersId from offers
+            const users_ids = offers.map(offer => offer.user_id);
+
+            // get user data from requests user_id
+            const userData = await UserModel.findAll({
+                where: {
+                    id: {
+                        [Op.in]: users_ids
+                    }
+                }
+            });
+
+            // mapping user name
+            const userMap = {};
+            userData.forEach((user) =>{
+                userMap[user.id] = {
+                    name: user.name
+                };
+            });
+
+            // combine datas
+            const combined_data = offers.map(offer =>({
+                ...offer.dataValues,
+                user_data: userMap[offer.user_id]
+            }));
+
+            return res.status(200).send({
+                msg: 'Offers find by userId with success',
+                combined_data
+            });
+        }
+        catch(error){
+            console.error('Internal server error at Find Offers by userId', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find Offers by userId',
+                details: error.response?.data || error.message 
+            });
+        }
+    };
+
+
+    // offer status decision
     async offerStatusDecision(req, res){
         const offerId = req.params.offerID;
         const decision = req.body.decision;
