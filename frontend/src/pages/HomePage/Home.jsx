@@ -32,7 +32,7 @@ const Home = () => {
     const [ noPostsFound, setNoPostsFound ] = useState(false);
     const [ searchedData, setSearchedData ] = useState(null);
     const [ offers, setOffers ] = useState([]);
-    const [ showOffers, setShowOffers ] = useState(false);
+    const [showOffersMap, setShowOffersMap] = useState({});
 
     // consts
     const navigate = useNavigate();
@@ -137,8 +137,11 @@ const Home = () => {
 
 
     // show offers
-    const showOffers_function = () =>{
-        setShowOffers(!showOffers);
+    const toggleOffers = (requestId) => {
+        setShowOffersMap(prev => ({
+            ...prev,
+            [requestId]: !prev[requestId]
+        }));
     };
 
 
@@ -250,7 +253,8 @@ const Home = () => {
                 {
                     (searchedData || requestData)?.map((request) => {
                         const relatedOffers = offers.filter(offer => offer.request_id === request.id);
-
+                        const isVisible = showOffersMap[request.id] || false;
+    
                         return (
                             <div className={ styles.requests } key={ request.id }>
                                 { /* REQUESTS */ }
@@ -314,15 +318,15 @@ const Home = () => {
 
                                 {
                                     relatedOffers.length > 0 && (
-                                        <button onClick={ showOffers_function } className='button is-primary is-outlined' 
+                                        <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined' 
                                         style={{ marginTop: '15px', marginRight:'8px', padding:'15px', width:'25%' }}>
-                                            { !showOffers ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
+                                            { !isVisible ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
                                         </button>
                                     )
                                 }
 
                                 {
-                                    showOffers && relatedOffers.length > 0 && (
+                                    isVisible && relatedOffers.length > 0 && (
                                         <div className={ styles.relatedOffers_container }>
                                             <div className={ styles.user_requests_title }>
                                                 <h1 className='title is-2' style={{ color:'#00EBC7' }}>

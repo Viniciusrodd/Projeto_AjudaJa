@@ -6,6 +6,7 @@ import styles_homepage from '../HomePage/Home.module.css';
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
 
 // components
 import SideBar from '../../components/SideBar/SideBar';
@@ -23,6 +24,13 @@ const MyOffers = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
+
+
+    // get offers by user id
+    const { offerDataByUserId } = useOfferData(userId);
+    useEffect(() =>{
+        console.log(offerDataByUserId)
+    }, [offerDataByUserId]);
 
 
     return (
