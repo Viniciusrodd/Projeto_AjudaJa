@@ -115,4 +115,23 @@ describe('Offers tests', () =>{
             throw error;
         }
     });
+
+
+    // edit offers
+    test('Should test a edit offers...', async () =>{
+        const description = 'description edited';
+
+        try{
+            const res = await request.put(`/updateOffer/${offerID}`).set('Cookie', `token=${jwtToken}`).send({ description });
+            if(res.status === 200){
+                console.log('OFFERS EDIT TEST, SUCCESS!!!');
+            }
+
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROT AT OFFERS EDIT TEST...', error);
+            throw error;
+        }
+    });
 });
