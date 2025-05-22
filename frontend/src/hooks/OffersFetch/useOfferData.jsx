@@ -38,5 +38,5 @@ export const useOfferData = (userID, offerID) =>{
     }, [offerID]);
 
 
-    return { offerData, offerDataByUserId, offerDataById };
+    return { offerData, offerDataByUserId, setOfferDataByUserId, offerDataById };
 };

@@ -41,12 +41,12 @@ router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestContro
 
 
 // port 2130 // OfferHelp
-router.post('/createOffer/:userID/:requestID', middleware.verifyToken, OfferController.offerCreate);
+router.post('/offer/:userID/:requestID', middleware.verifyToken, OfferController.offerCreate);
 router.get('/offers', middleware.verifyToken, OfferController.findOffers);
 router.get('/offers/:userID', middleware.verifyToken, OfferController.findOffersByUserId);
 router.get('/offer/:offerID', middleware.verifyToken, OfferController.findOffersById);
-router.put('/offerStatus/:offerID', middleware.verifyToken, OfferController.offerStatusDecision);
-router.put('/updateOffer/:offerID', middleware.verifyToken, OfferController.editOffers);
+router.put('/offer/status/:offerID', middleware.verifyToken, OfferController.offerStatusDecision);
+router.put('/offer/:offerID', middleware.verifyToken, OfferController.editOffers);
 router.delete('/offer/:offerID', middleware.verifyToken, OfferController.deleteOffer);
 
 

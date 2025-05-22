@@ -14,6 +14,9 @@ import SideBar from '../../components/SideBar/SideBar';
 // context
 import { UserContext } from '../../context/UserContext';
 
+// services
+import { deleteOffer } from '../../services/OfferHelpServices';
+
 
 const MyOffers = () => {
     // states
@@ -30,7 +33,7 @@ const MyOffers = () => {
 
 
     // get offers by user id
-    const { offerDataByUserId } = useOfferData(userId);
+    const { offerDataByUserId, setOfferDataByUserId } = useOfferData(userId);
     useEffect(() =>{
         if(offerDataByUserId === null){
             // It's still loading, it's not doing anything
@@ -42,12 +45,64 @@ const MyOffers = () => {
         }else{
             setNoPosts(false);
         }
-    }, [offerDataByUserId]);
+    }, [offerDataByUserId, setOfferDataByUserId]);
 
 
     // edit offer redirect
     const editOffer_redirect = (offerID) =>{
         navigate(`/editarOfertaDeAjuda/${offerID}`);
+    };
+
+
+    // modal for delete requestHelp
+    const modal_deleteOffer = (id) =>{
+        modal.current.style.display = 'flex';
+        modal_msg.current.innerText = 'Tem certeza que deseja excluir sua oferta de ajuda ?'
+        modal_btt.current.innerText = 'Tenho certeza'
+        
+        modal_btt.current.onclick = () =>{
+            deleteOffer_event(id)
+        };        
+        modal_btt_2.current.onclick = () =>{
+            modal.current.style.display = 'none';
+        };
+    };
+
+
+    // delete requestHelp
+    const deleteOffer_event = async (offerID) =>{
+        try{
+            const res = await deleteOffer(offerID);
+
+            if(res.status === 200){                
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso'
+                modal_msg.current.innerText = `Oferta de ajuda excluida com sucesso`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';                
+                
+                
+                const clearMessage = setTimeout(() => {
+                    modal.current.style.display = 'none';                    
+                    setOfferDataByUserId(prev => prev.filter(data => data.id !== offerID));
+                }, 3000);
+                
+                return () => {
+                    clearTimeout(clearMessage);
+                };
+            }
+        }
+        catch(error){
+            console.log('Error at delete offer at frontend', error);
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = `Erro ao excluir oferta de ajuda...`;
+            modal_btt.current.innerText = 'Tente novamente';
+            modal_btt_2.current.style.display = 'none';
+
+            modal_btt.current.onclick = () => {
+                modal.current.style.display = 'none';
+            };           
+        };
     };
 
 
@@ -124,7 +179,7 @@ const MyOffers = () => {
                                     <button className="button is-info is-dark" onClick={ () => editOffer_redirect(offer.id) }>
                                         Editar
                                     </button>
-                                    <button className="button is-danger is-dark">
+                                    <button className="button is-danger is-dark" onClick={ () => modal_deleteOffer(offer.id) }>
                                         Excluir
                                     </button>
                                 </div>                            
