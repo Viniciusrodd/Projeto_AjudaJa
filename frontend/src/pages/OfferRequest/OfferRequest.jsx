@@ -134,8 +134,7 @@ const OfferRequest = () => {
                         <label className="label title is-5" id="label">Descrição de ajuda: </label>
                         <textarea className="textarea is-hovered" name='description' style={{ height:'20vh' }}
                         value={ description } onChange={(e) => setDescription(e.target.value)}
-                        placeholder='Descreva de forma detalhada como você pode ajudar nesta categoria. Ex: Tenho roupas em bom estado para doar, posso oferecer transporte até hospitais, dar aulas de reforço, ou ajudar com cuidados de animais. Qualquer contribuição será bem-vinda!
-'>
+                        placeholder='Descreva de forma detalhada como você pode ajudar nesta categoria. Ex: Tenho roupas em bom estado para doar, posso oferecer transporte até hospitais, dar aulas de reforço, ou ajudar com cuidados de animais. Qualquer contribuição será bem-vinda!'>
                                                 
                         </textarea>
                     </div>

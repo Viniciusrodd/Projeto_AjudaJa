@@ -6,21 +6,36 @@ import stylesHelpRequest from '../HelpRequests/HelpRequest.module.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
 
 // components
 import SideBar from '../../components/SideBar/SideBar';
 
 
+
 const EditOffers = () => {
+    // state
+    const [ description, setDescription ] = useState('');
+
     // consts
+    const { offerID } = useParams();
     const navigate = useNavigate();
     const modal = useRef(null);
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
+
     
+    // get offer data by id
+    const { offerDataById } = useOfferData(null, offerID);
+    useEffect(() =>{
+        if(offerDataById){
+            setDescription(offerDataById.description);
+        }
+    }, [offerDataById]);
+
 
     return (
         <div className={ stylesAccountDetail.accountDetail_container }>
@@ -62,7 +77,8 @@ const EditOffers = () => {
 
                     <div className={`control ${stylesAccountDetail.textarea_container}`}>
                         <label className="label title is-5" id="label">Descrição de ajuda: </label>
-                        <textarea className="textarea is-hovered" name='description' style={{ height:'20vh' }}>
+                        <textarea className="textarea is-hovered" name='description' style={{ height:'20vh' }}
+                        value={ description } onChange={(e) => setDescription(e.target.value)}>
                                                 
                         </textarea>
                     </div>

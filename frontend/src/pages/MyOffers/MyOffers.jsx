@@ -42,7 +42,6 @@ const MyOffers = () => {
         }else{
             setNoPosts(false);
         }
-        console.log(offerDataByUserId);
     }, [offerDataByUserId]);
 
 

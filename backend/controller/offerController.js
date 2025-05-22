@@ -168,15 +168,15 @@ class Offer{
 
     // find offers by id
     async findOffersById(req, res){
-        const offersId = req.params.offersID;
-        if(!offersId){
+        const offerId = req.params.offerID;
+        if(!offerId){
             return res.status(400).send({
                 error: 'Bad request at parameters sended'
             });            
         }
         
         try{
-            const offers = await OfferModel.findByPk(offersId);
+            const offers = await OfferModel.findByPk(offerId);
 
             if(!offers){
                 return res.status(204).send({
