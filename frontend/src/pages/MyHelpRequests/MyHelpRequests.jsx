@@ -260,10 +260,10 @@ const MyHelpRequests = () => {
                                 </div>
 
                                 <div className={ styles_homepage.div_bottoms }>
-                                    <button className="button is-info is-outlined" onClick={ () => editRequest(request.id) }>
+                                    <button className="button is-info is-dark" onClick={ () => editRequest(request.id) }>
                                         Editar
                                     </button>
-                                    <button className="button is-danger is-outlined" onClick={ () => modal_deleteRequest(request.id) }>
+                                    <button className="button is-danger is-dark" onClick={ () => modal_deleteRequest(request.id) }>
                                         Excluir
                                     </button>
                                 </div>

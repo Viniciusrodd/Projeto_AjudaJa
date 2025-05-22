@@ -59,7 +59,7 @@ class Request{
 
             // get requests
             const request_data = await RequestModel.findAll({
-                order: [['expires_at', 'DESC']]
+                order: [['expires_at', 'ASC']]
             });
 
             if(!request_data){
@@ -328,7 +328,19 @@ class Request{
             if(title){ updateFields.title = title };
             if(description){ updateFields.description = description };
             if(category){ updateFields.category = category };
-            if(urgency){ updateFields.urgency = urgency };
+            if(urgency){ 
+                updateFields.urgency = urgency 
+                const urgencyDurations = {
+                    alta: 2,
+                    media: 5,
+                    baixa: 10
+                };            
+                
+                let expires_at = new Date();
+                expires_at = expires_at.setDate(expires_at.getDate() + urgencyDurations[urgency]);
+
+                updateFields.expires_at = expires_at;
+            };
             if(status){ updateFields.status = status };
 
             await RequestModel.update(updateFields, {

@@ -9,7 +9,7 @@ const request = supertest(app);
 // variables
 let jwtToken = '';
 let userID = '';
-const requestID = '329046ea-c6d2-4cdb-bbda-d90791ed06f3'
+const requestID = '591e46fd-333d-4746-aa4d-03e715f6abee'
 let offerID = '';
 
 
@@ -49,7 +49,7 @@ describe('Offers tests', () =>{
     test('Should test a offer creation...', async () =>{
         const description = 'Description test...'
         try{
-            const res = await request.post(`/createOffer/${userID}/${requestID}`).set('Cookie', `token=${jwtToken}`).send({ description });
+            const res = await request.post(`/offer/${userID}/${requestID}`).set('Cookie', `token=${jwtToken}`).send({ description });
             if(res.status === 200){
                 console.log('OFFER CREATION TEST, SUCCESS!!!');
                 offerID = res.body.offers.id
@@ -98,12 +98,29 @@ describe('Offers tests', () =>{
     });
 
 
+    // find offer by id
+    test('Should test a find offer by id...', async () =>{
+        try{
+            const res = await request.get(`/offer/${offerID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('FIND OFFER BY ID TEST, SUCCESS!!!');
+            }
+
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROT AT OFFER BY ID TEST...', error);
+            throw error;
+        }
+    });
+
+
     // offer status change
     test('Should test a offers status change...', async () =>{
         const decision = 'pendente';
 
         try{
-            const res = await request.put(`/offerStatus/${offerID}`).set('Cookie', `token=${jwtToken}`).send({ decision });
+            const res = await request.put(`/offer/status/${offerID}`).set('Cookie', `token=${jwtToken}`).send({ decision });
             if(res.status === 200){
                 console.log('OFFERS STATUS CHANGE TEST, SUCCESS!!!');
             }
@@ -122,7 +139,7 @@ describe('Offers tests', () =>{
         const description = 'description edited';
 
         try{
-            const res = await request.put(`/updateOffer/${offerID}`).set('Cookie', `token=${jwtToken}`).send({ description });
+            const res = await request.put(`/offer/${offerID}`).set('Cookie', `token=${jwtToken}`).send({ description });
             if(res.status === 200){
                 console.log('OFFERS EDIT TEST, SUCCESS!!!');
             }
@@ -131,6 +148,23 @@ describe('Offers tests', () =>{
         }
         catch(error){
             console.error('ERROT AT OFFERS EDIT TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // delete offers
+    test('Should test a delete offers...', async () =>{
+        try{
+            const res = await request.delete(`/offer/${offerID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('OFFERS DELETE TEST, SUCCESS!!!');
+            }
+
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROT AT OFFERS DELETE TEST...', error);
             throw error;
         }
     });
