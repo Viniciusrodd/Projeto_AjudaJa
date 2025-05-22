@@ -248,7 +248,7 @@ class Offer{
         }
 
         try{
-            await OfferModel.update(description, {
+            await OfferModel.update({ description }, {
                 where: { id: offerId }
             });
 

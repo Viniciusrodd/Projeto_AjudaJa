@@ -12,11 +12,14 @@ import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom h
 // components
 import SideBar from '../../components/SideBar/SideBar';
 
+// services
+import { updateOffer } from '../../services/OfferHelpServices';
 
 
 const EditOffers = () => {
     // state
     const [ description, setDescription ] = useState('');
+    const [ redirect, setRedirect ] = useState(false);
 
     // consts
     const { offerID } = useParams();
@@ -27,7 +30,21 @@ const EditOffers = () => {
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
 
+
+    // redirect user to my offers page
+    useEffect(() => {
+        if(redirect === true){   
+            const clearMessage = setTimeout(() => {
+                navigate('/minhasOfertasDeAjuda');
+            }, 3000);
+            
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [redirect]); 
     
+
     // get offer data by id
     const { offerDataById } = useOfferData(null, offerID);
     useEffect(() =>{
@@ -35,6 +52,40 @@ const EditOffers = () => {
             setDescription(offerDataById.description);
         }
     }, [offerDataById]);
+
+
+    // handle form
+    const editForm = async (e) =>{
+        e.preventDefault();
+
+        try{
+            const response = await updateOffer({ description }, offerID);
+            
+            if(response.status === 200){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso!!!'
+                modal_msg.current.innerText = `Oferta de ajuda Atualizada! \n 
+                você será redirecionado para suas ofertas de ajuda...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';
+
+                setRedirect(true);
+            }
+        }
+        catch(error){
+            console.log('Error at update offer: ', error);
+            if(error){
+                modal.current.style.display = 'flex';
+                modal_msg.current.innerText = 'Erro ao editar oferta de ajuda...'
+                modal_btt.current.innerText = 'Tentar novamente'
+                modal_btt_2.current.style.display = 'none';
+
+                modal_btt.current.addEventListener('click', () =>{
+                    modal.current.style.display = 'none';
+                });
+            }
+        }
+    }
 
 
     return (
@@ -71,7 +122,7 @@ const EditOffers = () => {
 
             { /* Formulário */}
             <div className={ stylesAccountDetail.form_container }>
-                <form className={ stylesAccountDetail.user_panel_container }>
+                <form onSubmit={ editForm } className={ stylesAccountDetail.user_panel_container }>
                     <h1 className='title is-1'>Edite sua oferta de ajuda</h1>
                     <hr className='hr'/>
 
