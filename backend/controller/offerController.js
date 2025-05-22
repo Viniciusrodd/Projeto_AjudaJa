@@ -166,6 +166,39 @@ class Offer{
     };
 
 
+    // find offers by id
+    async findOffersById(req, res){
+        const offersId = req.params.offersID;
+        if(!offersId){
+            return res.status(400).send({
+                error: 'Bad request at parameters sended'
+            });            
+        }
+        
+        try{
+            const offers = await OfferModel.findByPk(offersId);
+
+            if(!offers){
+                return res.status(204).send({
+                    noContent: `There's no offers...`
+                });
+            }
+
+            return res.status(200).send({
+                msg: 'Offers by id find with success',
+                offers
+            });
+        }
+        catch(error){
+            console.error('Internal server error at Find Offers by id', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find Offers by id',
+                details: error.response?.data || error.message 
+            });
+        }
+    };
+
+
     // offer status decision
     async offerStatusDecision(req, res){
         const offerId = req.params.offerID;

@@ -47,8 +47,8 @@ const MyOffers = () => {
 
 
     // edit offer redirect
-    const editOffer_redirect = () =>{
-        navigate('/editarOfertaDeAjuda');
+    const editOffer_redirect = (offerID) =>{
+        navigate(`/editarOfertaDeAjuda/${offerID}`);
     };
 
 
@@ -122,7 +122,7 @@ const MyOffers = () => {
                                 </div>
 
                                 <div className={ styles_homepage.div_bottoms }>
-                                    <button className="button is-info is-dark" onClick={ editOffer_redirect }>
+                                    <button className="button is-info is-dark" onClick={ () => editOffer_redirect(offer.id) }>
                                         Editar
                                     </button>
                                     <button className="button is-danger is-dark">

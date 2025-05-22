@@ -60,6 +60,17 @@ const EditOffers = () => {
                     <h1 className='title is-1'>Edite sua oferta de ajuda</h1>
                     <hr className='hr'/>
 
+                    <div className={`control ${stylesAccountDetail.textarea_container}`}>
+                        <label className="label title is-5" id="label">Descrição de ajuda: </label>
+                        <textarea className="textarea is-hovered" name='description' style={{ height:'20vh' }}>
+                                                
+                        </textarea>
+                    </div>
+
+                    <hr className='hr'/>
+                    <button className="button is-primary is-dark">
+                        Editar ajuda
+                    </button>          
                 </form>
             </div>
         </div>

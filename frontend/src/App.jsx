@@ -39,7 +39,7 @@ function App() {
                 <Route path='/oferecerAjuda/:requestID' element={ <OfferRequest /> } />                
                 <Route path='/meusPedidosDeAjuda' element={ <MyHelpRequests /> } />                
                 <Route path='/minhasOfertasDeAjuda' element={ <MyOffers /> } />                
-                <Route path='/editarOfertaDeAjuda' element={ <EditOffers /> } />                
+                <Route path='/editarOfertaDeAjuda/:offerID' element={ <EditOffers /> } />                
             </Routes>
         </div>
     )
