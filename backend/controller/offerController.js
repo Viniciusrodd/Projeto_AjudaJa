@@ -264,6 +264,34 @@ class Offer{
             });
         }
     };
+
+
+    // delete offer
+    async deleteOffer(req, res){
+        const offerId = req.params.offerID;
+        if(!offerId){
+            return res.status(400).send({
+                error: 'Bad request at parameters sended'
+            });
+        }
+
+        try{
+            await OfferModel.destroy({
+                where: { id: offerId }
+            });
+
+            return res.status(200).send({
+                successMsg: 'Offer deleted with success'
+            });
+        }
+        catch(error){
+            console.error('Internal server error at Delete offer', error);
+            res.status(500).send({
+                msgError: 'Internal server error at Delete offer',
+                details: error.response?.data || error.message
+            });
+        }
+    }
 };
 
 module.exports = new Offer();

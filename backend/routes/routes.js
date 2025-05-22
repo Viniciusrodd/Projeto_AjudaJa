@@ -47,6 +47,7 @@ router.get('/offers/:userID', middleware.verifyToken, OfferController.findOffers
 router.get('/offer/:offerID', middleware.verifyToken, OfferController.findOffersById);
 router.put('/offerStatus/:offerID', middleware.verifyToken, OfferController.offerStatusDecision);
 router.put('/updateOffer/:offerID', middleware.verifyToken, OfferController.editOffers);
+router.delete('/offer/:offerID', middleware.verifyToken, OfferController.deleteOffer);
 
 
 
