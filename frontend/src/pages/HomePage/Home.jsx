@@ -102,7 +102,7 @@ const Home = () => {
         }
 
         try{
-            const response = await axios.get(`http://localhost:2130/requestSearch/${search}`, { withCredentials: true });
+            const response = await axios.get(`http://localhost:2130/request/search/${search}`, { withCredentials: true });
 
             if(response.data.combined_requests?.length > 0){
                 setSearchedData(response.data.combined_requests);

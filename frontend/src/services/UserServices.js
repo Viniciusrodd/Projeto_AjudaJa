@@ -4,8 +4,8 @@ import axios from 'axios';
 
 
 // user register
-export const userRegister = async (url, data) => {
-    const response = await axios.post(url, data);
+export const userRegister = async (data) => {
+    const response = await axios.post('http://localhost:2130/user', data);
     return response;
 };
 
@@ -21,7 +21,7 @@ export const useLogin = async (data) => {
 
 // user edit
 export const useEditUser = async (userID, data) => {
-    const response = await axios.put(`http://localhost:2130/updateUser/${userID}`, data, { withCredentials: true }, {
+    const response = await axios.put(`http://localhost:2130/user/${userID}`, data, { withCredentials: true }, {
         headers: {
             'Content-Type': 'multipart/form-data',
         }
@@ -29,6 +29,11 @@ export const useEditUser = async (userID, data) => {
     return response;
 };
 
+// user delete
+export const useDeleteUser = async (userID) =>{
+    const response = await axios.delete(`http://localhost:2130/user/${userID}`, { withCredentials: true })
+    return response;
+};
 
 // user logout
 export const useLogOut = async () =>{
@@ -36,9 +41,3 @@ export const useLogOut = async () =>{
     return res;
 };
 
-
-// user delete
-export const useDeleteUser = async (userID) =>{
-    const response = await axios.delete(`http://localhost:2130/deleteUser/${userID}`, { withCredentials: true })
-    return response;
-};

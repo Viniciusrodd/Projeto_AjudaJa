@@ -53,7 +53,7 @@ describe('User tests', () => {
             name: 'userTest', email: `userTest${Date.now()}@gmail.com`, password: 'test123'
         };
         try{
-            const res = await request.post('/register').send(userTest);
+            const res = await request.post('/user').send(userTest);
 
             if(res.status === 201){
                 console.log('USER REGISTER TEST (WITHOUT IMAGE), SUCCESS!!!');
@@ -73,7 +73,7 @@ describe('User tests', () => {
     // user findOne
     test('Should test a findUser method...', async () =>{
         try{
-            const res = await request.get(`/findUser/${createdUserId}`).set('Cookie', `token=${jwtToken}`);
+            const res = await request.get(`/user/${createdUserId}`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200){
                 console.log('FIND USER TEST, SUCCESS!!!');
                 console.log(
@@ -100,7 +100,7 @@ describe('User tests', () => {
         };
 
         try{
-            const res = await request.put(`/updateUser/${createdUserId}`)
+            const res = await request.put(`/user/${createdUserId}`)
             .set('Cookie', `token=${jwtToken}`)
             .field('name', userData.name)
             .field('email', userData.email)
@@ -126,7 +126,7 @@ describe('User tests', () => {
     // delete user (with token send)
     test('Should test a delete user route...', async () =>{
         try{
-            const res = await request.delete(`/deleteUser/${createdUserId}`).set('Cookie', `token=${jwtToken}`);
+            const res = await request.delete(`/user/${createdUserId}`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200){
                 console.log('USER DELETE TEST, SUCCESS!!!');
             }

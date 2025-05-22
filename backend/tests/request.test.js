@@ -53,7 +53,7 @@ describe('Request tests', () =>{
             urgency: 'baixa', latitude: -23.638056, longitude: -46.993745
         };
         try{
-            const res = await request.post(`/createRequest/${userID}`).set('Cookie', `token=${jwtToken}`).send(postData);
+            const res = await request.post(`/request/${userID}`).set('Cookie', `token=${jwtToken}`).send(postData);
             if(res.status === 200){
                 console.log('HELP REQUEST CREATION TEST, SUCCESS!!!');
                 requestID = res.body.helpPost.id;
@@ -108,7 +108,7 @@ describe('Request tests', () =>{
     // find request by title
     test('Should test a find request by title route...', async () =>{
         try{
-            const res = await request.get(`/requestSearch/${requestTitle}`).set('Cookie', `token=${jwtToken}`);
+            const res = await request.get(`/request/search/${requestTitle}`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200 || res.status === 204){
                 console.log('FIND REQUEST BY TITLE TEST, SUCCESS!!!');
             }
@@ -130,7 +130,7 @@ describe('Request tests', () =>{
             category: 'livre', urgency: 'alta', status: 'aberto'
         };
         try{
-            const res = await request.put(`/updateRequest/${requestID}`).set('Cookie', `token=${jwtToken}`).send(requestData_edited);
+            const res = await request.put(`/request/${requestID}`).set('Cookie', `token=${jwtToken}`).send(requestData_edited);
             if(res.status === 200){
                 console.log('EDIT REQUEST TEST, SUCCESS!!!');
             }
@@ -147,7 +147,7 @@ describe('Request tests', () =>{
     // delete request
     test('Should test a delete request route...', async () =>{
         try{
-            const res = await request.delete(`/deleteRequest/${requestID}`).set('Cookie', `token=${jwtToken}`);
+            const res = await request.delete(`/request/${requestID}`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200){
                 console.log('DELETE REQUEST TEST, SUCCESS!!!');
             }

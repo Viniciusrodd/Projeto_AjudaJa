@@ -28,7 +28,6 @@ const Register = () => {
     // consts
     const divImage = useRef(null);
     const imageInput = useRef(null);
-    const URL = 'http://localhost:2130/register';
     const navigate = useNavigate();
     const modal = useRef(null);
     const modal_title = useRef(null);
@@ -120,7 +119,7 @@ const Register = () => {
         if(image) data.append('image', image);
 
         try{
-            const response = await userRegister(URL, data);
+            const response = await userRegister(data);
             if(response.status === 201){
                 setName('');
                 setEmail('');

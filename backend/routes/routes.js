@@ -22,22 +22,22 @@ router.post('/verifyToken', middleware.verifyToken, (req, res) => {
 
 
 // port 2130 // User
-router.post('/register', upload.single('image'), userController.registerUser);
+router.post('/user', upload.single('image'), userController.registerUser);
 router.post('/login', userController.Login);
-router.get('/findUser/:userID', middleware.verifyToken, userController.findUser);
-router.put('/updateUser/:userID', upload.single('image'), middleware.verifyToken, userController.editUser);
-router.delete('/deleteUser/:userID', middleware.verifyToken, userController.deleteUser.bind(userController));
+router.get('/user/:userID', middleware.verifyToken, userController.findUser);
+router.put('/user/:userID', upload.single('image'), middleware.verifyToken, userController.editUser);
+router.delete('/user/:userID', middleware.verifyToken, userController.deleteUser.bind(userController));
 router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(userController));
 
 
 // port 2130 // RequestHelp
-router.post('/createRequest/:userID', middleware.verifyToken, RequestController.postCreate);
+router.post('/request/:userID', middleware.verifyToken, RequestController.postCreate);
 router.get('/requests', middleware.verifyToken, RequestController.findRequests.bind(RequestController));
 router.get('/request/:requestID', middleware.verifyToken, RequestController.findRequestsByPk);
-router.get('/requestSearch/:requestTitle', middleware.verifyToken, RequestController.findRequestByTitle);
+router.get('/request/search/:requestTitle', middleware.verifyToken, RequestController.findRequestByTitle);
 router.get('/requests/:userID', middleware.verifyToken, RequestController.findRequestByUserId);
-router.put('/updateRequest/:requestID', middleware.verifyToken, RequestController.editRequest);
-router.delete('/deleteRequest/:requestID', middleware.verifyToken, RequestController.deleteRequest);
+router.put('/request/:requestID', middleware.verifyToken, RequestController.editRequest);
+router.delete('/request/:requestID', middleware.verifyToken, RequestController.deleteRequest);
 
 
 // port 2130 // OfferHelp
