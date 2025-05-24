@@ -36,7 +36,7 @@ export const UserProvider = ({ children }) => {
         if(userId !== null){
             const getUserName = async () =>{
                 try{
-                    const user = await axios.get(`http://localhost:2130/findUser/${userId}`, { withCredentials: true });
+                    const user = await axios.get(`http://localhost:2130/user/${userId}`, { withCredentials: true });
                     setUserName(user.data.userData.name);
                 }
                 catch(error){

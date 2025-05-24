@@ -13,7 +13,11 @@ export const useRequestData = (id, userID) =>{
     useEffect(() =>{
         const request = async () =>{
             const response = await axios.get('http://localhost:2130/requests', { withCredentials: true });
-            setRequestData(response.data.combined_requests); 
+            if(response.status === 204){
+                setRequestData([]);
+            }else{
+                setRequestData(response.data.combined_requests); 
+            }
         };
         request();
     }, []);
@@ -22,7 +26,11 @@ export const useRequestData = (id, userID) =>{
     useEffect(() =>{
         const requestById = async () =>{
             const response = await axios.get(`http://localhost:2130/request/${id}`, { withCredentials: true });
-            setRequestDataById(response.data.request_data);
+            if(response.status === 204){
+                setRequestDataById([]);    
+            }else{
+                setRequestDataById(response.data.request_data);
+            }
         };
         requestById();
     }, [id]);
@@ -31,7 +39,11 @@ export const useRequestData = (id, userID) =>{
     useEffect(() =>{
         const requestByUserId = async () =>{
             const response = await axios.get(`http://localhost:2130/requests/${userID}`, { withCredentials: true });
-            setRequestDataByUserId(response.data.combined_requests);
+            if(response.status === 204){
+                setRequestDataByUserId([]);
+            }else{
+                setRequestDataByUserId(response.data.combined_requests);
+            }
         }
         requestByUserId();
     }, [userID]);

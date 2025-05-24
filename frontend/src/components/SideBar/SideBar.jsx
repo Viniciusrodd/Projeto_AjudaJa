@@ -130,7 +130,6 @@ const SideBar = () => {
                 <li onClick={ myOffers_redirect }> <i className="material-icons">volunteer_activism</i> 
                     Ajudas oferecidas 
                 </li>
-                <li> <i className="material-icons">group</i> Grupos </li>
                 <li> <i className="material-icons">campaign</i> Campanhas </li>
                 <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
             </ul>

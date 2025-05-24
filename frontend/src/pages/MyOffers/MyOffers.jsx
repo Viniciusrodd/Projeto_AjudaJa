@@ -35,15 +35,8 @@ const MyOffers = () => {
     // get offers by user id
     const { offerDataByUserId, setOfferDataByUserId } = useOfferData(userId);
     useEffect(() =>{
-        if(offerDataByUserId === null){
-            // It's still loading, it's not doing anything
-            return;
-        }
-
         if(offerDataByUserId && offerDataByUserId.length === 0){
             setNoPosts(true);
-        }else{
-            setNoPosts(false);
         }
     }, [offerDataByUserId, setOfferDataByUserId]);
 
@@ -146,7 +139,7 @@ const MyOffers = () => {
                     noPosts && (
                         <div className={ styles_homepage.noRequests }>
                             <h1 className='title is-2' style={{ marginBottom: '0px' }}>
-                                Sem pedidos de ajuda...
+                                Sem ofertas de ajuda...
                             </h1>
                         </div>
                     )

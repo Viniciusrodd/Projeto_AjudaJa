@@ -163,7 +163,7 @@ const Login = () => {
 
                     <h1 className={ styles.subtitle }>Não cadastrado ainda ? </h1>
                     <Link className='link_login_register' to='/cadastro'>
-                        Clique aqui
+                        Registre-se
                     </Link>
                 </form>
             </div>

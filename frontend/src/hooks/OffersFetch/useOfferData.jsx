@@ -14,7 +14,11 @@ export const useOfferData = (userID, offerID) =>{
     useEffect(() =>{
         const request = async () =>{
             const response = await axios.get('http://localhost:2130/offers', { withCredentials: true });
-            setOfferData(response.data.combined_data); 
+            if(response.status === 204){
+                setOfferData([]);    
+            }else{
+                setOfferData(response.data.combined_data); 
+            }
         };
         request();
     }, []);
@@ -23,7 +27,11 @@ export const useOfferData = (userID, offerID) =>{
     useEffect(() =>{
         const request = async () =>{
             const response = await axios.get(`http://localhost:2130/offers/${userID}`, { withCredentials: true });
-            setOfferDataByUserId(response.data.combined_data); 
+            if(response.status === 204){
+                setOfferDataByUserId([]);    
+            }else{
+                setOfferDataByUserId(response.data.combined_data); 
+            }
         };
         request();
     }, [userID]);
@@ -32,7 +40,11 @@ export const useOfferData = (userID, offerID) =>{
     useEffect(() =>{
         const request = async () =>{
             const response = await axios.get(`http://localhost:2130/offer/${offerID}`, { withCredentials: true });
-            setOfferDataById(response.data.offers); 
+            if(response.status === 204){
+                setOfferDataById([]);    
+            }else{
+                setOfferDataById(response.data.offers); 
+            }
         };
         request();
     }, [offerID]);

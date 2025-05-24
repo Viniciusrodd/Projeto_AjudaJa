@@ -42,6 +42,7 @@ const MyHelpRequests = () => {
         if (requestDataByUserId && requestDataByUserId.length === 0) {
             setNoPosts(true);
         }
+        requestDataByUserId
     }, [requestDataByUserId, setRequestDataByUserId]);
 
 

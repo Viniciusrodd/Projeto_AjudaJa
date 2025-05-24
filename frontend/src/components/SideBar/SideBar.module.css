@@ -7,11 +7,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 85vh;
+    height: 80vh;
     width: 20vw;
     margin-top: 7%;
     margin-left: 2%;
-    
 
     & button{
         width: 70%;
