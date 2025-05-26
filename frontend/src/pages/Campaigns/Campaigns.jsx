@@ -86,8 +86,9 @@ const Campaigns = () => {
                     )
                 }
 
-                <form className={ styles.search_container }>
-                    <input className='input is-primary' type="text" name="search" placeholder='Pesquise por campanha' 
+                { /* CAMAPAIGN SEARCH OPTION */ }
+                <div className={ styles.search_container }>
+                    <input className='input is-primary' type="text" name="search" placeholder='Pesquise por campanha' value={ search } 
                     autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
 
                     <button className="button is-primary is-outlined" style={{ height:'45px' ,width:'45px' }}>
@@ -95,10 +96,37 @@ const Campaigns = () => {
                     </button>
 
                     <button onClick={ () => cleanSearch() } className="button is-primary is-outlined"
-                    style={{ marginTop:'10px', opacity: isSearching ? 1 : 0, visibility: isSearching ? 'visible' : 'hidden', transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' }}>
+                    style={{ margin:'10px 0px 10px 0px', opacity: isSearching ? 1 : 0, visibility: isSearching ? 'visible' : 'hidden', transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' }}>
                         Limpar pesquisa...
                     </button>
-                </form>
+                </div>
+
+                {/* CAMPAIGNS */}
+                
+                <div className={ styles.campaign }>
+                    <div className={ styles.campaign_image }>
+                        <div className={ styles.campaign_image_filter }></div>
+                    </div>
+                    
+                    <h2 className='title is-2'>Campanha title</h2>
+                    <h4 className='title is-4'>Por: name</h4>
+
+                    <div className={ styles_homepage.user_requests_description } style={{ margin:'0px 0px 20px 0px' }}>
+                        <h5 className='subtitle is-5'>Description</h5>
+                    </div>                        
+
+                    <div className={ styles_homepage.user_requests_details } style={{ justifyContent:'space-around' }}>
+                        <div className={ styles_homepage.details } style={{ margin:'0px' }}>
+                            <p className={ styles_homepage.titles_requests }>Data de início</p>
+                            <h1 className='subtitle is-4'>00:00</h1>
+                        </div>  
+
+                        <div className={ styles_homepage.details } style={{ margin:'0px' }}>
+                            <p className={ styles_homepage.titles_requests }>Data de fim</p>
+                            <h1 className='subtitle is-4'>04:00</h1>
+                        </div>  
+                    </div>
+                </div>
             </div>
         </div>
     );
