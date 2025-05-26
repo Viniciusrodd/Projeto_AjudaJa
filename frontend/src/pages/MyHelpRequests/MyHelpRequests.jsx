@@ -5,7 +5,7 @@ import styles_homepage from '../HomePage/Home.module.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
 import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
 
@@ -41,15 +41,11 @@ const MyHelpRequests = () => {
     useEffect(() =>{
         if (requestDataByUserId && requestDataByUserId.length === 0) {
             setNoPosts(true);
+        }else{
+            setNoPosts(false);
         }
         requestDataByUserId
     }, [requestDataByUserId, setRequestDataByUserId]);
-
-
-    // redirect to edit requestHelp
-    const editRequest = (id) =>{
-        navigate(`/editarPedido/${id}`);
-    };
 
 
     // modal for delete requestHelp
@@ -261,9 +257,11 @@ const MyHelpRequests = () => {
                                 </div>
 
                                 <div className={ styles_homepage.div_bottoms }>
-                                    <button className="button is-info is-dark" onClick={ () => editRequest(request.id) }>
-                                        Editar
-                                    </button>
+                                    <Link to={`/editarPedido/${request.id}`}>
+                                        <button className="button is-info is-dark">
+                                            Editar
+                                        </button>
+                                    </Link>
                                     <button className="button is-danger is-dark" onClick={ () => modal_deleteRequest(request.id) }>
                                         Excluir
                                     </button>

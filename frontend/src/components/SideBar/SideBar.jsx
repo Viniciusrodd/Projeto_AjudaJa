@@ -4,7 +4,7 @@ import styles from './SideBar.module.css';
 
 // hooks
 import { useRef, useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // services
@@ -71,27 +71,9 @@ const SideBar = () => {
     };
 
 
-    // homepage redirect
-    const homePage_redirect = () =>{
-        navigate('/');
-    };
-
-
     // pedidoDeAjuda redirect
     const pedidoDeAjuda_redirect = () =>{
         navigate('/pedidoDeAjuda');
-    };
-
-
-    // my Help Requests redirect
-    const myHelpRequests_redirect = () =>{
-        navigate('/meusPedidosDeAjuda');
-    };
-
-
-    // my offers redirect
-    const myOffers_redirect = () =>{
-        navigate('/minhasOfertasDeAjuda');
     };
 
 
@@ -121,15 +103,21 @@ const SideBar = () => {
 
 
             <ul className={ styles.sidebar_items }>
-                <li onClick={ homePage_redirect }> <i className="material-icons">home</i> 
-                    Página principal 
-                </li>
-                <li onClick={ myHelpRequests_redirect }> <i className="material-icons">emoji_people</i> 
-                    Pedidos de ajuda 
-                </li>
-                <li onClick={ myOffers_redirect }> <i className="material-icons">volunteer_activism</i> 
-                    Ajudas oferecidas 
-                </li>
+                <Link to='/'>
+                    <li><i className="material-icons">home</i>
+                        Página principal
+                    </li>
+                </Link>
+                <Link to='/meusPedidosDeAjuda'>
+                    <li><i className="material-icons">emoji_people</i>
+                        Pedidos de ajuda
+                    </li>
+                </Link>
+                <Link to='/minhasOfertasDeAjuda'>
+                    <li><i className="material-icons">volunteer_activism</i>
+                        Ajudas oferecidas
+                    </li>
+                </Link>
                 <li> <i className="material-icons">campaign</i> Campanhas </li>
                 <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
             </ul>

@@ -8,7 +8,7 @@ import axios from 'axios';
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
 import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
 
@@ -77,6 +77,7 @@ const Home = () => {
             modal.current.style.display = 'flex';
             modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
             modal_btt.current.style.display = 'none';
+            modal_btt_2.current.style.display = 'none';
     
             setRedirectLogin(true);
         }
@@ -136,12 +137,6 @@ const Home = () => {
         setSearchedData(null);
         setIsSearching(false);
         return;
-    };
-
-
-    // help offer redirect
-    const helpOffer_redirect = (requestId) =>{
-        navigate(`/oferecerAjuda/${requestId}`);
     };
 
 
@@ -332,10 +327,12 @@ const Home = () => {
                                 {
                                     request.user_id !== userID && (
                                         <div className={ styles.div_bottoms }>
-                                            <button onClick={ () => helpOffer_redirect(request.id) } className="button is-primary is-dark"
-                                            style={{ width:'13.5vw', padding:'10px' }}>
-                                                Ajudar
-                                            </button>
+                                            <Link to={`/oferecerAjuda/${request.id}`}>
+                                                <button className="button is-primary is-dark"
+                                                style={{ width:'13.5vw', padding:'10px' }}>
+                                                    Ajudar
+                                                </button>
+                                            </Link>
                                         </div>
                                     )
                                 }
@@ -379,31 +376,36 @@ const Home = () => {
                                                             <h1 className='subtitle is-5'>{ offer.description }</h1>
                                                         </div>
 
-                                                        { 
-                                                            offer.status === 'aceito' ? (
-                                                                <div className={ styles.div_bottoms }>
-                                                                    <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
-                                                                        Rejeitar ajuda
-                                                                    </button>
-                                                                </div>
-                                                            ) : offer.status === 'pendente' ? (
-                                                                <div className={ styles.div_bottoms }>
-                                                                    <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
-                                                                        Aceitar ajuda
-                                                                    </button>
-                                                                    
-                                                                    <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
-                                                                        Rejeitar ajuda
-                                                                    </button>
-                                                                </div>
-                                                            ) : (
-                                                                <div className={ styles.div_bottoms }>
-                                                                    <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
-                                                                        Aceitar ajuda
-                                                                    </button>
-                                                                </div>
-                                                            ) 
-                                                        }
+                                                        
+                                                        { request.user_id === userID && (
+                                                        <div style={{ marginTop:'20px' }}>
+                                                            { 
+                                                                offer.status === 'aceito' ? (
+                                                                    <div className={ styles.div_bottoms }>
+                                                                        <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
+                                                                            Rejeitar ajuda
+                                                                        </button>
+                                                                    </div>
+                                                                ) : offer.status === 'pendente' ? (
+                                                                    <div className={ styles.div_bottoms }>
+                                                                        <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
+                                                                            Aceitar ajuda
+                                                                        </button>
+                                                                        
+                                                                        <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
+                                                                            Rejeitar ajuda
+                                                                        </button>
+                                                                    </div>
+                                                                ) : (
+                                                                    <div className={ styles.div_bottoms }>
+                                                                        <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
+                                                                            Aceitar ajuda
+                                                                        </button>
+                                                                    </div>
+                                                                ) 
+                                                            }
+                                                        </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             ))}

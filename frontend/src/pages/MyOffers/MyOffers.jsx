@@ -5,7 +5,7 @@ import styles_homepage from '../HomePage/Home.module.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
 
 // components
@@ -37,14 +37,10 @@ const MyOffers = () => {
     useEffect(() =>{
         if(offerDataByUserId && offerDataByUserId.length === 0){
             setNoPosts(true);
+        }else{
+            setNoPosts(false);
         }
     }, [offerDataByUserId, setOfferDataByUserId]);
-
-
-    // edit offer redirect
-    const editOffer_redirect = (offerID) =>{
-        navigate(`/editarOfertaDeAjuda/${offerID}`);
-    };
 
 
     // modal for delete requestHelp
@@ -169,9 +165,11 @@ const MyOffers = () => {
                                 </div>
 
                                 <div className={ styles_homepage.div_bottoms }>
-                                    <button className="button is-info is-dark" onClick={ () => editOffer_redirect(offer.id) }>
-                                        Editar
-                                    </button>
+                                    <Link to={`/editarOfertaDeAjuda/${offer.id}`}>
+                                        <button className="button is-info is-dark">
+                                            Editar
+                                        </button>
+                                    </Link>
                                     <button className="button is-danger is-dark" onClick={ () => modal_deleteOffer(offer.id) }>
                                         Excluir
                                     </button>

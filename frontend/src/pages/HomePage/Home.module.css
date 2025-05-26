@@ -206,6 +206,11 @@ h1{
         margin-right: 10px;
         width: 100px;
     }
+
+    & a{
+        margin-right: 10px;
+        width: 100px;
+    }
 }
 
 .relatedOffers_container{
