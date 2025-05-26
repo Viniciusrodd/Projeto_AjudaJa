@@ -118,13 +118,27 @@ const SideBar = () => {
                         Ajudas oferecidas
                     </li>
                 </Link>
-                <li> <i className="material-icons">campaign</i> Campanhas </li>
+                <Link to='/campanhas'>
+                    <li> <i className="material-icons">campaign</i>
+                        Campanhas
+                    </li>
+                </Link>
                 <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
             </ul>
 
-            <button onClick={ pedidoDeAjuda_redirect } className="button is-primary is-outlined">
-                Postar pedido de ajuda
-            </button>
+            <div className={ styles.div_btts }>
+                <Link to='/pedidoDeAjuda'>
+                    <button className="button is-primary is-outlined">
+                        Postar pedido de ajuda
+                    </button>
+                </Link>
+                
+                <Link>
+                    <button className="button is-info is-outlined">
+                        Criar campanha
+                    </button>
+                </Link>
+            </div>
 
             <ul className={ styles.sidebar_items }>
                 <li onClick={ logoutFunction }><i className="material-icons">logout</i> 
