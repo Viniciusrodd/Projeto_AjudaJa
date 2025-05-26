@@ -24,8 +24,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
-    width: 95%;
     height: 12vh;
+    width: 95%;
 
     .search_container{
         display: flex;
