@@ -1,19 +1,19 @@
 
 // css
 import styles from './EditRequests.module.css';
-import stylesAccountDetail from '../AccountDetails/AccountDetail.module.css';
-import stylesHelpRequest from '../HelpRequests/HelpRequest.module.css'; 
+import stylesAccountDetail from '../../Users/AccountDetails/AccountDetail.module.css';
+import stylesHelpRequest from '../../Requests/HelpRequests/HelpRequest.module.css'; 
 
 // hooks
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
+import { useRequestData } from '../../../hooks/RequestsFetch/useRequestData'; // custom hook
 
 // components
-import SideBar from '../../components/SideBar/SideBar';
+import SideBar from '../../../components/SideBar/SideBar';
 
 //services
-import { updateRequest } from '../../services/RequestHelpServices';
+import { updateRequest } from '../../../services/RequestHelpServices';
 
 
 const EditRequests = () => {

@@ -1,57 +1,41 @@
 
-// styles
-import styles from './OfferRequest.module.css';
-import stylesAccountDetail from '../AccountDetails/AccountDetail.module.css';
-import stylesHelpRequest from '../HelpRequests/HelpRequest.module.css'; 
+// css
+import styles from './EditOffers.module.css';
+import stylesAccountDetail from '../../Users/AccountDetails/AccountDetail.module.css';
+import stylesHelpRequest from '../../Requests/HelpRequests/HelpRequest.module.css'; 
 
 // hooks
-import { useRef, useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; 
+import { useEffect, useState, useRef, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custom hook
 
 // components
-import SideBar from '../../components/SideBar/SideBar';
+import SideBar from '../../../components/SideBar/SideBar';
 
 // services
-import { postOffer } from '../../services/OfferHelpServices';
-
-// hooks
-import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify';
+import { updateOffer } from '../../../services/OfferHelpServices';
 
 
-const OfferRequest = () => {
-    // states
+const EditOffers = () => {
+    // state
     const [ description, setDescription ] = useState('');
     const [ redirect, setRedirect ] = useState(false);
-    const [ userID, setUserID ] = useState(0);
 
     // consts
-    const { requestID } = useParams();
+    const { offerID } = useParams();
+    const navigate = useNavigate();
     const modal = useRef(null);
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
-    const navigate = useNavigate();
 
 
-    // get user data
-    const { userData, errorRes } = useTokenVerify();
-    useEffect(() =>{
-        if(userData){
-            setUserID(userData.id);
-        }
-        
-        if(errorRes){
-            console.log('Error in fetchToken at navbar component: ', errorRes);
-        }  
-    }, [userData, errorRes]);
-
-
-    // redirect user to homepage
+    // redirect user to my offers page
     useEffect(() => {
         if(redirect === true){   
             const clearMessage = setTimeout(() => {
-                navigate('/');
+                navigate('/minhasOfertasDeAjuda');
             }, 3000);
             
             return () => {
@@ -59,31 +43,40 @@ const OfferRequest = () => {
             };
         }
     }, [redirect]); 
+    
+
+    // get offer data by id
+    const { offerDataById } = useOfferData(null, offerID);
+    useEffect(() =>{
+        if(offerDataById){
+            setDescription(offerDataById.description);
+        }
+    }, [offerDataById]);
 
 
-    // handle offer
-    const handleForm = async (e) =>{
+    // handle form
+    const editForm = async (e) =>{
         e.preventDefault();
 
         try{
-            const response = await postOffer({ description }, userID, requestID);
-
+            const response = await updateOffer({ description }, offerID);
+            
             if(response.status === 200){
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Sucesso!!!'
-                modal_msg.current.innerText = `Oferta de ajuda enviada! \n
-                você será redirecionado para a página principal...`;
+                modal_msg.current.innerText = `Oferta de ajuda Atualizada! \n 
+                você será redirecionado para suas ofertas de ajuda...`;
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';
-    
+
                 setRedirect(true);
             }
         }
         catch(error){
-            console.log('Error at handle offer form...', error);
+            console.log('Error at update offer: ', error);
             if(error){
                 modal.current.style.display = 'flex';
-                modal_msg.current.innerText = 'Erro ao enviar oferta de ajuda...'
+                modal_msg.current.innerText = 'Erro ao editar oferta de ajuda...'
                 modal_btt.current.innerText = 'Tentar novamente'
                 modal_btt_2.current.style.display = 'none';
 
@@ -92,12 +85,12 @@ const OfferRequest = () => {
                 });
             }
         }
-    };
+    }
 
 
     return (
         <div className={ stylesAccountDetail.accountDetail_container }>
-            { /* Modal */ }
+           { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
                 <div className='modal-card'>
@@ -122,26 +115,28 @@ const OfferRequest = () => {
                 </div>
             </div>
 
-            { /* sidebar */ }
-            <SideBar />
 
+            { /* SIDEBAR */ }
+            <SideBar />
+         
+
+            { /* Formulário */}
             <div className={ stylesAccountDetail.form_container }>
-                <form onSubmit={ handleForm } className={ stylesAccountDetail.user_panel_container }>
-                    <h1 className='title is-1'>Ofereça ajuda</h1>
+                <form onSubmit={ editForm } className={ stylesAccountDetail.user_panel_container }>
+                    <h1 className='title is-1'>Edite sua oferta de ajuda</h1>
                     <hr className='hr'/>
 
                     <div className={`control ${stylesAccountDetail.textarea_container}`}>
                         <label className="label title is-5" id="label">Descrição de ajuda: </label>
                         <textarea className="textarea is-hovered" name='description' style={{ height:'20vh' }}
-                        value={ description } onChange={(e) => setDescription(e.target.value)}
-                        placeholder='Descreva de forma detalhada como você pode ajudar nesta categoria. Ex: Tenho roupas em bom estado para doar, posso oferecer transporte até hospitais, dar aulas de reforço, ou ajudar com cuidados de animais. Qualquer contribuição será bem-vinda!'>
+                        value={ description } onChange={(e) => setDescription(e.target.value)}>
                                                 
                         </textarea>
                     </div>
 
                     <hr className='hr'/>
                     <button className="button is-primary is-dark">
-                        Ajudar
+                        Editar ajuda
                     </button>          
                 </form>
             </div>
@@ -149,4 +144,4 @@ const OfferRequest = () => {
     );
 };
 
-export default OfferRequest;
+export default EditOffers;

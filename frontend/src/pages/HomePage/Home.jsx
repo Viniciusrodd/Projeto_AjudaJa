@@ -19,7 +19,6 @@ import SideBar from '../../components/SideBar/SideBar';
 import { UserContext } from '../../context/UserContext';
 
 // services
-import { deleteRequest } from '../../services/RequestHelpServices';
 import { statusChangeService } from '../../services/OfferHelpServices';
 
 

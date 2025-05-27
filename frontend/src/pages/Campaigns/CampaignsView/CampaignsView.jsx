@@ -1,14 +1,14 @@
 
 // css
-import styles from './Campaigns.module.css';
-import styles_homepage from '../HomePage/Home.module.css';
+import styles from './CampaignsView.module.css';
+import styles_homepage from '../../HomePage/Home.module.css'
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // components
-import SideBar from '../../components/SideBar/SideBar';
+import SideBar from '../../../components/SideBar/SideBar';
 
 
 
@@ -40,6 +40,14 @@ const Campaigns = () => {
         setSearch('');
         setIsSearching(false);
         return;
+    };
+
+
+    // search form
+    const search_form = async (e) =>{
+        e.preventDefault();
+
+        console.log(search)
     };
 
 
@@ -87,7 +95,7 @@ const Campaigns = () => {
                 }
 
                 { /* CAMAPAIGN SEARCH OPTION */ }
-                <div className={ styles.search_container }>
+                <form onClick={ search_form } className={ styles.search_container }>
                     <input className='input is-primary' type="text" name="search" placeholder='Pesquise por campanha' value={ search } 
                     autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
 
@@ -99,7 +107,7 @@ const Campaigns = () => {
                     style={{ margin:'10px 0px 10px 0px', opacity: isSearching ? 1 : 0, visibility: isSearching ? 'visible' : 'hidden', transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' }}>
                         Limpar pesquisa...
                     </button>
-                </div>
+                </form>
 
                 {/* CAMPAIGNS */}
                 

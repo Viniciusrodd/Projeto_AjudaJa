@@ -5,13 +5,13 @@ import styles from '../Register/Register.module.css';
 // hooks
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // services
-import { useLogin } from '../../services/UserServices';
+import { useLogin } from '../../../services/UserServices';
 
 // components
-import NavBar from '../../components/NavBar/NavBar';
+import NavBar from '../../../components/NavBar/NavBar';
 
 const Login = () => {
     // states

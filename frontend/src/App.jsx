@@ -10,16 +10,16 @@ import NavBar from './components/NavBar/NavBar'
 
 // pages
 import Home from './pages/HomePage/Home';
-import Register from './pages/Register/Register';
-import Login from './pages/Login/Login';
-import AccountDetail from './pages/AccountDetails/AccountDetail';
-import HelpRequest from './pages/HelpRequests/HelpRequest';
-import EditRequests from './pages/EditRequests/EditRequests';
-import OfferRequest from './pages/OfferRequest/OfferRequest';
-import MyHelpRequests from './pages/MyHelpRequests/myHelpRequests';
-import MyOffers from './pages/MyOffers/MyOffers';
-import EditOffers from './pages/EditOffers/EditOffers';
-import Campaigns from './pages/Campaigns/Campaigns';
+import Register from './pages/Users/Register/Register';
+import Login from './pages/Users/Login/Login';
+import AccountDetail from './pages/Users/AccountDetails/AccountDetail';
+import HelpRequest from './pages/Requests/HelpRequests/HelpRequest';
+import EditRequests from './pages/Requests/EditRequests/EditRequests';
+import MyHelpRequests from './pages/Requests/MyHelpRequests/MyHelpRequests';
+import OfferRequest from './pages/Offers/OfferRequest/OfferRequest';
+import MyOffers from './pages/Offers/MyOffers/MyOffers';
+import EditOffers from './pages/Offers/EditOffers/EditOffers';
+import Campaigns from './pages/Campaigns/CampaignsView/CampaignsView';
 
 
 function App() {

@@ -1,22 +1,20 @@
 
 // css
 import styles from './HelpRequest.module.css';
-
-// account details css
-import stylesAccountDetails from '../AccountDetails/AccountDetail.module.css';
+import stylesAccountDetails from '../../Users/AccountDetails/AccountDetail.module.css';
 
 // sidebar
-import SideBar from '../../components/SideBar/SideBar';
+import SideBar from '../../../components/SideBar/SideBar';
 
 // hooks
 import { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // services
-import { postRequest } from '../../services/RequestHelpServices';
+import { postRequest } from '../../../services/RequestHelpServices';
 
 // context
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../../context/UserContext';
 
 const HelpRequest = () => {
     // context

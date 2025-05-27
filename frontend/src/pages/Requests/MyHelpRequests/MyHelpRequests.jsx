@@ -1,23 +1,23 @@
 
 // css
 import styles from './MyHelpRequests.module.css';
-import styles_homepage from '../HomePage/Home.module.css';
+import styles_homepage from '../../HomePage/Home.module.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
-import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
+import { useRequestData } from '../../../hooks/RequestsFetch/useRequestData'; // custom hook
+import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custom hook
 
 // components
-import SideBar from '../../components/SideBar/SideBar';
+import SideBar from '../../../components/SideBar/SideBar';
 
 // context
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../../context/UserContext';
 
 // services
-import { deleteRequest } from '../../services/RequestHelpServices';
-import { statusChangeService } from '../../services/OfferHelpServices';
+import { deleteRequest } from '../../../services/RequestHelpServices';
+import { statusChangeService } from '../../../services/OfferHelpServices';
 
 
 const MyHelpRequests = () => {

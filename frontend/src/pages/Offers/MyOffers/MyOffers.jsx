@@ -1,21 +1,21 @@
 
 // css
 import styles from './MyOffers.module.css';
-import styles_homepage from '../HomePage/Home.module.css';
+import styles_homepage from '../../HomePage/Home.module.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
+import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custom hook
 
 // components
-import SideBar from '../../components/SideBar/SideBar';
+import SideBar from '../../../components/SideBar/SideBar';
 
 // context
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../../context/UserContext';
 
 // services
-import { deleteOffer } from '../../services/OfferHelpServices';
+import { deleteOffer } from '../../../services/OfferHelpServices';
 
 
 const MyOffers = () => {
