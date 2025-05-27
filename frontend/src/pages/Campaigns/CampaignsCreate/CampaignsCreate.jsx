@@ -14,12 +14,16 @@ import SideBar from '../../../components/SideBar/SideBar';
 // context
 import { UserContext } from '../../../context/UserContext';
 
+// services
+import { createCampaign } from '../../../services/CampaignService';
+
 
 const CampaignsCreate = () => {
     // states
     const [ fieldsValues, setFieldsValue ] = useState({
         moderator_id: '', title: '', description: '', start_date: '', end_date: ''
     });
+    const [ redirect, setRedirect ] = useState(false);
 
     // consts
     const navigate = useNavigate();
@@ -37,11 +41,51 @@ const CampaignsCreate = () => {
     }, [userId]);
 
 
+    // redirect user to homepage
+    useEffect(() => {
+        if(redirect === true){   
+            const clearMessage = setTimeout(() => {
+                navigate('/');
+            }, 3000);
+            
+            return () => {
+                clearTimeout(clearMessage);
+            };
+        }
+    }, [redirect]);
+
+
     //handle form
     const handleForm = async (e) =>{
         e.preventDefault();
 
-        console.log(fieldsValues);
+        try{
+            const response = await createCampaign(fieldsValues);
+
+            if(response.status === 200){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso!!!'
+                modal_msg.current.innerText = `Campanha criada! \n 
+                você será redirecionado para a página principal...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';
+
+                setRedirect(true);
+            }
+        }
+        catch(error){
+            console.log('Error at create a campaign: ', error);
+
+            modal.current.style.display = 'flex';
+            modal_title.current.innerText = 'Erro'
+            modal_msg.current.innerText = 'Erro ao criar campanha...'
+            modal_btt.current.innerText = 'Tentar novamente'
+            modal_btt_2.current.style.display = 'none';
+
+            modal_btt.current.onclick = () => {
+                modal.current.style.display = 'none';
+            };
+        }
     };
 
 
@@ -77,7 +121,7 @@ const CampaignsCreate = () => {
 
             { /* FEED CONTAINER */ }
             <div className={ styles_accountDetails.form_container }>
-                <form onClick={ handleForm } className={ styles_accountDetails.user_panel_container }>
+                <form onSubmit={ handleForm } className={ styles_accountDetails.user_panel_container }>
                     <h1 className='title is-1'>Criação de campanha</h1>
                     <hr className='hr' />
 
