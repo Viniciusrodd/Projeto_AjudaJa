@@ -23,7 +23,6 @@ class Offer{
                 user_id: userID, request_id: requestID, description
             });
 
-            console.log('Help Offer created with success');
             return res.status(200).send({
                 msg: 'Help Offer created with success',
                 offers

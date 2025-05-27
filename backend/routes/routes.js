@@ -5,6 +5,7 @@ const router = express.Router();
 const userController = require('../controller/userController.js');
 const RequestController = require('../controller/requestController.js');
 const OfferController = require('../controller/offerController.js');
+const CampaignController = require('../controller/campaignController.js');
 
 
 // multer
@@ -48,6 +49,10 @@ router.get('/offer/:offerID', middleware.verifyToken, OfferController.findOffers
 router.put('/offer/status/:offerID', middleware.verifyToken, OfferController.offerStatusDecision);
 router.put('/offer/:offerID', middleware.verifyToken, OfferController.editOffers);
 router.delete('/offer/:offerID', middleware.verifyToken, OfferController.deleteOffer);
+
+
+// port 2130 // Campaign
+router.post('/campaign', middleware.verifyToken, CampaignController.createCampaign);
 
 
 

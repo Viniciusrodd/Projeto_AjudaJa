@@ -18,7 +18,7 @@ import { UserContext } from '../../../context/UserContext';
 const CampaignsCreate = () => {
     // states
     const [ fieldsValues, setFieldsValue ] = useState({
-        moderator_id: '', title: '', description: '', start_date: 0, end_date: 0
+        moderator_id: '', title: '', description: '', start_date: '', end_date: ''
     });
 
     // consts
