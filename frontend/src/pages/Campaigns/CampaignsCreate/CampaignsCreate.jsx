@@ -11,9 +11,16 @@ import { useNavigate } from 'react-router-dom';
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 
+// context
+import { UserContext } from '../../../context/UserContext';
 
 
 const CampaignsCreate = () => {
+    // states
+    const [ fieldsValues, setFieldsValue ] = useState({
+        moderator_id: '', title: '', description: '', start_date: 0, end_date: 0
+    });
+
     // consts
     const navigate = useNavigate();
     const modal = useRef(null);
@@ -21,6 +28,21 @@ const CampaignsCreate = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
+    const { userId } = useContext(UserContext);
+
+
+    // userId for moderator_id
+    useEffect(() =>{
+        setFieldsValue({...fieldsValues, moderator_id: userId});
+    }, [userId]);
+
+
+    //handle form
+    const handleForm = async (e) =>{
+        e.preventDefault();
+
+        console.log(fieldsValues);
+    };
 
 
     return (
@@ -55,7 +77,7 @@ const CampaignsCreate = () => {
 
             { /* FEED CONTAINER */ }
             <div className={ styles_accountDetails.form_container }>
-                <form className={ styles_accountDetails.user_panel_container }>
+                <form onClick={ handleForm } className={ styles_accountDetails.user_panel_container }>
                     <h1 className='title is-1'>Criação de campanha</h1>
                     <hr className='hr' />
 
@@ -64,7 +86,8 @@ const CampaignsCreate = () => {
                     <div className={ styles_accountDetails.container_input }>
                         <label className="label title is-5" id="label">Titulo: </label>
                         <input className="input is-hovered" name='title' type="text" required 
-                        placeholder='Ex: "Campanha o agasalho"' style={{ width:'80%' }}/>
+                        placeholder='Ex: "Campanha o agasalho"' style={{ width:'80%' }}
+                        value={ fieldsValues.title } onChange={(e) => setFieldsValue({...fieldsValues, title: e.target.value})}/>
                     </div>
 
                     <div className={`control ${styles_accountDetails.textarea_container}`}>
@@ -73,7 +96,7 @@ const CampaignsCreate = () => {
                         placeholder='Ex: "Ajude a levar calor e esperança a quem mais precisa nesta temporada de frio. Doe agasalhos, cobertores e acessórios de inverno para famílias e pessoas em situação de vulnerabilidade. Juntos, podemos fazer a diferença! ❤️🧥. 
 📍 Pontos de coleta: [Listar locais ou link] 
 📅 Período: [Datas da campanha] Sua doação aquece o corpo e o coração!"'
-                        >
+                        value={ fieldsValues.description } onChange={(e) => setFieldsValue({...fieldsValues, description: e.target.value})}>
                                                 
                         </textarea>
                     </div>
@@ -81,13 +104,15 @@ const CampaignsCreate = () => {
                     <div className={ styles_accountDetails.container_input }>
                         <label className="label title is-5" id="label">Data de inicio: </label>
                         <input className="input is-hovered" name='start-date' type="date" required 
-                        style={{ width:'40%' }}/>
+                        style={{ width:'40%' }}
+                        value={ fieldsValues.start_date } onChange={(e) => setFieldsValue({...fieldsValues, start_date: e.target.value})}/>
                     </div>
 
                     <div className={ styles_accountDetails.container_input }>
                         <label className="label title is-5" id="label">Data de fim: </label>
                         <input className="input is-hovered" name='end-date' type="date" required 
-                        style={{ width:'40%' }}/>
+                        style={{ width:'40%' }}
+                        value={ fieldsValues.end_date } onChange={(e) => setFieldsValue({...fieldsValues, end_date: e.target.value})}/>
                     </div>
 
                     <hr className='hr' />
