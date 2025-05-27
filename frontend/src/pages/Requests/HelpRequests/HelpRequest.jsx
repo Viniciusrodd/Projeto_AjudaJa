@@ -164,7 +164,7 @@ const HelpRequest = () => {
                     <h1 className='title is-1'>Pedido de ajuda</h1>
 
                     <hr className='hr'/>
-                    <h1 className="subtitle is-4">Por favor, preencha: </h1>
+                    <h4 className="subtitle is-4">Por favor, preencha: </h4>
 
                     <div className={ stylesAccountDetails.container_input }>
                         <label className="label title is-5" id="label">Titulo: </label>

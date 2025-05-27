@@ -2,6 +2,7 @@
 // css
 import styles from './CampaignsCreate.module.css';
 import styles_campaignsView from '../CampaignsView/CampaignsView.module.css';
+import styles_accountDetails from '../../Users/AccountDetails/AccountDetail.module.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -53,10 +54,49 @@ const CampaignsCreate = () => {
             <SideBar />
 
             { /* FEED CONTAINER */ }
-            <div className={ styles_campaignsView.container }>
-                <h1 className='title is-1'>Criação de campanha</h1>
-            </div>
+            <div className={ styles_accountDetails.form_container }>
+                <form className={ styles_accountDetails.user_panel_container }>
+                    <h1 className='title is-1'>Criação de campanha</h1>
+                    <hr className='hr' />
 
+                    <h4 className="subtitle is-4">Por favor, preencha: </h4>
+
+                    <div className={ styles_accountDetails.container_input }>
+                        <label className="label title is-5" id="label">Titulo: </label>
+                        <input className="input is-hovered" name='title' type="text" required 
+                        placeholder='Ex: "Campanha o agasalho"' style={{ width:'80%' }}/>
+                    </div>
+
+                    <div className={`control ${styles_accountDetails.textarea_container}`}>
+                        <label className="label title is-5" id="label">Descrição: </label>
+                        <textarea className="textarea is-hovered" name='description' style={{ minHeight:'30vh' }}
+                        placeholder='Ex: "Ajude a levar calor e esperança a quem mais precisa nesta temporada de frio. Doe agasalhos, cobertores e acessórios de inverno para famílias e pessoas em situação de vulnerabilidade. Juntos, podemos fazer a diferença! ❤️🧥. 
+📍 Pontos de coleta: [Listar locais ou link] 
+📅 Período: [Datas da campanha] Sua doação aquece o corpo e o coração!"'
+                        >
+                                                
+                        </textarea>
+                    </div>
+
+                    <div className={ styles_accountDetails.container_input }>
+                        <label className="label title is-5" id="label">Data de inicio: </label>
+                        <input className="input is-hovered" name='start-date' type="date" required 
+                        style={{ width:'40%' }}/>
+                    </div>
+
+                    <div className={ styles_accountDetails.container_input }>
+                        <label className="label title is-5" id="label">Data de fim: </label>
+                        <input className="input is-hovered" name='end-date' type="date" required 
+                        style={{ width:'40%' }}/>
+                    </div>
+
+                    <hr className='hr' />
+
+                    <button className="button is-primary is-dark">
+                        Publicar
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
