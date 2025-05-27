@@ -52,7 +52,7 @@ const Campaigns = () => {
 
 
     return (
-        <div className={ styles_homepage.container_home }>
+        <div className={ styles.container_campaigns }>
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
@@ -78,7 +78,6 @@ const Campaigns = () => {
                 </div>
             </div>
 
-            
             { /* SIDEBAR */ }
             <SideBar />
 

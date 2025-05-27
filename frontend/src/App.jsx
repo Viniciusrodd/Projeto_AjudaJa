@@ -20,6 +20,7 @@ import OfferRequest from './pages/Offers/OfferRequest/OfferRequest';
 import MyOffers from './pages/Offers/MyOffers/MyOffers';
 import EditOffers from './pages/Offers/EditOffers/EditOffers';
 import Campaigns from './pages/Campaigns/CampaignsView/CampaignsView';
+import CampaignsCreate from './pages/Campaigns/CampaignsCreate/CampaignsCreate';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                 <Route path='/minhasOfertasDeAjuda' element={ <MyOffers /> } />                
                 <Route path='/editarOfertaDeAjuda/:offerID' element={ <EditOffers /> } />                
                 <Route path='/campanhas' element={ <Campaigns /> } />                
+                <Route path='/criarCampanha' element={ <CampaignsCreate /> } />                
             </Routes>
         </div>
     )

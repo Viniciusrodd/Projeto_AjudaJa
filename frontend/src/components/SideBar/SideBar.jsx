@@ -133,7 +133,7 @@ const SideBar = () => {
                     </button>
                 </Link>
                 
-                <Link>
+                <Link to='/criarCampanha'>
                     <button className="button is-info is-outlined">
                         Criar campanha
                     </button>

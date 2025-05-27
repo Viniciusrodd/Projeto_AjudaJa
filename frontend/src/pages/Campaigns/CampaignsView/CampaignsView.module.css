@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+.container_campaigns{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-bottom: 100px;
+}
+
 .container{
     display: flex;
     flex-direction: column;
