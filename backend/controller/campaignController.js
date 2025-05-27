@@ -32,6 +32,31 @@ class Campaign{
                 });
             }
 
+            // get dates
+            const today = new Date();
+            const startDate = new Date(start_date);
+            const endDate = new Date(end_date);
+
+            // start date cannot be in the past
+            if (startDate < today.setHours(0,0,0,0)) {
+                return res.status(400).send({
+                    error: 'Start date cannot be in the past'
+                });
+            }
+
+            // end date must be within the next year
+            const maxEndDate = new Date();
+            maxEndDate.setFullYear(maxEndDate.getFullYear() + 1); // next year
+            maxEndDate.setMonth(11);  // december (0-11)
+            maxEndDate.setDate(31);   // last day of year
+            maxEndDate.setHours(23,59,59,999);
+            if (endDate > maxEndDate) {
+                return res.status(400).send({
+                    error: `End date must be within the next year`
+                });
+            }
+
+            // creation
             const campaign = await CampaignModel.create({
                 moderator_id, title, description, start_date, end_date
             });
