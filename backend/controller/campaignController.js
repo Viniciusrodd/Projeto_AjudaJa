@@ -32,13 +32,13 @@ class Campaign{
                 });
             }
 
-            const campaignCreate = await CampaignModel.create({
+            const campaign = await CampaignModel.create({
                 moderator_id, title, description, start_date, end_date
             });
 
             return res.status(200).send({
                 msg: 'Campaign created with success',
-                campaignCreate
+                campaign
             });
         }
         catch(error){

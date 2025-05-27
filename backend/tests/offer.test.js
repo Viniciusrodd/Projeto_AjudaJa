@@ -9,7 +9,7 @@ const request = supertest(app);
 // variables
 let jwtToken = '';
 let userID = '';
-const requestID = '591e46fd-333d-4746-aa4d-03e715f6abee'
+const requestID = '27197188-bce5-400b-8ce9-4a215518e1fa'
 let offerID = '';
 
 
@@ -44,7 +44,6 @@ afterAll(async () => {
 
 
 describe('Offers tests', () =>{
-
     // offer create
     test('Should test a offer creation...', async () =>{
         const description = 'Description test...'
