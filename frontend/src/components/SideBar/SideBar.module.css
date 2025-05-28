@@ -31,17 +31,18 @@
         align-items: center;
         font-size: 19px;
         margin-bottom: 15px;
-        color: white;
+        color: rgb(255, 255, 255);
         font-weight: 400;
         cursor: pointer;
         transition: all 0.2s ease-out;
+        border-radius: 10px;
 
         & i{
             margin-right: 8px;
         }
     }
     & li:hover{
-        transform: scale(1.04);
+        transform: scale(1.03);
     }
 }
 

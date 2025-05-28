@@ -4,7 +4,7 @@ import styles from './SideBar.module.css';
 
 // hooks
 import { useRef, useState, useEffect, useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // services
@@ -15,14 +15,17 @@ import { UserContext } from '../../context/UserContext';
 
 
 const SideBar = () => {
+    // states
     const [ redirectLogin, setRedirectLogin ] = useState(false);
-    
+
+    // consts
     const navigate = useNavigate();
     const modal = useRef(null);
     const modal_title = useRef(null);
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const { setIsLogged } = useContext(UserContext); // context
+    const location = useLocation();
 
 
     // redirect
@@ -101,27 +104,58 @@ const SideBar = () => {
                 </div>
             </div>
 
-
             <ul className={ styles.sidebar_items }>
                 <Link to='/'>
-                    <li><i className="material-icons">home</i>
-                        Página principal
-                    </li>
+                    {
+                        location.pathname === '/' ? (
+                            <li style={{ color:'#00EBC7' }}><i className="material-icons" style={{ color:'#00EBC7' }}>home</i>
+                                Página principal
+                            </li>
+                        ) : (
+                            <li><i className="material-icons">home</i>
+                                Página principal
+                            </li>
+                        )
+                    }
                 </Link>
                 <Link to='/meusPedidosDeAjuda'>
-                    <li><i className="material-icons">emoji_people</i>
-                        Pedidos de ajuda
-                    </li>
+                    {
+                        location.pathname === '/meusPedidosDeAjuda' ? (
+                            <li style={{ color:'#00EBC7' }}><i className="material-icons" style={{ color:'#00EBC7' }}>emoji_people</i>
+                                Pedidos de ajuda
+                            </li>
+                        ) : (
+                            <li><i className="material-icons">emoji_people</i>
+                                Pedidos de ajuda
+                            </li>
+                        )
+                    }
                 </Link>
                 <Link to='/minhasOfertasDeAjuda'>
-                    <li><i className="material-icons">volunteer_activism</i>
-                        Ajudas oferecidas
-                    </li>
+                    {
+                        location.pathname === '/minhasOfertasDeAjuda' ? (
+                            <li style={{ color:'#00EBC7' }}><i className="material-icons" style={{ color:'#00EBC7' }}>volunteer_activism</i>
+                                Ajudas oferecidas
+                            </li>
+                        ) : (
+                            <li><i className="material-icons">volunteer_activism</i>
+                                Ajudas oferecidas
+                            </li>
+                        )
+                    }
                 </Link>
                 <Link to='/campanhas'>
-                    <li> <i className="material-icons">campaign</i>
-                        Campanhas
-                    </li>
+                    {
+                        location.pathname === '/campanhas' ? (
+                            <li style={{ color:'#00EBC7' }}> <i className="material-icons" style={{ color:'#00EBC7' }}>campaign</i>
+                                Campanhas
+                            </li>
+                        ) : (
+                            <li> <i className="material-icons">campaign</i>
+                                Campanhas
+                            </li>
+                        )
+                    }
                 </Link>
                 <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
             </ul>
