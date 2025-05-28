@@ -44,16 +44,18 @@ afterAll(async () => {
 });
 
 
-
 describe('Campaigns tests', () =>{
     // campaign create
     test('Should test a campaign creation...', async () =>{
+        const today = new Date();
+        today.setDate(today.getDate() + 1); // amanhã
+
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + 5); // + 5 dias...
 
         const campaignData = {
             moderator_id: userID, title: 'test', description: 'test', 
-            start_date: new Date().toISOString().split('T')[0], 
+            start_date: today.toISOString().split('T')[0], 
             end_date: endDate.toISOString().split('T')[0]
         };
 

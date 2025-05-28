@@ -181,7 +181,7 @@ h1{
     color: rgb(255, 249, 79);
 }
 
-.no{
+.noRequests{
     display: flex;
     justify-content: center;
     align-items: center;

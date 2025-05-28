@@ -78,10 +78,10 @@ const CampaignsCreate = () => {
 
             if(error.response.status === 401){
                 modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Erro'
+                modal_title.current.innerText = 'Erro';
                 modal_msg.current.innerText = `É necessário ser um moderador para criar a campanha...\n
-                mude seu papel de "usuário" para "moderador"`
-                modal_btt.current.innerText = 'Criar depois'
+                mude seu papel de "usuário" para "moderador"`;
+                modal_btt.current.innerText = 'Criar depois';
                 modal_btt_2.current.innerText = 'Virar moderador';
 
                 modal_btt.current.onclick = () => {
@@ -90,35 +90,44 @@ const CampaignsCreate = () => {
                 modal_btt_2.current.onclick = () => {
                     navigate(`/detalhesDeConta/${userId}`);
                 };
-            }else if(error.response.data.error === 'Start date cannot be in the past'){
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Erro de datas'
-                modal_msg.current.innerText = `Data inicial não pode ser menor que a atual...`
-                modal_btt.current.innerText = 'Tentar novamente'
-
-                modal_btt.current.onclick = () => {
-                    modal.current.style.display = 'none';
-                };
-            }else if(error.response.data.error === 'End date must be within the next year'){
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Erro de datas'
-                modal_msg.current.innerText = `Data final não pode ser maior que ${new Date().getFullYear() + 1}...`
-                modal_btt.current.innerText = 'Tentar novamente'
-
-                modal_btt.current.onclick = () => {
-                    modal.current.style.display = 'none';
-                };
-            }else{
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Erro'
-                modal_msg.current.innerText = 'Erro ao criar campanha...'
-                modal_btt.current.innerText = 'Tentar novamente'
-                modal_btt_2.current.style.display = 'none';
-    
-                modal_btt.current.onclick = () => {
-                    modal.current.style.display = 'none';
-                };
+                return;
             }
+            
+            if(error.response.data.error === 'Start date cannot be in the past'){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Erro de datas';
+                modal_msg.current.innerText = `Data inicial não pode ser menor que a atual...`;
+                modal_btt.current.innerText = 'Tentar novamente';
+                modal_btt_2.current.style.display = 'none';
+
+                modal_btt.current.onclick = () => {
+                    modal.current.style.display = 'none';
+                };
+                return;
+            }
+            
+            if(error.response.data.error === 'End date must be within the next year'){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Erro de datas';
+                modal_msg.current.innerText = `Data final não pode ser maior que ${new Date().getFullYear() + 1}...`;
+                modal_btt.current.innerText = 'Tentar novamente';
+                modal_btt_2.current.style.display = 'none';
+
+                modal_btt.current.onclick = () => {
+                    modal.current.style.display = 'none';
+                };
+                return;
+            }
+            
+            modal.current.style.display = 'flex';
+            modal_title.current.innerText = 'Erro';
+            modal_msg.current.innerText = 'Erro ao criar campanha...';
+            modal_btt.current.innerText = 'Tentar novamente';
+            modal_btt_2.current.style.display = 'none';
+
+            modal_btt.current.onclick = () => {
+                modal.current.style.display = 'none';
+            };
         }
     };
 
