@@ -67,10 +67,24 @@ class Campaign{
             });
         }
         catch(error){
-            console.log('Internal server error at create campaign', error);
-            return res.status(500).send({
+            console.log('Internal server error at Create Campaign', error);
+            return res.status(500).send({   
                 msgError: 'Internal server error at create campaign',
                 details: error.response?.data || error.message
+            });
+        }
+    };
+
+
+    async findCampaigns(req, res){
+        try{
+            
+        }
+        catch(error){
+            console.log('Internal server error at Find Campaign', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find Campaign',
+                details: error.response?.data || error.message 
             });
         }
     };

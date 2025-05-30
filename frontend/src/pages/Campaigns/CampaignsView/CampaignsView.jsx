@@ -27,6 +27,11 @@ const Campaigns = () => {
     const modal_btt_2 = useRef(null);
 
 
+    useEffect(() =>{
+        console.log(new Date());
+    }, []);
+
+
     // is searching ?
     useEffect(() =>{
         if(search != ''){

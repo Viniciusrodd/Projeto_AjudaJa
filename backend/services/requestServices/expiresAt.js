@@ -1,11 +1,10 @@
 
-const { RequestModel, UserModel, CampaignModel, OfferModel } = require('../../Database/Relations');
+const { RequestModel, OfferModel } = require('../../Database/Relations');
 const connection = require('../../Database/Connection/connection');
 const { Op } = require('sequelize');
 
 
 class RequestExpirationService{
-        // requests expires_at
     async expiresRequest(){
         try{
             const currentDate = new Date();
@@ -48,7 +47,7 @@ class RequestExpirationService{
             });
         }
         catch(error){
-            console.error('Internal server error at expires a request', error);   
+            console.error('Internal error at expires a request', error);   
         }
     };
 };

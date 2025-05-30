@@ -69,14 +69,11 @@ const HelpRequest = () => {
 
             // get navigation location
             if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition((position) =>
-                {
+                navigator.geolocation.getCurrentPosition((position) =>{
                     setUserFields(prev =>({ ...prev, latitude: position.coords.latitude, longitude: position.coords.longitude }));
-                },
-                (error) =>{
+                },(error) =>{
                     console.error('Erro ao obter geolocalização de usuário...', error);
-                },
-                {
+                },{
                     enableHighAccuracy: true, // forcing high precision
                     timeout: 5000,
                     maximumAge: 0
