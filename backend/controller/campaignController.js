@@ -4,6 +4,9 @@ const { RequestModel, UserModel, CampaignModel, OfferModel } = require('../Datab
 const connection = require('../Database/Connection/connection');
 const { Op } = require('sequelize');
 
+// services
+const ExpiredCampaigns_service = require('../services/campaignServices/endDate'); 
+
 
 // class
 class Campaign{
@@ -78,7 +81,24 @@ class Campaign{
 
     async findCampaigns(req, res){
         try{
-            
+            // check at campaigns expired...
+            await ExpiredCampaigns_service.expiresCampaign();
+
+            // get campaigns
+            const campaign_data = await CampaignModel.findAll({
+                order: [['end_date', 'DESC']]
+            });
+
+            if(!campaign_data){
+                return res.status(204).send({
+                    noContent: `There's no Campaigns...`
+                });
+            }
+
+            return res.status(200).send({
+                msg: 'Campaigns find with success',
+                campaign_data
+            });
         }
         catch(error){
             console.log('Internal server error at Find Campaign', error);
