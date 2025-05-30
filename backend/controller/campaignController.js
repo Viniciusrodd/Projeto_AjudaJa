@@ -95,9 +95,33 @@ class Campaign{
                 });
             }
 
+            // get moderator id's from campaign data
+            const moderators_ids = campaign_data.map(campaign => campaign.moderator_id);
+
+            // get users
+            const users = await UserModel.findAll({
+                where: {
+                    id: { [Op.in]: moderators_ids }
+                }
+            });
+
+            // get users names
+            const userMap = {};
+            users.forEach((user) =>{
+                userMap[user.id] = {
+                    name: user.name
+                };
+            });
+
+            // combine datas
+            const combined_campaigns = campaign_data.map(campaign =>({
+                ...campaign.dataValues,
+                user_data: userMap[campaign.moderator_id]
+            }));
+
             return res.status(200).send({
                 msg: 'Campaigns find with success',
-                campaign_data
+                combined_campaigns
             });
         }
         catch(error){

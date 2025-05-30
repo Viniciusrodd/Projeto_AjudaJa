@@ -254,9 +254,6 @@ class Request{
                 }
             });
 
-            console.log('--------------------------------------')
-            console.log(request_data)
-            console.log('--------------------------------------')
 
             if(request_data.length === 0){
                 return res.status(204).send({

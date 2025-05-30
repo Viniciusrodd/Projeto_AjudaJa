@@ -15,7 +15,7 @@ export const useCampaignData = () =>{
             if(response.status === 204){
                 setCampaignData([]);
             }else{
-                setCampaignData(response.data.campaign_data);
+                setCampaignData(response.data.combined_campaigns);
             }
         };
         request();

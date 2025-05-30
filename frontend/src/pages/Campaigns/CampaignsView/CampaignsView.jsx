@@ -60,6 +60,7 @@ const Campaigns = () => {
         if(campaignData && campaignData.length === 0){
             setNoCampaigns('Sem campanhas...');
         }
+        console.log(campaignData)
     }, [campaignData]);
 
 
@@ -122,30 +123,34 @@ const Campaigns = () => {
 
                 {/* CAMPAIGNS */}
                 
-                <div className={ styles.campaign }>
-                    <div className={ styles.campaign_image }>
-                        <div className={ styles.campaign_image_filter }></div>
-                    </div>
-                    
-                    <h2 className='title is-2'>Campanha title</h2>
-                    <h4 className='title is-4'>Por: name</h4>
+                {
+                    campaignData && campaignData.map((campaign) => (
+                        <div className={ styles.campaign } key={ campaign.id }>
+                            <div className={ styles.campaign_image }>
+                                <div className={ styles.campaign_image_filter }></div>
+                            </div>
+                            
+                            <h2 className='title is-2'>{ campaign.title }</h2>
+                            <h4 className='title is-4'>Por: { campaign.user_data.name }</h4>
 
-                    <div className={ styles_homepage.user_requests_description } style={{ margin:'0px 0px 20px 0px' }}>
-                        <h5 className='subtitle is-5'>Description</h5>
-                    </div>                        
+                            <div className={ styles_homepage.user_requests_description } style={{ margin:'0px 0px 20px 0px' }}>
+                                <h5 className='subtitle is-5'>{ campaign.description }</h5>
+                            </div>                        
 
-                    <div className={ styles_homepage.user_requests_details } style={{ justifyContent:'space-around' }}>
-                        <div className={ styles_homepage.details } style={{ margin:'0px' }}>
-                            <p className={ styles_homepage.titles_requests }>Data de início</p>
-                            <h1 className='subtitle is-4'>00:00</h1>
-                        </div>  
+                            <div className={ styles_homepage.user_requests_details } style={{ justifyContent:'space-around' }}>
+                                <div className={ styles_homepage.details } style={{ margin:'0px' }}>
+                                    <p className={ styles_homepage.titles_requests }>Data de início</p>
+                                    <h1 className='subtitle is-4'>{ campaign.start_date }</h1>
+                                </div>  
 
-                        <div className={ styles_homepage.details } style={{ margin:'0px' }}>
-                            <p className={ styles_homepage.titles_requests }>Data de fim</p>
-                            <h1 className='subtitle is-4'>04:00</h1>
-                        </div>  
-                    </div>
-                </div>
+                                <div className={ styles_homepage.details } style={{ margin:'0px' }}>
+                                    <p className={ styles_homepage.titles_requests }>Data de fim</p>
+                                    <h1 className='subtitle is-4'>{ campaign.end_date }</h1>
+                                </div>  
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     );

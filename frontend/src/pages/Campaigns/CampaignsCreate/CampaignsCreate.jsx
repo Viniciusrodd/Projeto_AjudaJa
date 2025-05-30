@@ -41,11 +41,11 @@ const CampaignsCreate = () => {
     }, [userId]);
 
 
-    // redirect user to homepage
+    // redirect user
     useEffect(() => {
         if(redirect === true){   
             const clearMessage = setTimeout(() => {
-                navigate('/');
+                navigate('/campanhas');
             }, 3000);
             
             return () => {
@@ -66,7 +66,7 @@ const CampaignsCreate = () => {
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Sucesso!!!'
                 modal_msg.current.innerText = `Campanha criada! \n 
-                você será redirecionado para a página principal...`;
+                você será redirecionado para a página de campanhas...`;
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';
 
