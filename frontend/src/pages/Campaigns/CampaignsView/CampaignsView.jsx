@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom';
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 
+// custom hook
+import { useCampaignData } from '../../../hooks/CampaignFetch/useCampaignData';
+
 
 
 const Campaigns = () => {
@@ -25,11 +28,6 @@ const Campaigns = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
-
-
-    useEffect(() =>{
-        console.log(new Date());
-    }, []);
 
 
     // is searching ?
@@ -54,6 +52,15 @@ const Campaigns = () => {
 
         console.log(search)
     };
+
+
+    // get campaigns data
+    const { campaignData } = useCampaignData();
+    useEffect(() =>{
+        if(campaignData && campaignData.length === 0){
+            setNoCampaigns('Sem campanhas...');
+        }
+    }, [campaignData]);
 
 
     return (
