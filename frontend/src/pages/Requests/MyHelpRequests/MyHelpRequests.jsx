@@ -1,7 +1,6 @@
 
 // css
-import styles from './MyHelpRequests.module.css';
-import styles_homepage from '../../HomePage/Home.module.css';
+import '../../../utils/FeedsCss/FeedsUtil.css'
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -157,7 +156,7 @@ const MyHelpRequests = () => {
 
 
     return (
-        <div className={ styles_homepage.container_home }>
+        <div className='container_home'>
 
             { /* Modal */ }
             <div className='modal' ref={ modal }>
@@ -190,13 +189,13 @@ const MyHelpRequests = () => {
 
 
             { /* FEED CONTAINER */ }
-            <div className={ styles_homepage.container_feed }>
+            <div className='container_feed'>
                 { /* FEED PUBLICATIONS */ }
                 <h1 className='title is-1'>Meus pedidos de ajuda</h1>
 
                 {
                     noPosts && (
-                        <div className={ styles_homepage.noRequests }>
+                        <div className='noRequests'>
                             <h1 className='title is-2'>Sem pedidos de ajuda...</h1>
                         </div>
                     )
@@ -207,10 +206,10 @@ const MyHelpRequests = () => {
                         const isVisible = showOffersMap[request.id] || false;
 
                         return (
-                            <div className={ styles_homepage.requests } key={request.id}>
+                            <div className='requests' key={request.id}>
                                 { /* REQUESTS */ }
-                                <div className={ styles_homepage.user_container }>
-                                    <div className={ styles_homepage.user_image }
+                                <div className='user_container_feed'>
+                                    <div className='user_image'
                                     style={{ 
                                         backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
                                     }}>
@@ -220,9 +219,9 @@ const MyHelpRequests = () => {
                                     <h1 className='title is-3'>{ request.user_data.name }</h1>
                                 </div>
                                 
-                                <div className={ styles_homepage.requests_container_image }>
-                                    <div className={ styles_homepage.user_requests_container }>
-                                        <div className={ styles_homepage.user_requests_title }>
+                                <div className='requests_container_image'>
+                                    <div className='user_requests_container'>
+                                        <div className='user_requests_title'>
                                             <h1 className='title is-2' style={{ 
                                                 color:'white', textShadow: '0px 0px 10px rgb(0, 0, 0)' 
                                             }}>
@@ -230,25 +229,25 @@ const MyHelpRequests = () => {
                                             </h1>
                                         </div>
 
-                                        <div className={ styles_homepage.user_requests_description }>
+                                        <div className='user_requests_description'>
                                             <h1 className='subtitle is-5'>{ request.description }</h1>
                                         </div>
 
-                                        <div className={ styles_homepage.user_requests_details }>
-                                            <div className={ styles_homepage.details }>
-                                                <p className={ styles_homepage.titles_requests }>Categoria</p>
+                                        <div className='user_requests_details'>
+                                            <div className='details'>
+                                                <p className='titles_requests'>Categoria</p>
                                                 <h1 className='subtitle is-4'>{ request.category }</h1>
                                             </div>  
-                                            <div className={ styles_homepage.details }>
-                                                <p className={ styles_homepage.titles_requests }>Urgência</p>
+                                            <div className='details'>
+                                                <p className='titles_requests'>Urgência</p>
                                                 { request.urgency === 'media' ? 
                                                     ( <h1 className='subtitle is-4'>média</h1> ) :
                                                     ( <h1 className='subtitle is-4'>{ request.urgency }</h1> ) 
                                                 }
                                             </div>  
-                                            <div className={ styles_homepage.details }>
-                                                <p className={ styles_homepage.titles_requests }>Status</p>
-                                                <h2 className={ request.status === 'aberto' ? styles_homepage.status_aberto :  styles_homepage.status_fechado }>
+                                            <div className='details'>
+                                                <p className='titles_requests'>Status</p>
+                                                <h2 className={ request.status === 'aberto' ? 'status_aberto' :  'status_fechado' }>
                                                     { request.status }
                                                 </h2>
                                             </div>  
@@ -256,7 +255,7 @@ const MyHelpRequests = () => {
                                     </div>
                                 </div>
 
-                                <div className={ styles_homepage.div_bottoms }>
+                                <div className='div_bottoms'>
                                     <Link to={`/editarPedido/${request.id}`}>
                                         <button className="button is-info is-dark">
                                             Editar
@@ -278,43 +277,43 @@ const MyHelpRequests = () => {
 
                                 {
                                     isVisible && relatedOffers.length > 0 && (
-                                        <div className={ styles_homepage.relatedOffers_container }>
-                                            <div className={ styles_homepage.user_requests_title }>
+                                        <div className='relatedOffers_container'>
+                                            <div className='user_requests_title'>
                                                 <h1 className='title is-2' style={{ color:'#00EBC7' }}>
                                                     Ajudas oferecidas:
                                                 </h1>
                                             </div>
 
                                             {relatedOffers.map((offer) =>(
-                                                <div key={offer.id} className={ styles_homepage.relatedOffers_image }>
-                                                    <div className={ styles_homepage.relatedOffers }>
-                                                        <div className={ styles_homepage.user_requests_details }>
-                                                            <div className={ styles_homepage.details }>
-                                                                <p className={ styles_homepage.titles_requests }>Nome: </p>
+                                                <div key={offer.id} className='relatedOffers_image'>
+                                                    <div className='relatedOffers'>
+                                                        <div className='user_requests_details'>
+                                                            <div className='details'>
+                                                                <p className='titles_requests'>Nome: </p>
                                                                 <h1 className='subtitle is-4'>{ offer.user_data.name }</h1>
                                                             </div>
-                                                            <div className={ styles_homepage.details }>
-                                                                <p className={ styles_homepage.titles_requests }>Status: </p>
-                                                                <h2 className={ offer.status === 'aceito' ? styles_homepage.status_aberto : offer.status === 'pendente' ? styles_homepage.status_pendente : styles_homepage.status_fechado }>
+                                                            <div className='details'>
+                                                                <p className='titles_requests'>Status: </p>
+                                                                <h2 className={ offer.status === 'aceito' ? 'status_aberto' : offer.status === 'pendente' ? 'status_pendente' : 'status_fechado' }>
                                                                     { offer.status }
                                                                 </h2>
                                                             </div>
                                                         </div>
 
-                                                        <div className={ styles_homepage.user_requests_description }>
-                                                            <p className={ styles_homepage.titles_requests }>Descrição: </p>
+                                                        <div className='user_requests_description'>
+                                                            <p className='titles_requests'>Descrição: </p>
                                                             <h1 className='subtitle is-5'>{ offer.description }</h1>
                                                         </div>
 
                                                         { 
                                                             offer.status === 'aceito' ? (
-                                                                <div className={ styles_homepage.div_bottoms }>
+                                                                <div className='div_bottoms'>
                                                                     <button onClick={ () => statusChange(offer.id,'rejeitado') } className='button is-danger is-dark' style={{ width:'120px' }}>
                                                                         Rejeitar ajuda
                                                                     </button>
                                                                 </div>
                                                             ) : offer.status === 'pendente' ? (
-                                                                <div className={ styles_homepage.div_bottoms }>
+                                                                <div className='div_bottoms'>
                                                                     <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
                                                                         Aceitar ajuda
                                                                     </button>
@@ -324,7 +323,7 @@ const MyHelpRequests = () => {
                                                                     </button>
                                                                 </div>
                                                             ) : (
-                                                                <div className={ styles_homepage.div_bottoms }>
+                                                                <div className='div_bottoms'>
                                                                     <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
                                                                         Aceitar ajuda
                                                                     </button>

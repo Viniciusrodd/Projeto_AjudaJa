@@ -1,8 +1,7 @@
 
 // css
-import styles from './CampaignsCreate.module.css';
-import styles_campaignsView from '../CampaignsView/CampaignsView.module.css';
-import styles_accountDetails from '../../Users/AccountDetails/AccountDetail.module.css';
+import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/FeedsCss/FeedsUtil.css'
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -133,7 +132,7 @@ const CampaignsCreate = () => {
 
 
     return (
-        <div className={ styles_campaignsView.container_campaigns }>
+        <div className='container_campaigns'>
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
@@ -163,21 +162,21 @@ const CampaignsCreate = () => {
             <SideBar />
 
             { /* FEED CONTAINER */ }
-            <div className={ styles_accountDetails.form_container }>
-                <form onSubmit={ handleForm } className={ styles_accountDetails.user_panel_container }>
+            <div className='form'>
+                <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Criação de campanha</h1>
                     <hr className='hr' />
 
                     <h4 className="subtitle is-4">Por favor, preencha: </h4>
 
-                    <div className={ styles_accountDetails.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Titulo: </label>
                         <input className="input is-hovered" name='title' type="text" required 
                         placeholder='Ex: "Campanha o agasalho"' style={{ width:'80%' }}
                         value={ fieldsValues.title } onChange={(e) => setFieldsValue({...fieldsValues, title: e.target.value})}/>
                     </div>
 
-                    <div className={`control ${styles_accountDetails.textarea_container}`}>
+                    <div className={`control textarea_container`}>
                         <label className="label title is-5" id="label">Descrição: </label>
                         <textarea className="textarea is-hovered" name='description' style={{ minHeight:'30vh' }}
                         placeholder='Ex: "Ajude a levar calor e esperança a quem mais precisa nesta temporada de frio. Doe agasalhos, cobertores e acessórios de inverno para famílias e pessoas em situação de vulnerabilidade. Juntos, podemos fazer a diferença! ❤️🧥. 
@@ -188,14 +187,14 @@ const CampaignsCreate = () => {
                         </textarea>
                     </div>
 
-                    <div className={ styles_accountDetails.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Data de inicio: </label>
                         <input className="input is-hovered" name='start-date' type="date" required 
                         style={{ width:'40%' }}
                         value={ fieldsValues.start_date } onChange={(e) => setFieldsValue({...fieldsValues, start_date: e.target.value})}/>
                     </div>
 
-                    <div className={ styles_accountDetails.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Data de fim: </label>
                         <input className="input is-hovered" name='end-date' type="date" required 
                         style={{ width:'40%' }}

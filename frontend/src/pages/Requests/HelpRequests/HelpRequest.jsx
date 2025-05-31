@@ -1,7 +1,7 @@
 
 // css
-import styles from './HelpRequest.module.css';
-import stylesAccountDetails from '../../Users/AccountDetails/AccountDetail.module.css';
+import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/FeedsCss/expiresAtUtil.css'
 
 // sidebar
 import SideBar from '../../../components/SideBar/SideBar';
@@ -125,7 +125,7 @@ const HelpRequest = () => {
 
 
     return (
-        <div className={ stylesAccountDetails.accountDetail_container }>
+        <div className='forms_container'>
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
@@ -156,21 +156,21 @@ const HelpRequest = () => {
             <SideBar />
 
             { /* formulário */ }
-            <div className={ stylesAccountDetails.form_container }>
-                <form onSubmit={ handleForm } className={ stylesAccountDetails.user_panel_container }>
+            <div className='form'>
+                <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Pedido de ajuda</h1>
 
                     <hr className='hr'/>
                     <h4 className="subtitle is-4">Por favor, preencha: </h4>
 
-                    <div className={ stylesAccountDetails.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Titulo: </label>
                         <input className="input is-hovered" name='title' type="text" required 
                         placeholder='Ex: "Preciso de ajuda com material escolar"' style={{ width:'80%' }}
                         value={ userFields.title } onChange={ (e) => setUserFields({...userFields, title: e.target.value}) }/>
                     </div>
 
-                    <div className={`control ${stylesAccountDetails.textarea_container}`}>
+                    <div className={`control textarea_container`}>
                         <label className="label title is-5" id="label">Descrição: </label>
                         <textarea className="textarea is-hovered" name='description'
                         placeholder='Descreva sua situação com mais detalhes. Ex: Estou desempregado, com duas crianças pequenas, e preciso de alimentos básicos como arroz, feijão e leite. Qualquer ajuda será bem-vinda.'
@@ -179,7 +179,7 @@ const HelpRequest = () => {
                         </textarea>
                     </div>
 
-                    <div className={ stylesAccountDetails.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Categoria: </label>
                         <div className="select is-hovered" style={{ width:'70%' }}>
                             {/* default: livre */}
@@ -201,7 +201,7 @@ const HelpRequest = () => {
                         </div>                    
                     </div>
 
-                    <div className={ stylesAccountDetails.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Urgencia: </label>
                         <div className="select is-hovered" style={{ width:'70%' }}>
                             <select style={{ width:'100%' }} name='urgency'
@@ -221,11 +221,11 @@ const HelpRequest = () => {
                 </form>
             </div>
 
-            <div className={ styles.expiresAt_container }>
-                <h1 className={ styles.h1_expires }>Expiração de pedido: </h1>
-                <h2 className={ styles.h2_expires }>Urgência Alta: <strong>2 dias</strong></h2>
-                <h2 className={ styles.h2_expires }>Urgência Média: <strong>5 dias</strong></h2>
-                <h2 className={ styles.h2_expires }>Urgência Baixa: <strong>10 dias</strong></h2>
+            <div className='expiresAt_container'>
+                <h1 className='h1_expires'>Expiração de pedido: </h1>
+                <h2 className='h2_expires'>Urgência Alta: <strong>2 dias</strong></h2>
+                <h2 className='h2_expires'>Urgência Média: <strong>5 dias</strong></h2>
+                <h2 className='h2_expires'>Urgência Baixa: <strong>10 dias</strong></h2>
             </div>
         </div>
     );

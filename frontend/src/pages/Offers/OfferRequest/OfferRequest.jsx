@@ -1,8 +1,6 @@
 
 // styles
-import styles from './OfferRequest.module.css';
-import stylesAccountDetail from '../../Users/AccountDetails/AccountDetail.module.css';
-import stylesHelpRequest from '../../Requests/HelpRequests/HelpRequest.module.css'; 
+import '../../../utils/FormsCss/FormsUtil.css';
 
 // hooks
 import { useRef, useState, useEffect } from 'react';
@@ -96,7 +94,7 @@ const OfferRequest = () => {
 
 
     return (
-        <div className={ stylesAccountDetail.accountDetail_container }>
+        <div className='forms_container'>
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
@@ -125,12 +123,12 @@ const OfferRequest = () => {
             { /* sidebar */ }
             <SideBar />
 
-            <div className={ stylesAccountDetail.form_container }>
-                <form onSubmit={ handleForm } className={ stylesAccountDetail.user_panel_container }>
+            <div className='form'>
+                <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Ofereça ajuda</h1>
                     <hr className='hr'/>
 
-                    <div className={`control ${stylesAccountDetail.textarea_container}`}>
+                    <div className={`control textarea_container`}>
                         <label className="label title is-5" id="label">Descrição de ajuda: </label>
                         <textarea className="textarea is-hovered" name='description' style={{ height:'20vh' }}
                         value={ description } onChange={(e) => setDescription(e.target.value)}

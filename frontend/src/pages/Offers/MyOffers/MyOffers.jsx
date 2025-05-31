@@ -1,7 +1,6 @@
 
 // css
-import styles from './MyOffers.module.css';
-import styles_homepage from '../../HomePage/Home.module.css';
+import '../../../utils/FeedsCss/FeedsUtil.css'
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -96,7 +95,7 @@ const MyOffers = () => {
 
 
     return (
-        <div className={ styles_homepage.container_home }>
+        <div className='container_home'>
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
@@ -128,12 +127,12 @@ const MyOffers = () => {
 
 
             { /* OFFERS CONTAINER */ }
-            <div className={ styles_homepage.container_feed }>
+            <div className='container_feed'>
                 <h1 className='title is-1'>Minhas ofertas de ajuda</h1>
 
                 {
                     noPosts && (
-                        <div className={ styles_homepage.noRequests }>
+                        <div className='noRequests'>
                             <h1 className='title is-2' style={{ marginBottom: '0px' }}>
                                 Sem ofertas de ajuda...
                             </h1>
@@ -143,28 +142,28 @@ const MyOffers = () => {
 
                 {
                     offerDataByUserId && offerDataByUserId.map((offer) => (
-                        <div key={ offer.id } className={ styles_homepage.relatedOffers_image } style={{ margin:'8px 0px 8% 0px' }}>
-                            <div className={ styles_homepage.relatedOffers } style={{ padding:'30px 10px 50px 10px' }}>
-                                <div className={ styles_homepage.user_requests_details }>
-                                    <div className={ styles_homepage.details }>
-                                        <p className={ styles_homepage.titles_requests }>Ofereceu para: </p>
+                        <div key={ offer.id } className='relatedOffers_image' style={{ margin:'8px 0px 8% 0px' }}>
+                            <div className='relatedOffers' style={{ padding:'30px 10px 50px 10px' }}>
+                                <div className='user_requests_details'>
+                                    <div className='details'>
+                                        <p className='titles_requests'>Ofereceu para: </p>
                                         <h1 className='subtitle is-4'>{ offer.user_data.name }</h1>
                                     </div>
 
-                                    <div className={ styles_homepage.details }>
-                                        <p className={ styles_homepage.titles_requests }>Status: </p>
-                                        <h2 className={ offer.status === 'aceito' ? styles_homepage.status_aberto : offer.status === 'pendente' ? styles_homepage.status_pendente : styles_homepage.status_fechado }>
+                                    <div className='details'>
+                                        <p className='titles_requests'>Status: </p>
+                                        <h2 className={ offer.status === 'aceito' ? 'status_aberto' : offer.status === 'pendente' ? 'status_pendente' : 'status_fechado' }>
                                             { offer.status }
                                         </h2>
                                     </div>
                                 </div>
 
-                                <div className={ styles_homepage.user_requests_description }>
-                                    <p className={ styles_homepage.titles_requests }>Descrição: </p>
+                                <div className='user_requests_description'>
+                                    <p className='titles_requests'>Descrição: </p>
                                     <h1 className='subtitle is-5'>{ offer.description }</h1>
                                 </div>
 
-                                <div className={ styles_homepage.div_bottoms }>
+                                <div className='div_bottoms'>
                                     <Link to={`/editarOfertaDeAjuda/${offer.id}`}>
                                         <button className="button is-info is-dark">
                                             Editar

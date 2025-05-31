@@ -1,7 +1,6 @@
 
 // css
-import styles from './CampaignsView.module.css';
-import styles_homepage from '../../HomePage/Home.module.css'
+import '../../../utils/FeedsCss/FeedsUtil.css'
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -65,7 +64,7 @@ const Campaigns = () => {
 
 
     return (
-        <div className={ styles.container_campaigns }>
+        <div className='container_campaigns'>
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
@@ -95,19 +94,19 @@ const Campaigns = () => {
             <SideBar />
 
             { /* FEED CONTAINER */ }
-            <div className={ styles.container }>
+            <div className='campaigns'>
                 <h1 className='title is-1'>Campanhas</h1>
 
                 {
                     noCampaigns && (
-                        <div className={ styles_homepage.noRequests }>
+                        <div className='noRequests'>
                             <h1 className='title is-2'>{ noCampaigns }</h1>
                         </div>
                     )
                 }
 
                 { /* CAMAPAIGN SEARCH OPTION */ }
-                <form onClick={ search_form } className={ styles.search_container }>
+                <form onClick={ search_form } className='search_container'>
                     <input className='input is-primary' type="text" name="search" placeholder='Pesquise por campanha' value={ search } 
                     autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
 
@@ -125,26 +124,26 @@ const Campaigns = () => {
                 
                 {
                     campaignData && campaignData.map((campaign) => (
-                        <div className={ styles.campaign } key={ campaign.id }>
-                            <div className={ styles.campaign_image }>
-                                <div className={ styles.campaign_image_filter }></div>
+                        <div className='campaign' key={ campaign.id }>
+                            <div className='campaign_image'>
+                                <div className='campaign_image_filter'></div>
                             </div>
                             
                             <h2 className='title is-2'>{ campaign.title }</h2>
                             <h4 className='title is-4'>Por: { campaign.user_data.name }</h4>
 
-                            <div className={ styles_homepage.user_requests_description } style={{ margin:'0px 0px 20px 0px' }}>
+                            <div className='user_requests_description' style={{ margin:'0px 0px 20px 0px' }}>
                                 <h5 className='subtitle is-5'>{ campaign.description }</h5>
                             </div>                        
 
-                            <div className={ styles_homepage.user_requests_details } style={{ justifyContent:'space-around' }}>
-                                <div className={ styles_homepage.details } style={{ margin:'0px' }}>
-                                    <p className={ styles_homepage.titles_requests }>Data de início</p>
+                            <div className='user_requests_details' style={{ justifyContent:'space-around' }}>
+                                <div className='details' style={{ margin:'0px' }}>
+                                    <p className='titles_requests'>Data de início</p>
                                     <h1 className='subtitle is-4'>{ campaign.start_date }</h1>
                                 </div>  
 
-                                <div className={ styles_homepage.details } style={{ margin:'0px' }}>
-                                    <p className={ styles_homepage.titles_requests }>Data de fim</p>
+                                <div className='details' style={{ margin:'0px' }}>
+                                    <p className='titles_requests'>Data de fim</p>
                                     <h1 className='subtitle is-4'>{ campaign.end_date }</h1>
                                 </div>  
                             </div>

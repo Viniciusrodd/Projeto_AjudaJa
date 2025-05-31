@@ -1,6 +1,6 @@
 
 // css
-import styles from '../Register/Register.module.css';
+import '../../../utils/UsersCss/UsersUtil.css';
 
 // hooks
 import { useState, useRef, useEffect } from 'react';
@@ -130,8 +130,8 @@ const Login = () => {
                 </div>
             </div>
 
-            <div className={ styles.register_container }>
-                <form onSubmit={ handleLoginForm } className={ `align_default ${styles.register_fields_container}` }>
+            <div className='user_container'>
+                <form onSubmit={ handleLoginForm } className={ `align_default user_fields_container` }>
                     <div className='img_container container_images'></div>
 
                     <h1 className='title is-3 has-text-black'>Faça seu Login...</h1>
@@ -140,17 +140,17 @@ const Login = () => {
                         Continue com Google <img src="../../../images/google_icon.png"/>
                     </button>
 
-                    <h1 className={ styles.subtitle }>Ou</h1>
+                    <h1 className='subtitleUsers'>Ou</h1>
                     
                     <hr className='hr' />
 
-                    <input type="email" name="email" className={ styles.input_register } 
+                    <input type="email" name="email" className='input_user' 
                     placeholder='Seu email' value={ email } onChange={ (e) => setEmail(e.target.value) } />
 
-                    <input type="password" name="password" className={ styles.input_register } 
+                    <input type="password" name="password" className='input_user' 
                     placeholder='Sua senha' value={ password } onChange={ (e) => setPassword(e.target.value) } />
 
-                    <input type="password" name="confirm_password" className={ styles.input_register } 
+                    <input type="password" name="confirm_password" className='input_user' 
                     placeholder='Confirme sua senha' value={ confirmPassword } onChange={ (e) => setConfirmPassword(e.target.value) } />
 
                     <hr className='hr' />
@@ -161,7 +161,7 @@ const Login = () => {
 
                     <hr className='hr' />
 
-                    <h1 className={ styles.subtitle }>Não cadastrado ainda ? </h1>
+                    <h1 className='subtitleUsers'>Não cadastrado ainda ? </h1>
                     <Link className='link_login_register' to='/cadastro'>
                         Registre-se
                     </Link>

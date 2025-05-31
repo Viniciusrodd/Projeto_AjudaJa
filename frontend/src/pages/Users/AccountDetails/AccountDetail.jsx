@@ -1,7 +1,8 @@
 
 // css
-import styles from './AccountDetail.module.css';
-import stylesRegister from '../Register/Register.module.css';
+import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/UsersCss/UsersUtil.css';
+
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -215,7 +216,7 @@ const AccountDetail = () => {
 
 
     return (
-        <div className={ styles.accountDetail_container }>
+        <div className='forms_container'>
             { /* Modal */ }
             <div className='modal' ref={ modal }>
             <div className='modal-background'></div>
@@ -247,48 +248,48 @@ const AccountDetail = () => {
 
 
             { /* Formulário */}
-            <div className={ styles.form_container }>
-                <form onSubmit={ handleForm } className={ styles.user_panel_container }>
+            <div className='form'>
+                <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Detalhes de conta</h1>
 
                     <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
-                    <div className={ stylesRegister.div_imagem_perfil } ref={divImageRef}>
+                    <div className='div_imagem_perfil' ref={divImageRef}>
                         
                     </div>
                     {/* Formulário de upload de imagem */}
-                    <input type="file" name="image" accept="image/*" className={ stylesRegister.input_register } 
+                    <input type="file" name="image" accept="image/*" className='input_user' 
                     style={{ marginBottom:'30px' }} onChange={ uploadImage }/>
 
                     <hr className='hr'/>
                     <h1 className="title is-3">Seus dados</h1>
 
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Nome: </label>
                         <input className="input is-hovered" name='name' type="text" value={ userFields.name }
                         onChange={ (e) => setUserFields({...userFields, name: e.target.value}) } required />
                     </div>
                     
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Email: </label>
                         <input className="input is-hovered" name='email' type="text" value={ userFields.email }
                         onChange={ (e) => setUserFields({...userFields, email: e.target.value}) } required />
                     </div>
 
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Senha Atual: </label>
                         <input className="input is-hovered" name='actual_password' type="password" value={ userFields.actual_password }
                         placeholder='Senha atual (opcional)'
                         onChange={ (e) => setUserFields({...userFields, actual_password: e.target.value}) } />
                     </div>
 
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Senha Nova: </label>
                         <input className="input is-hovered" name='new_password' type="password" value={ userFields.new_password }
                         placeholder='Senha nova (opcional)'
                         onChange={ (e) => setUserFields({...userFields, new_password: e.target.value}) } />
                     </div>
 
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Papel: </label>
                         <div className="select is-hovered" style={{ width:'70%' }}>
                             <select 
@@ -304,22 +305,22 @@ const AccountDetail = () => {
                     <hr className='hr'/>
                     <h1 className="title is-3">Endereço</h1>
 
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Rua: </label>
                         <input className="input is-hovered" name='street' type="text" value={ userFields.street }
                         onChange={ (e) => setUserFields({...userFields, street: e.target.value}) } />
                     </div>
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Cidade: </label>
                         <input className="input is-hovered" name='city' type="text" value={ userFields.city }
                         onChange={ (e) => setUserFields({...userFields, city: e.target.value}) } />
                     </div>
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">Estado: </label>
                         <input className="input is-hovered" name='state' type="text" value={ userFields.state }
                         onChange={ (e) => setUserFields({...userFields, state: e.target.value}) } />
                     </div>
-                    <div className={ styles.container_input }>
+                    <div className='container_input'>
                         <label className="label title is-5" id="label">CEP: </label>
                         <input className="input is-hovered" name='cep' type="text" value={ userFields.zip_code }
                         onChange={ (e) => setUserFields({...userFields, zip_code: e.target.value}) } />
@@ -331,7 +332,7 @@ const AccountDetail = () => {
                     </button>
                 </form>
 
-                <div className={ styles.delete_div } onClick={ modal_deleteProfile }>
+                <div className='delete_div' onClick={ modal_deleteProfile }>
                     <button className="button is-danger is-outlined">
                         Excluir
                     </button>

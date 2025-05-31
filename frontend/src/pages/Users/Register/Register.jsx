@@ -1,6 +1,6 @@
 
 // css
-import styles from './Register.module.css';
+import '../../../utils/UsersCss/UsersUtil.css';
 
 // hooks
 import { Link } from 'react-router-dom';
@@ -177,8 +177,8 @@ const Register = () => {
                 </div>
             </div>
 
-            <div className={ styles.register_container }>
-                <form onSubmit={ handleForm } className={ `align_default ${styles.register_fields_container}` }>
+            <div className='user_container'>
+                <form onSubmit={ handleForm } className={ `align_default user_fields_container` }>
                     <div className='img_container container_images'></div>
 
                     <h1 className='title is-3 has-text-black'>"Ajuda que conecta"</h1>
@@ -187,32 +187,32 @@ const Register = () => {
                         Continue com Google <img src="../../../images/google_icon.png"/>
                     </button>
 
-                    <h1 className={ styles.subtitle }>Ou</h1>
+                    <h1 className='subtitleUsers'>Ou</h1>
 
                     <hr className='hr' />
 
-                    <input type="text" name="name" className={ styles.input_register } 
+                    <input type="text" name="name" className='input_user' 
                     placeholder='Seu nome' value={ name } onChange={ (e) => setName(e.target.value) } />
 
-                    <input type="email" name="email" className={ styles.input_register } 
+                    <input type="email" name="email" className='input_user' 
                     placeholder='Endereço de Email' value={ email } onChange={ (e) => setEmail(e.target.value) }/>
 
-                    <input type="password" name="password" className={ styles.input_register } 
+                    <input type="password" name="password" className='input_user' 
                     placeholder='Crie uma senha' value={ password } onChange={ (e) => setPassword(e.target.value) }/>
 
-                    <input type="password" name="confirm_password" className={ styles.input_register } 
+                    <input type="password" name="confirm_password" className='input_user' 
                     placeholder='Confirme sua senha' value={ confirmPassword } onChange={ (e) => setConfirmPassword(e.target.value) }/>
 
                     <hr className='hr' />
 
                     {/* image upload */}
-                    <h1 className={ styles.subtitle }>Escolha uma foto de perfil (opcional)</h1>
+                    <h1 className='subtitleUsers'>Escolha uma foto de perfil (opcional)</h1>
 
-                    <div className={ styles.div_imagem_perfil } ref={ divImage }>
+                    <div className='div_imagem_perfil' ref={ divImage }>
 
                     </div>
                     {/* Formulário de upload de imagem */}
-                    <input type="file" name="image" accept="image/*" className={ styles.input_register } 
+                    <input type="file" name="image" accept="image/*" className='input_user' 
                     onChange={ uploadImage } ref={ imageInput }/>
 
                     <hr className='hr' />
@@ -223,7 +223,7 @@ const Register = () => {
 
                     <hr className='hr' />
 
-                    <h1 className={ styles.subtitle }>Já tem um perfil cadastrado ?</h1>
+                    <h1 className='subtitleUsers'>Já tem um perfil cadastrado ?</h1>
                     <Link className='link_login_register' to='/login'>
                         Faça Login
                     </Link>
