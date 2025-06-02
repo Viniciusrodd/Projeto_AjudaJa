@@ -44,6 +44,7 @@ afterAll(async () => {
 });
 
 
+// tests
 describe('Campaigns tests', () =>{
     // campaign create
     test('Should test a campaign creation...', async () =>{
