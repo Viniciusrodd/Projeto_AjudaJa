@@ -263,7 +263,7 @@ h1{
     flex-direction: row;
     justify-content: center;
     padding: 5px 0px 5px 0px;
-    width: 95%;
+    width: 99%;
 
     & input{
         height: 45px;

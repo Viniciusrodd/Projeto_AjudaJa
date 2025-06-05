@@ -163,7 +163,7 @@ const SideBar = () => {
             <div className={ styles.div_btts }>
                 <Link to='/pedidoDeAjuda'>
                     <button className="button is-primary is-outlined">
-                        Postar pedido de ajuda
+                        Criar pedido de ajuda
                     </button>
                 </Link>
                 

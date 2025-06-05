@@ -54,6 +54,7 @@ router.delete('/offer/:offerID', middleware.verifyToken, OfferController.deleteO
 // port 2130 // Campaign
 router.post('/campaign', middleware.verifyToken, CampaignController.createCampaign);
 router.get('/campaigns', middleware.verifyToken, CampaignController.findCampaigns);
+router.get('/campaign/search/:titleRequest', middleware.verifyToken, CampaignController.findCampaignByTitle);
 
 
 

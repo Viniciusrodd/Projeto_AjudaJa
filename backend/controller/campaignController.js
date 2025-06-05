@@ -10,6 +10,7 @@ const ExpiredCampaigns_service = require('../services/campaignServices/endDate')
 
 // class
 class Campaign{
+    // create
     async createCampaign(req, res){
         const { moderator_id, title, description, start_date, end_date } = req.body;
         if(!moderator_id || !title || !description || !start_date || !end_date){
@@ -79,6 +80,7 @@ class Campaign{
     };
 
 
+    // find all
     async findCampaigns(req, res){
         try{
             // check at campaigns expired...
@@ -86,7 +88,7 @@ class Campaign{
 
             // get campaigns
             const campaign_data = await CampaignModel.findAll({
-                order: [['end_date', 'DESC']]
+                order: [['end_date', 'ASC']]
             });
 
             if(!campaign_data){
@@ -129,6 +131,68 @@ class Campaign{
             return res.status(500).send({
                 msgError: 'Internal server error at Find Campaign',
                 details: error.response?.data || error.message 
+            });
+        }
+    };
+
+
+    // find by title
+    async findCampaignByTitle(req, res){
+        const title_request = req.params.titleRequest;
+        if(!title_request){
+            return res.status(400).send({
+                error: 'Bad request at title_request params'
+            });
+        }
+
+        try{
+            const campaign_data = await CampaignModel.findAll({
+                where: {
+                    title: { [Op.like]: `%${title_request}%` }
+                },
+                order: [['end_date', 'ASC']]
+            });
+
+            if(campaign_data.length === 0){
+                return res.status(204).send({
+                    msg: 'No Campaigns found matching the title'
+                });
+            }
+
+            // get moderator id's from campaign data
+            const moderators_ids = campaign_data.map(campaign => campaign.moderator_id);
+
+            // get users
+            const users = await UserModel.findAll({
+                where: {
+                    id: { [Op.in]: moderators_ids }
+                }
+            });
+
+            // get users names
+            const userMap = {};
+            users.forEach((user) =>{
+                userMap[user.id] = {
+                    name: user.name
+                };
+            });
+
+            // combine datas
+            const combined_campaigns = campaign_data.map(campaign =>({
+                ...campaign.dataValues,
+                user_data: userMap[campaign.moderator_id]
+            }));
+
+            return res.status(200).send({
+                msg: 'Campaigns by title find with success',
+                combined_campaigns
+            });
+        }
+        catch(error){
+            console.log('Internal server error at Find campaign by title', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find campaign by title',
+                details: error.response?.data || error.message
             });
         }
     };
