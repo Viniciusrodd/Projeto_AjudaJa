@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useState, useEffect } from "react"
 
 // custom hook
-export const useCampaignData = () =>{
+export const useCampaignData = (title) =>{
     const [ campaignData, setCampaignData ] = useState(null);
 
     useEffect(() =>{

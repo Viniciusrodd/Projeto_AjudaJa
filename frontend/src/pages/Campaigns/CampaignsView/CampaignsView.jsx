@@ -12,13 +12,17 @@ import SideBar from '../../../components/SideBar/SideBar';
 // custom hook
 import { useCampaignData } from '../../../hooks/CampaignFetch/useCampaignData';
 
+// libs
+import axios from 'axios';
 
 
 const Campaigns = () => {
     // states
     const [ search, setSearch ] = useState('');    
     const [ isSearching, setIsSearching ] = useState(false);
+    const [ searchedData, setSearchedData ] = useState(null);
     const [ noCampaigns, setNoCampaigns ] = useState(false);
+    const [ noCampaignsFound, setNoCampaignsFound ] = useState(false);
 
     // consts
     const navigate = useNavigate();
@@ -27,6 +31,45 @@ const Campaigns = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
+
+
+    // get campaigns data
+    const { campaignData } = useCampaignData();
+    useEffect(() =>{
+        if(campaignData && campaignData.length === 0){
+            setNoCampaigns('Sem campanhas...');
+        }
+    }, [campaignData]);
+
+
+    // search form
+    const search_form = async (e) =>{
+        e.preventDefault();
+
+        if (search.trim() === '') {
+            setSearchedData(null);
+            return;
+        }
+
+        try{
+            const response = await axios.get(`http://localhost:2130/campaign/search/${search}`, { withCredentials: true });
+
+            if(response.data.combined_campaigns?.length > 0){
+                setSearchedData(response.data.combined_campaigns);
+                setNoCampaignsFound(false);
+            }else{
+                setSearchedData([]); // limpa resultados anteriores
+
+                setNoCampaignsFound('Campanha não encontrada');
+                setTimeout(() =>{
+                    setNoCampaignsFound('');
+                    setSearchedData(null);
+                }, 3000);
+            }
+        }catch(error){
+            console.error("Error at searching campaigns:", error);
+        }
+    };
 
 
     // is searching ?
@@ -39,28 +82,12 @@ const Campaigns = () => {
 
     // clean search
     const cleanSearch = () =>{
+        setNoCampaignsFound(false);
         setSearch('');
+        setSearchedData(null);
         setIsSearching(false);
         return;
     };
-
-
-    // search form
-    const search_form = async (e) =>{
-        e.preventDefault();
-
-        console.log(search)
-    };
-
-
-    // get campaigns data
-    const { campaignData } = useCampaignData();
-    useEffect(() =>{
-        if(campaignData && campaignData.length === 0){
-            setNoCampaigns('Sem campanhas...');
-        }
-        console.log(campaignData)
-    }, [campaignData]);
 
 
     return (
@@ -98,7 +125,7 @@ const Campaigns = () => {
                 <h1 className='title is-1'>Campanhas</h1>
 
                 {
-                    noCampaigns && (
+                    noCampaigns && !searchedData && (
                         <div className='noRequests'>
                             <h1 className='title is-2'>{ noCampaigns }</h1>
                         </div>
@@ -113,17 +140,25 @@ const Campaigns = () => {
                     <button className="button is-primary is-outlined" style={{ height:'45px' ,width:'45px' }}>
                         <i className="material-icons" id='person'>search</i>
                     </button>
-
-                    <button onClick={ () => cleanSearch() } className="button is-primary is-outlined"
-                    style={{ margin:'10px 0px 10px 0px', opacity: isSearching ? 1 : 0, visibility: isSearching ? 'visible' : 'hidden', transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' }}>
-                        Limpar pesquisa...
-                    </button>
                 </form>
 
+                <button onClick={ () => cleanSearch() } className="button is-primary is-outlined"
+                style={{ margin:'10px 0px 10px 0px', opacity: isSearching ? 1 : 0, visibility: isSearching ? 'visible' : 'hidden', transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' }}>
+                    Limpar pesquisa...
+                </button>
+
                 {/* CAMPAIGNS */}
+
+                {
+                    noCampaignsFound && (
+                        <div className='noRequests'>
+                            <h1 className='title is-2'>{ noCampaignsFound }</h1>
+                        </div>
+                    )
+                }
                 
                 {
-                    campaignData && campaignData.map((campaign) => (
+                    (searchedData || campaignData)?.map((campaign) => (
                         <div className='campaign' key={ campaign.id }>
                             <div className='campaign_image'>
                                 <div className='campaign_image_filter'></div>

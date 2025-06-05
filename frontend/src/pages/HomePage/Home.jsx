@@ -27,11 +27,11 @@ const Home = () => {
     const [ redirectLogin, setRedirectLogin ] = useState(false);
     const [ noPosts, setNoPosts ] = useState(false);
     const [ userID, setUserID ] = useState(0);
-    const [ search, setSearch ] = useState('');    
     const [ noPostsFound, setNoPostsFound ] = useState(false);
-    const [ searchedData, setSearchedData ] = useState(null);
     const [ offers, setOffers ] = useState([]);
     const [showOffersMap, setShowOffersMap] = useState({});
+    const [ search, setSearch ] = useState('');    
+    const [ searchedData, setSearchedData ] = useState(null);
     const [ isSearching, setIsSearching ] = useState(false);
 
     // consts
