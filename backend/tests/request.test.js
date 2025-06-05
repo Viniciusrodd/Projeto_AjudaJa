@@ -112,7 +112,6 @@ describe('Request tests', () =>{
             if(res.status === 200 || res.status === 204){
                 console.log('FIND REQUEST BY TITLE TEST, SUCCESS!!!');
             }
-
             // can be 200 or 204...
             expect([200, 204]).toContain(res.status);
         }

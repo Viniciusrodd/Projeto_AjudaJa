@@ -12,6 +12,7 @@ const request = supertest(app);
 let jwtToken = '';
 let userID = '';
 let campaignID = '';
+let title_campaign = '';
 
 
 // mongoDB Connection
@@ -46,6 +47,7 @@ afterAll(async () => {
 
 // tests
 describe('Campaigns tests', () =>{
+
     // campaign create
     test('Should test a campaign creation...', async () =>{
         const today = new Date();
@@ -64,13 +66,30 @@ describe('Campaigns tests', () =>{
             const res = await request.post('/campaign').set('Cookie', `token=${jwtToken}`).send(campaignData);
             if(res.status === 200){
                 console.log('CAMPAIGN CREATION TEST, SUCCESS!!!');
-                campaignID = res.body.campaign.id
+                campaignID = res.body.campaign.id;
+                title_campaign = res.body.campaign.title;
             }
 
             expect(res.status).toEqual(200);
         }
         catch(error){
             console.error('ERROT AT CAMPAIGN CREATION TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // find by title
+    test('Should test a campaign search by title', async () =>{
+        try{
+            const res = await request.get(`/campaign/search/${title_campaign}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200 || res.status === 204){
+                console.log('SEARCH CAMPAIGN BY TITLE TEST, SUCCESS!!!');
+            }
+            expect([200, 204]).toContain(res.status);
+        }
+        catch(error){
+            console.error('ERROR AT SEARCH CAMPAIGN BY TITLE TEST...', error);
             throw error;
         }
     });
