@@ -79,7 +79,23 @@ describe('Campaigns tests', () =>{
     });
 
 
-    // find by title
+    // find all campaigns
+    test('Should test find all campaigns', async () =>{
+        try{
+            const res = await request.get(`/campaigns`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('FIND ALL CAMPAIGNS TEST, SUCCESS!!!');
+            }
+            expect(res.status).toEqual(200);
+        }
+        catch(error){
+            console.error('ERROR AT FIND ALL CAMPAIGNS TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // search campaign by title
     test('Should test a campaign search by title', async () =>{
         try{
             const res = await request.get(`/campaign/search/${title_campaign}`).set('Cookie', `token=${jwtToken}`);
