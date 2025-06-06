@@ -15,6 +15,9 @@ import { useCampaignData } from '../../../hooks/CampaignFetch/useCampaignData';
 // libs
 import axios from 'axios';
 
+// context
+import { UserContext } from '../../../context/UserContext';
+
 
 const Campaigns = () => {
     // states
@@ -25,6 +28,7 @@ const Campaigns = () => {
     const [ noCampaignsFound, setNoCampaignsFound ] = useState(false);
 
     // consts
+    const { userId } = useContext(UserContext);
     const navigate = useNavigate();
     const modal = useRef(null);
     const modal_title = useRef(null);

@@ -196,6 +196,59 @@ class Campaign{
             });
         }
     };
+
+
+    // find campaigns by moderator id
+    async findCampaignsByModerator(req, res){
+        const moderatorId = req.params.moderatorID;
+        if(!moderatorId){
+            return res.status(400).send({
+                error: 'Bad request at moderator id params'
+            });
+        }
+
+        try{
+            const campaign_data = await CampaignModel.findAll({
+                where: {
+                    moderator_id: moderatorId
+                },
+                order: [['end_date', 'ASC']]
+            });
+
+            if(!campaign_data.length === 0){
+                return res.status(204).send({
+                    noContent: `There's no campaigns for the submitted moderator ID...`
+                });
+            }
+
+            const user = await UserModel.findOne({
+                where: { id: moderatorId }
+            });
+
+            if(!user){
+                return res.status(404).send({
+                    noContent: `Moderator not found...`
+                });
+            }
+
+            const combined_campaigns = campaign_data.map(campaigns =>({
+                ...campaigns.dataValues,
+                user_name: user.name
+            }));
+
+            return res.status(200).send({
+                msg: 'Moderator Campaigns find with success',
+                combined_campaigns
+            });
+        }
+        catch(error){
+            console.log('Internal server error at Find campaign by moderator', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find campaign by moderator',
+                details: error.response?.data || error.message
+            });
+        }
+    };
 };
 
 
