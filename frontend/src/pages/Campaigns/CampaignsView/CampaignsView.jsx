@@ -26,7 +26,8 @@ const Campaigns = () => {
     const [ searchedData, setSearchedData ] = useState(null);
     const [ noCampaigns, setNoCampaigns ] = useState(false);
     const [ noCampaignsFound, setNoCampaignsFound ] = useState(false);
-    const [ myCampaigns, setMyCampaigns ] = useState(false);
+    const [ myCampaigns, setMyCampaigns ] = useState(null);
+    const [filter, setFilter] = useState('all');
 
     // consts
     const { userId } = useContext(UserContext);
@@ -36,7 +37,6 @@ const Campaigns = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
-
 
     // get campaigns data
     const { campaignData } = useCampaignData();
@@ -93,12 +93,21 @@ const Campaigns = () => {
     };
 
 
-    // get campaigns by moderator id
-    const { campaignDataByModeratorId } = useCampaignData(userId);
-    useEffect(() =>{
-        console.log(campaignDataByModeratorId);
-        setMyCampaigns(campaignDataByModeratorId);
-    }, [campaignDataByModeratorId]);    
+    // filtering my campaigns 
+    const filteredCampaigns = searchedData !== null ? searchedData : myCampaigns || campaignData;
+    const handleFilterChange = (selectedValue) =>{
+        setFilter(selectedValue);
+
+        if(selectedValue === 'Todas Campanhas'){
+            setMyCampaigns(null);
+        }
+
+        if(selectedValue === 'Minhas Campanhas'){
+            const filtered = campaignData.filter(campaign => campaign.moderator_id === userId);
+            setMyCampaigns(filtered);
+        }
+    };
+
 
 
     return (
@@ -144,9 +153,9 @@ const Campaigns = () => {
                 }
 
                 { /* CAMAPAIGN SEARCH OPTION */ }
-                <form onClick={ search_form } className='search_container_campaign'>
+                <form onSubmit={ search_form } className='search_container_campaign'>
                     <div className="select is-primary">
-                        <select style={{ width:'100%' }} className='is-hovered'>
+                        <select onChange={(e) => handleFilterChange(e.target.value)} style={{ width:'100%' }} className='is-hovered'>
                             <option>Todas Campanhas</option>
                             <option>Minhas Campanhas</option>
                             <option>Campanhas + recentes</option>
@@ -184,7 +193,7 @@ const Campaigns = () => {
                 }
                 
                 {
-                    (searchedData || campaignData)?.map((campaign) => (
+                    filteredCampaigns?.map((campaign) => (
                         <div className='campaign' key={ campaign.id }>
                             <div className='campaign_image'>
                                 <div className='campaign_image_filter'></div>

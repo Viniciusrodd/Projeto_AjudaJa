@@ -55,7 +55,7 @@ router.delete('/offer/:offerID', middleware.verifyToken, OfferController.deleteO
 router.post('/campaign', middleware.verifyToken, CampaignController.createCampaign);
 router.get('/campaigns', middleware.verifyToken, CampaignController.findCampaigns);
 router.get('/campaign/search/:titleRequest', middleware.verifyToken, CampaignController.findCampaignByTitle);
-router.get('/campaigns/:moderatorID', middleware.verifyToken, CampaignController.findCampaignsByModerator);
+router.get('/campaigns/:moderatorID', middleware.verifyToken, CampaignController.findCampaignsByModerator); // not in use
 
 
 

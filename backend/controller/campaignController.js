@@ -199,7 +199,7 @@ class Campaign{
 
 
     // find campaigns by moderator id
-    async findCampaignsByModerator(req, res){
+    async findCampaignsByModerator(req, res){ // not in use
         const moderatorId = req.params.moderatorID;
         if(!moderatorId){
             return res.status(400).send({
