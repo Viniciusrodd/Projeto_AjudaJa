@@ -43,7 +43,7 @@ class Offer{
         try{
             const offers = await OfferModel.findAll();
 
-            if(!offers){
+            if(offers.length === 0){
                 return res.status(204).send({
                     noContent: `There's no offers...`
                 });
@@ -103,7 +103,7 @@ class Offer{
             const offers = await OfferModel.findAll({
                 where: { user_id: userId }
             });
-            if(!offers){
+            if(offers.length === 0){
                 return res.status(204).send({
                     noContent: `There's no offers...`
                 });
@@ -176,7 +176,6 @@ class Offer{
         
         try{
             const offers = await OfferModel.findByPk(offerId);
-
             if(!offers){
                 return res.status(204).send({
                     noContent: `There's no offers...`

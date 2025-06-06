@@ -215,7 +215,7 @@ class Campaign{
                 order: [['end_date', 'ASC']]
             });
 
-            if(!campaign_data.length === 0){
+            if(campaign_data.length === 0){
                 return res.status(204).send({
                     noContent: `There's no campaigns for the submitted moderator ID...`
                 });

@@ -26,6 +26,7 @@ const Campaigns = () => {
     const [ searchedData, setSearchedData ] = useState(null);
     const [ noCampaigns, setNoCampaigns ] = useState(false);
     const [ noCampaignsFound, setNoCampaignsFound ] = useState(false);
+    const [ myCampaigns, setMyCampaigns ] = useState(false);
 
     // consts
     const { userId } = useContext(UserContext);
@@ -60,10 +61,8 @@ const Campaigns = () => {
 
             if(response.data.combined_campaigns?.length > 0){
                 setSearchedData(response.data.combined_campaigns);
-                setNoCampaignsFound(false);
             }else{
                 setSearchedData([]); // limpa resultados anteriores
-
                 setNoCampaignsFound('Campanha não encontrada');
                 setTimeout(() =>{
                     setNoCampaignsFound('');
@@ -92,6 +91,14 @@ const Campaigns = () => {
         setIsSearching(false);
         return;
     };
+
+
+    // get campaigns by moderator id
+    const { campaignDataByModeratorId } = useCampaignData(userId);
+    useEffect(() =>{
+        console.log(campaignDataByModeratorId);
+        setMyCampaigns(campaignDataByModeratorId);
+    }, [campaignDataByModeratorId]);    
 
 
     return (
