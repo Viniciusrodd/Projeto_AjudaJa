@@ -49,7 +49,7 @@ afterAll(async () => {
 describe('Campaigns tests', () =>{
 
     // campaign create
-    test('Should test a campaign creation...', async () =>{
+    test('Should test a campaign creation route...', async () =>{
         const today = new Date();
         today.setDate(today.getDate() + 1); // amanhã
 
@@ -80,7 +80,7 @@ describe('Campaigns tests', () =>{
 
 
     // find all campaigns
-    test('Should test find all campaigns', async () =>{
+    test('Should test find all campaigns route...', async () =>{
         try{
             const res = await request.get(`/campaigns`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200){
@@ -96,7 +96,7 @@ describe('Campaigns tests', () =>{
 
 
     // search campaign by title
-    test('Should test a campaign search by title', async () =>{
+    test('Should test a campaign search by title route...', async () =>{
         try{
             const res = await request.get(`/campaign/search/${title_campaign}`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200 || res.status === 204){
@@ -111,5 +111,18 @@ describe('Campaigns tests', () =>{
     });
 
 
-    
+    // find campaigns by moderator id
+    test('Should test a find campaigns by moderator id route...', async () =>{
+        try{
+            const res = await request.get(`/campaigns/${userID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200 || res.status === 204){
+                console.log('FIND CAMPAIGNS BY MODERATOR ID TEST, SUCCESS!!!');
+            }
+            expect([200, 204]).toContain(res.status);
+        }
+        catch(error){
+            console.error('ERROR AT FIND CAMPAIGNS BY MODERATOR ID TEST...', error);
+            throw error;
+        }
+    });
 });

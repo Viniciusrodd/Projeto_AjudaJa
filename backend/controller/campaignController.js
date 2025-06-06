@@ -91,7 +91,7 @@ class Campaign{
                 order: [['end_date', 'ASC']]
             });
 
-            if(!campaign_data){
+            if(campaign_data.length === 0){
                 return res.status(204).send({
                     noContent: `There's no Campaigns...`
                 });
@@ -221,10 +221,7 @@ class Campaign{
                 });
             }
 
-            const user = await UserModel.findOne({
-                where: { id: moderatorId }
-            });
-
+            const user = await UserModel.findByPk(moderatorId);
             if(!user){
                 return res.status(404).send({
                     noContent: `Moderator not found...`

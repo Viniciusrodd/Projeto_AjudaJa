@@ -62,7 +62,7 @@ class Request{
                 order: [['expires_at', 'ASC']]
             });
 
-            if(!request_data){
+            if(request_data.length === 0){
                 return res.status(204).send({
                     noContent: `There's no help requests...`
                 });
