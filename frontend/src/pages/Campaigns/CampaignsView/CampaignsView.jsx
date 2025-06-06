@@ -4,7 +4,7 @@ import '../../../utils/FeedsCss/FeedsUtil.css'
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -133,17 +133,32 @@ const Campaigns = () => {
                 }
 
                 { /* CAMAPAIGN SEARCH OPTION */ }
-                <form onClick={ search_form } className='search_container'>
-                    <input className='input is-primary' type="text" name="search" placeholder='Pesquise por campanha' value={ search } 
-                    autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
+                <form onClick={ search_form } className='search_container_campaign'>
+                    <div className="select is-primary">
+                        <select style={{ width:'100%' }} className='is-hovered'>
+                            <option>Todas Campanhas</option>
+                            <option>Minhas Campanhas</option>
+                            <option>Campanhas + recentes</option>
+                        </select>
+                    </div>
 
-                    <button className="button is-primary is-outlined" style={{ height:'45px' ,width:'45px' }}>
-                        <i className="material-icons" id='person'>search</i>
-                    </button>
+                    <div className='searchInput_container_campaign'>
+                        <input className='input is-primary' type="text" name="search" placeholder='Pesquise por campanha' value={ search }
+                        autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
+                        
+                        <button className="button is-primary is-outlined" style={{ height:'40px' ,width:'40px' }}>
+                            <i className="material-icons" id='person'>search</i>
+                        </button>
+                    </div>
                 </form>
 
                 <button onClick={ () => cleanSearch() } className="button is-primary is-outlined"
-                style={{ margin:'10px 0px 10px 0px', opacity: isSearching ? 1 : 0, visibility: isSearching ? 'visible' : 'hidden', transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' }}>
+                style={{ 
+                    margin: isSearching ? '10px 0px 20px 0px' : '0px', 
+                    opacity: isSearching ? 1 : 0, 
+                    visibility: isSearching ? 'visible' : 'hidden', 
+                    transition: 'opacity 0.2s ease-out, visibility 0.2s ease-out' 
+                }}>
                     Limpar pesquisa...
                 </button>
 

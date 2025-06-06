@@ -59,7 +59,7 @@ class Request{
 
             // get requests
             const request_data = await RequestModel.findAll({
-                order: [['expires_at', 'DESC']]
+                order: [['expires_at', 'ASC']]
             });
 
             if(!request_data){

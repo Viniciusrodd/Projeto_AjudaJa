@@ -229,29 +229,38 @@ const Home = () => {
 
             { /* FEED CONTAINER */ }
             <div className='container_feed'>
-
+                
                 { /* FEED OPTIONS */ }
                 <div className='feed_options'>
                     <div className="select is-primary">
                         <select style={{ width:'100%' }} className='is-hovered'>
-                            <option>Filtro</option>
-                            <option>Opções aqui...</option>
+                            <option>Todos pedidos</option>
+                            <option>De alta urgencia</option>
+                            <option>De média urgencia</option>
+                            <option>De baixa urgencia</option>
                         </select>
                     </div>
-                    <form onSubmit={ search_form } className='search_container_feedOptions'>
-                        <button onClick={ () => cleanSearch() } className="button is-primary is-outlined" 
-                        style={{ marginBottom:'5px', opacity: isSearching ? 1 : 0, visibility: isSearching ? 'visible' : 'hidden', transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' }}>
-                            Limpar pesquisa...
-                        </button>
-
-                        <input className='input is-primary' type="text" name="search" placeholder='Pesquise por ajuda' value={ search }
-                        autoComplete='off' onChange={ (e) => setSearch(e.target.value) }/>
-                
-                        <button className="button is-primary is-outlined" style={{ height:'40px' ,width:'40px' }}>
-                            <i className="material-icons" id='person'>search</i>
-                        </button>
+                    <form onSubmit={ search_form } className='search_container_home'>
+                        <div className='searchInput_container'>
+                            <input className='input is-primary' type="text" name="search" placeholder='Pesquise por ajuda' value={ search }
+                            autoComplete='off' onChange={ (e) => setSearch(e.target.value) }/>
+                            
+                            <button className="button is-primary is-outlined" style={{ height:'40px' ,width:'40px' }}>
+                                <i className="material-icons" id='person'>search</i>
+                            </button>
+                        </div>
                     </form>
                 </div>
+
+                <button onClick={ () => cleanSearch() } className="button is-primary is-outlined" 
+                style={{ 
+                    margin: isSearching ? '10px 0px 20px 0px' : '0px', 
+                    opacity: isSearching ? 1 : 0, 
+                    visibility: isSearching ? 'visible' : 'hidden', 
+                    transition: 'opacity 0.3s ease-out, visibility 0.3s ease-out' 
+                }}>
+                    Limpar pesquisa...
+                </button>
 
                 { /* FEED PUBLICATIONS */ }
                 {
