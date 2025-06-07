@@ -227,7 +227,7 @@ const Campaigns = () => {
                             {
                                 campaign.moderator_id === userId && (
                                     <div className='div_bottoms'>
-                                        <Link to={`/`}>
+                                        <Link to={`/editarCampanha/${campaign.id}`}>
                                             <button className="button is-info is-dark">
                                                 Editar
                                             </button>
