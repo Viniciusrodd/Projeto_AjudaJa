@@ -33,6 +33,7 @@ const Home = () => {
     const [ search, setSearch ] = useState('');    
     const [ searchedData, setSearchedData ] = useState(null);
     const [ isSearching, setIsSearching ] = useState(false);
+    const [ myRequests, setMyRequests ] = useState(null);
 
     // consts
     const navigate = useNavigate();
@@ -43,6 +44,7 @@ const Home = () => {
     const modal_btt_2 = useRef(null);
     const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
     const divImageRef = useRef(null);
+    const select_options = useRef(null);
 
 
     // redirect
@@ -194,6 +196,37 @@ const Home = () => {
     };
 
 
+    // filtering service function
+    const filtering = (data) =>{
+        const filtered = requestData.filter(request => request.urgency === data);
+
+        if(filtered.length === 0){
+            setNoPostsFound(`Pedidos de ajuda de ${data} urgência não encontrados`);
+            setTimeout(() => {
+                setNoPostsFound('');
+                setMyRequests(null);
+                select_options.current.value = 'Todos pedidos'
+            }, 3000);
+        }
+
+        setMyRequests(filtered);
+    };
+
+    // filtering help requests
+    const filteredRequests = searchedData !== null ? searchedData : myRequests || requestData;
+    const handleFilterChange = (selectedValue) =>{
+        if(selectedValue === 'Todos pedidos'){
+            setMyRequests(null);
+        }else if(selectedValue === 'De alta urgência'){
+            filtering('alta');
+        }else if(selectedValue === 'De média urgência'){
+            filtering('media');
+        }else if(selectedValue === 'De baixa urgência'){
+            filtering('baixa');
+        }
+    };
+
+
     return (
         <div className='container_home'>
             
@@ -233,11 +266,12 @@ const Home = () => {
                 { /* FEED OPTIONS */ }
                 <div className='feed_options'>
                     <div className="select is-primary">
-                        <select style={{ width:'100%' }} className='is-hovered'>
+                        <select style={{ width:'100%' }} className='is-hovered' 
+                        onChange={(e) => handleFilterChange(e.target.value)} ref={ select_options }>
                             <option>Todos pedidos</option>
-                            <option>De alta urgencia</option>
-                            <option>De média urgencia</option>
-                            <option>De baixa urgencia</option>
+                            <option>De alta urgência</option>
+                            <option>De média urgência</option>
+                            <option>De baixa urgência</option>
                         </select>
                     </div>
                     <form onSubmit={ search_form } className='search_container_home'>
@@ -278,7 +312,7 @@ const Home = () => {
                     )
                 }
                 {
-                    (searchedData || requestData)?.map((request) => {
+                    filteredRequests?.map((request) => {
                         const relatedOffers = offers.filter(offer => offer.request_id === request.id);
                         const isVisible = showOffersMap[request.id] || false;
     
@@ -348,7 +382,7 @@ const Home = () => {
                                 {
                                     relatedOffers.length > 0 && (
                                         <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined' 
-                                        style={{ marginTop: '15px', marginRight:'8px', padding:'15px', width:'25%' }}>
+                                        style={{ marginTop: '15px', padding:'15px', width:'25%' }}>
                                             { !isVisible ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
                                         </button>
                                     )

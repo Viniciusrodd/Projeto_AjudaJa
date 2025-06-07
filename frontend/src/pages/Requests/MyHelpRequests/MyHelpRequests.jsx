@@ -189,7 +189,7 @@ const MyHelpRequests = () => {
 
 
             { /* FEED CONTAINER */ }
-            <div className='container_feed'>
+            <div className='container_feed_2'>
                 { /* FEED PUBLICATIONS */ }
                 <h1 className='title is-1'>Meus pedidos de ajuda</h1>
 
@@ -269,7 +269,7 @@ const MyHelpRequests = () => {
                                 {
                                     relatedOffers.length > 0 && (
                                         <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined' 
-                                        style={{ marginTop: '15px', marginRight:'8px', padding:'15px', width:'26%' }}>
+                                        style={{ marginTop: '15px', padding:'15px', width:'24%' }}>
                                             { !isVisible ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
                                         </button>
                                     )

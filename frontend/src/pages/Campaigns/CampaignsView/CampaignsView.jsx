@@ -27,7 +27,6 @@ const Campaigns = () => {
     const [ noCampaigns, setNoCampaigns ] = useState(false);
     const [ noCampaignsFound, setNoCampaignsFound ] = useState(false);
     const [ myCampaigns, setMyCampaigns ] = useState(null);
-    const [filter, setFilter] = useState('all');
 
     // consts
     const { userId } = useContext(UserContext);
@@ -37,6 +36,7 @@ const Campaigns = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
+    const select_options = useRef(null);
 
     // get campaigns data
     const { campaignData } = useCampaignData();
@@ -96,14 +96,20 @@ const Campaigns = () => {
     // filtering my campaigns 
     const filteredCampaigns = searchedData !== null ? searchedData : myCampaigns || campaignData;
     const handleFilterChange = (selectedValue) =>{
-        setFilter(selectedValue);
-
         if(selectedValue === 'Todas Campanhas'){
             setMyCampaigns(null);
-        }
-
-        if(selectedValue === 'Minhas Campanhas'){
+        }else if(selectedValue === 'Minhas Campanhas'){
             const filtered = campaignData.filter(campaign => campaign.moderator_id === userId);
+            
+            if(filtered.length === 0){
+                setNoCampaignsFound('Campanhas pessoais não encontradas')
+                setTimeout(() =>{
+                    setNoCampaignsFound('');
+                    setMyCampaigns(null);
+                    select_options.current.value = 'Todas Campanhas'
+                }, 3000);
+            }
+
             setMyCampaigns(filtered);
         }
     };
@@ -155,10 +161,10 @@ const Campaigns = () => {
                 { /* CAMAPAIGN SEARCH OPTION */ }
                 <form onSubmit={ search_form } className='search_container_campaign'>
                     <div className="select is-primary">
-                        <select onChange={(e) => handleFilterChange(e.target.value)} style={{ width:'100%' }} className='is-hovered'>
+                        <select onChange={(e) => handleFilterChange(e.target.value)} 
+                        style={{ width:'100%' }} className='is-hovered' ref={ select_options }>
                             <option>Todas Campanhas</option>
                             <option>Minhas Campanhas</option>
-                            <option>Campanhas + recentes</option>
                         </select>
                     </div>
 

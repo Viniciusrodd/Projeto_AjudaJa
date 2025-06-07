@@ -127,7 +127,7 @@ const MyOffers = () => {
 
 
             { /* OFFERS CONTAINER */ }
-            <div className='container_feed'>
+            <div className='container_feed_2'>
                 <h1 className='title is-1'>Minhas ofertas de ajuda</h1>
 
                 {
