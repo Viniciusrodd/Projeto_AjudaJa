@@ -298,13 +298,12 @@ class Campaign{
             if(description) updateFields.description = description;
 
             // get dates
-            const startDate = new Date(start_date);
             const endDate = new Date(end_date);
             if(start_date){
-                // start date cannot be in the past
-                if(startDate.getTime() < new Date().setHours(0, 0, 0, 0)){
+                const original_date = await CampaignModel.findByPk(campaignId);
+                if(start_date < original_date.start_date){
                     return res.status(400).send({
-                        error: 'Start date cannot be in the past'
+                        error: 'Start date cannot be smaller than previous start date'
                     });
                 }
             

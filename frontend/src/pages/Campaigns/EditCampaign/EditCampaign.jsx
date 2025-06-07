@@ -4,13 +4,13 @@ import '../../../utils/FormsCss/FormsUtil.css';
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custom hook
+import { useCampaignData } from '../../../hooks/CampaignFetch/useCampaignData'; // custom hook
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 
 // services
-import { useCampaignData } from '../../../hooks/CampaignFetch/useCampaignData';
+import { editCampaign } from '../../../services/CampaignService';
 
 
 const EditCampaign = () => {
@@ -47,15 +47,73 @@ const EditCampaign = () => {
     // get campaign data
     const { campaignDataById } = useCampaignData(campaignID);
     useEffect(() =>{
-        console.log(campaignDataById);
+        if(campaignDataById){
+            setFieldsValue({ ...fieldsValues, 
+                title: campaignDataById.title,
+                description: campaignDataById.description,
+                start_date: campaignDataById.start_date,
+                end_date: campaignDataById.end_date 
+            });
+        }
     }, [campaignDataById]);
 
 
     // edit form
-    const editForm = (e) =>{
+    const editForm = async (e) =>{
         e.preventDefault();
 
+        try{
+            const response = await editCampaign(campaignID, fieldsValues);
 
+            if(response.status === 200){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso!!!'
+                modal_msg.current.innerText = `Campanha Atualizada! \n 
+                você será redirecionado para a página de campanhas...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';
+
+                setRedirect(true);
+            }
+        }
+        catch(error){
+            console.log('Error at update campaign: ', error);
+
+            if(error.response.data.error === 'Start date cannot be smaller than previous start date'){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Erro de datas';
+                modal_msg.current.innerText = `Data inicial não pode ser menor que a original...`;
+                modal_btt.current.innerText = 'Tentar novamente';
+                modal_btt_2.current.style.display = 'none';
+
+                modal_btt.current.onclick = () => {
+                    modal.current.style.display = 'none';
+                };
+                return;
+            }
+            
+            if(error.response.data.error === 'End date must be within the next year'){
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Erro de datas';
+                modal_msg.current.innerText = `Data final não pode ser maior que ${new Date().getFullYear() + 1}...`;
+                modal_btt.current.innerText = 'Tentar novamente';
+                modal_btt_2.current.style.display = 'none';
+
+                modal_btt.current.onclick = () => {
+                    modal.current.style.display = 'none';
+                };
+                return;
+            }
+
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = 'Erro ao editar campanha...'
+            modal_btt.current.innerText = 'Tentar novamente'
+            modal_btt_2.current.style.display = 'none';
+
+            modal_btt.current.addEventListener('click', () =>{
+                modal.current.style.display = 'none';
+            });
+        }
     };
 
 
@@ -99,13 +157,15 @@ const EditCampaign = () => {
                     <div className='container_input'>
                         <label className="label title is-5" id="label">Titulo: </label>
                         <input className="input is-hovered" name='title' type="text"
-                        style={{ width:'80%' }}/>
+                        style={{ width:'80%' }} value={ fieldsValues.title }
+                        onChange={ (e) => setFieldsValue({...fieldsValues, title: e.target.value}) }/>
                     </div>
 
 
                     <div className={`control textarea_container`}>
                         <label className="label title is-5" id="label">Descrição: </label>
-                        <textarea className="textarea is-hovered" name='description' style={{ height:'30vh' }}>
+                        <textarea className="textarea is-hovered" name='description' style={{ height:'30vh' }}
+                        value={ fieldsValues.description } onChange={ (e) => setFieldsValue({...fieldsValues, description: e.target.value}) }>
                                                 
                         </textarea>
                     </div>        
@@ -113,13 +173,15 @@ const EditCampaign = () => {
                     <div className='container_input'>
                         <label className="label title is-5" id="label">Data de inicio: </label>
                         <input className="input is-hovered" name='start-date' type="date" 
-                        style={{ width:'40%' }}/>
+                        style={{ width:'40%' }} value={ fieldsValues.start_date }
+                        onChange={ (e) => setFieldsValue({...fieldsValues, start_date: e.target.value}) }/>
                     </div>
 
                     <div className='container_input'>
                         <label className="label title is-5" id="label">Data de fim: </label>
                         <input className="input is-hovered" name='end-date' type="date" 
-                        style={{ width:'40%' }}/>
+                        style={{ width:'40%' }} value={ fieldsValues.end_date }
+                        onChange={ (e) => setFieldsValue({...fieldsValues, end_date: e.target.value}) }/>
                     </div>
 
                     <hr className='hr' />
