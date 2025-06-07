@@ -42,7 +42,7 @@ class Campaign{
             const endDate = new Date(end_date);
 
             // start date cannot be in the past
-            if (startDate < today.setHours(0,0,0,0)) {
+            if(startDate < today.setHours(0,0,0,0)){
                 return res.status(400).send({
                     error: 'Start date cannot be in the past'
                 });
@@ -54,7 +54,7 @@ class Campaign{
             maxEndDate.setMonth(11);  // december (0-11)
             maxEndDate.setDate(31);   // last day of year
             maxEndDate.setHours(23,59,59,999);
-            if (endDate > maxEndDate) {
+            if(endDate > maxEndDate){
                 return res.status(400).send({
                     error: `End date must be within the next year`
                 });
@@ -242,6 +242,71 @@ class Campaign{
             console.log('Internal server error at Find campaign by moderator', error);
             return res.status(500).send({
                 msgError: 'Internal server error at Find campaign by moderator',
+                details: error.response?.data || error.message
+            });
+        }
+    };
+
+
+    // campaigns edit
+    async editCampaign(req, res){
+        const campaignId = req.params.campaignID;
+        const { title, description, start_date, end_date } = req.body;
+
+        if(!campaignId){
+            return res.status(400).send({
+                error: 'Bad request at campaignId params'
+            });
+        }
+
+        try{
+            const updateFields = {};
+
+            if(title) updateFields.title = title;
+            if(description) updateFields.description = description;
+
+            // get dates
+            const startDate = new Date(start_date);
+            const endDate = new Date(end_date);
+            if(start_date){
+                // start date cannot be in the past
+                if(startDate.getTime() < new Date().setHours(0, 0, 0, 0)){
+                    return res.status(400).send({
+                        error: 'Start date cannot be in the past'
+                    });
+                }
+            
+                updateFields.start_date = start_date;
+            };
+            if(end_date){
+                // end date must be within the next year
+                const maxEndDate = new Date();
+                maxEndDate.setFullYear(maxEndDate.getFullYear() + 1); // next year
+                maxEndDate.setMonth(11);  // december (0-11)
+                maxEndDate.setDate(31);   // last day of year
+                maxEndDate.setHours(23,59,59,999);
+                if(endDate > maxEndDate){
+                    return res.status(400).send({
+                        error: `End date must be within the next year`
+                    });
+                }
+            
+                updateFields.end_date = end_date;
+            };
+
+            // updating
+            await CampaignModel.update(updateFields,{
+                where: { id: campaignId }
+            });
+
+            return res.status(200).send({
+                msg: 'Campaign updated with success'
+            });
+        }
+        catch(error){
+            console.log('Internal server error at Edit campaign', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Edit campaign',
                 details: error.response?.data || error.message
             });
         }

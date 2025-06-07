@@ -210,7 +210,7 @@ const Campaigns = () => {
 
                             <div className='user_requests_description' style={{ margin:'0px 0px 20px 0px' }}>
                                 <h5 className='subtitle is-5'>{ campaign.description }</h5>
-                            </div>                        
+                            </div>
 
                             <div className='user_requests_details' style={{ justifyContent:'space-around' }}>
                                 <div className='details' style={{ margin:'0px' }}>
@@ -223,6 +223,22 @@ const Campaigns = () => {
                                     <h1 className='subtitle is-4'>{ campaign.end_date }</h1>
                                 </div>  
                             </div>
+
+                            {
+                                campaign.moderator_id === userId && (
+                                    <div className='div_bottoms'>
+                                        <Link to={`/`}>
+                                            <button className="button is-info is-dark">
+                                                Editar
+                                            </button>
+                                        </Link>
+                                    
+                                        <button className="button is-danger is-dark">
+                                            Excluir
+                                        </button>
+                                    </div>
+                                )
+                            }
                         </div>
                     ))
                 }
