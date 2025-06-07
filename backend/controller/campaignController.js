@@ -248,6 +248,38 @@ class Campaign{
     };
 
 
+    // find campaigns by id
+    async findCampaignByPk(req, res){
+        const campaignId = req.params.campaignID;
+        if(!campaignId){
+            return res.status(400).send({
+                error: 'Bad request at campaignId params'
+            });
+        }
+
+        try{
+            const campaign_data = await CampaignModel.findByPk(campaignId);
+            if(!campaign_data){
+                return res.status(204).send({
+                    noContent: `There's no campaign...`
+                });
+            }
+
+            return res.status(200).send({
+                msg: 'Campaign find with success',
+                campaign_data
+            });
+        }
+        catch(error){
+            console.log('Internal server error at Find campaign by id', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find campaign by id',
+                details: error.response?.data || error.message
+            });
+        }
+    };
+
+
     // campaigns edit
     async editCampaign(req, res){
         const campaignId = req.params.campaignID;

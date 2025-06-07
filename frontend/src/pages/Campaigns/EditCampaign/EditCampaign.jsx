@@ -15,7 +15,7 @@ import SideBar from '../../../components/SideBar/SideBar';
 const EditCampaign = () => {
     // states
     const [ fieldsValues, setFieldsValue ] = useState({
-        moderator_id: '', title: '', description: '', start_date: '', end_date: ''
+        title: '', description: '', start_date: '', end_date: ''
     });
     const [ redirect, setRedirect ] = useState(false);
 
@@ -46,7 +46,7 @@ const EditCampaign = () => {
     const editForm = (e) =>{
         e.preventDefault();
 
-        
+
     };
 
 
@@ -87,6 +87,37 @@ const EditCampaign = () => {
                     <h1 className='title is-1'>Edite sua campanha de ajuda</h1>
                     <hr className='hr'/>
 
+                    <div className='container_input'>
+                        <label className="label title is-5" id="label">Titulo: </label>
+                        <input className="input is-hovered" name='title' type="text"
+                        style={{ width:'80%' }}/>
+                    </div>
+
+
+                    <div className={`control textarea_container`}>
+                        <label className="label title is-5" id="label">Descrição: </label>
+                        <textarea className="textarea is-hovered" name='description' style={{ height:'30vh' }}>
+                                                
+                        </textarea>
+                    </div>        
+
+                    <div className='container_input'>
+                        <label className="label title is-5" id="label">Data de inicio: </label>
+                        <input className="input is-hovered" name='start-date' type="date" 
+                        style={{ width:'40%' }}/>
+                    </div>
+
+                    <div className='container_input'>
+                        <label className="label title is-5" id="label">Data de fim: </label>
+                        <input className="input is-hovered" name='end-date' type="date" 
+                        style={{ width:'40%' }}/>
+                    </div>
+
+                    <hr className='hr' />
+
+                    <button className="button is-primary is-dark">
+                        Editar
+                    </button>                    
                 </form>
             </div>
         </div>

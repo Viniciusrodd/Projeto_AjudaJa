@@ -56,6 +56,7 @@ router.post('/campaign', middleware.verifyToken, CampaignController.createCampai
 router.get('/campaigns', middleware.verifyToken, CampaignController.findCampaigns);
 router.get('/campaign/search/:titleRequest', middleware.verifyToken, CampaignController.findCampaignByTitle);
 router.get('/campaigns/:moderatorID', middleware.verifyToken, CampaignController.findCampaignsByModerator); // not in use
+router.get('/campaign/:campaignID', middleware.verifyToken, CampaignController.findCampaignByPk);
 router.put('/campaign/:campaignID', middleware.verifyToken, CampaignController.editCampaign);
 
 
