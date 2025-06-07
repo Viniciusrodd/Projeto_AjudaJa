@@ -10,6 +10,7 @@ import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custo
 import SideBar from '../../../components/SideBar/SideBar';
 
 // services
+import { useCampaignData } from '../../../hooks/CampaignFetch/useCampaignData';
 
 
 const EditCampaign = () => {
@@ -26,6 +27,7 @@ const EditCampaign = () => {
     const modal_msg = useRef(null);
     const modal_btt = useRef(null);
     const modal_btt_2 = useRef(null);
+    const { campaignID } = useParams();
 
 
     // redirect user
@@ -40,6 +42,13 @@ const EditCampaign = () => {
             };
         }
     }, [redirect]);
+
+
+    // get campaign data
+    const { campaignDataById } = useCampaignData(campaignID);
+    useEffect(() =>{
+        console.log(campaignDataById);
+    }, [campaignDataById]);
 
 
     // edit form

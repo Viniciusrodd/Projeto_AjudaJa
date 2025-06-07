@@ -6,9 +6,11 @@ import axios from 'axios';
 import { useState, useEffect } from "react"
 
 // custom hook
-export const useCampaignData = () =>{
+export const useCampaignData = (id) =>{
     const [ campaignData, setCampaignData ] = useState(null);
     const [ campaignDataByModeratorId, setCampaignDataByModeratorId ] = useState(null);
+    const [ campaignDataById, setCampaignDataById ] = useState(null);
+
 
     useEffect(() =>{
         const request = async () =>{
@@ -22,5 +24,20 @@ export const useCampaignData = () =>{
         request();
     }, []);
 
-    return { campaignData };
+
+    // campaign by id
+    useEffect(() =>{
+        const requestById = async () =>{
+            const response = await axios.get(`http://localhost:2130/campaign/${id}`, { withCredentials: true });
+            if(response.status === 204){
+                setCampaignDataById([]);
+            }else{
+                setCampaignDataById(response.data.campaign_data);
+            }
+        };
+        requestById();
+    }, []);
+
+
+    return { campaignData, campaignDataById };
 }
