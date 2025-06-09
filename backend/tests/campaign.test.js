@@ -50,15 +50,17 @@ describe('Campaigns tests', () =>{
 
     // campaign create
     test('Should test a campaign creation route...', async () =>{
-        const today = new Date();
-        today.setDate(today.getDate() + 1); // amanhã
+        // amanhã
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
 
+        // + 5 dias...
         const endDate = new Date();
-        endDate.setDate(endDate.getDate() + 5); // + 5 dias...
+        endDate.setDate(endDate.getDate() + 5);
 
         const campaignData = {
             moderator_id: userID, title: 'test', description: 'test', 
-            start_date: today.toISOString().split('T')[0], 
+            start_date: tomorrow.toISOString().split('T')[0], 
             end_date: endDate.toISOString().split('T')[0]
         };
 
@@ -122,6 +124,35 @@ describe('Campaigns tests', () =>{
         }
         catch(error){
             console.error('ERROR AT FIND CAMPAIGNS BY MODERATOR ID TEST...', error);
+            throw error;
+        }
+    });
+
+
+    // campaign edit
+    test('Should test a edit campaign route...', async () =>{
+        // amanhã
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        // + 5 dias...
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 5);
+
+        const campaign_data = {
+            title: 'test edit', description: 'test edit', 
+            start_date: tomorrow.toISOString().split('T')[0], 
+            end_date: endDate.toISOString().split('T')[0]
+        };
+        try{
+            const res = await request.put(`/campaign/${campaignID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('EDIT CAMPAIGN TEST, SUCCESS!!!');
+                expect(res.status).toEqual(200);
+            }
+        }
+        catch(error){
+            console.error('ERROR AT EDIT CAMPAIGN TEST...', error);
             throw error;
         }
     });
