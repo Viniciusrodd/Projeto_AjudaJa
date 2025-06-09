@@ -156,4 +156,20 @@ describe('Campaigns tests', () =>{
             throw error;
         }
     });
+
+
+    // delete campaign
+    test('Should test a delete campaign route...', async () =>{
+        try{
+            const res = await request.delete(`/campaign/${campaignID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('DELETE CAMPAIGN TEST, SUCCESS!!!');
+                expect(res.status).toEqual(200);
+            }
+        }
+        catch(error){
+            console.error('ERROR AT DELETE CAMPAIGN TEST...', error);
+            throw error;
+        }
+    });
 });
