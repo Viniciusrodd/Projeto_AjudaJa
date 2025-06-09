@@ -139,13 +139,13 @@ describe('Campaigns tests', () =>{
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + 5);
 
-        const campaign_data = {
+        const campaignData = {
             title: 'test edit', description: 'test edit', 
             start_date: tomorrow.toISOString().split('T')[0], 
             end_date: endDate.toISOString().split('T')[0]
         };
         try{
-            const res = await request.put(`/campaign/${campaignID}`).set('Cookie', `token=${jwtToken}`);
+            const res = await request.put(`/campaign/${campaignID}`).set('Cookie', `token=${jwtToken}`).send(campaignData);
             if(res.status === 200){
                 console.log('EDIT CAMPAIGN TEST, SUCCESS!!!');
                 expect(res.status).toEqual(200);

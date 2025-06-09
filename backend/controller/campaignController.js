@@ -342,6 +342,34 @@ class Campaign{
             });
         }
     };
+
+
+    // delete campaign
+    async deleteCampaign(req, res){
+        const campaignId = req.params.campaignID;
+        if(!campaignId){
+            return res.status(400).send({
+                error: 'Bad request at campaignId params'
+            });            
+        }
+
+        try{
+            const campaign = await CampaignModel.findByPk(campaignId);
+            if(!campaign){
+                return res.status(404).send({ error: 'Campaign not found' });
+            }
+
+            await campaign.destroy();
+            return res.status(200).send({ msg: 'Campaign deleted successfully' });
+        }
+        catch(error){
+            console.log('Internal server error at Delete campaign', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Delete campaign',
+                details: error.response?.data || error.message
+            });
+        }
+    };
 };
 
 

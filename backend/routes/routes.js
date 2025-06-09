@@ -17,6 +17,7 @@ const upload = multer({ storage });
 // middleware
 const middleware = require('../middleware/verifyToken.js');
 const requestController = require('../controller/requestController.js');
+const campaignController = require('../controller/campaignController.js');
 router.post('/verifyToken', middleware.verifyToken, (req, res) => {
     return res.status(200).send({ msg: 'Token is valid', user: req.user });
 });
@@ -58,7 +59,7 @@ router.get('/campaign/search/:titleRequest', middleware.verifyToken, CampaignCon
 router.get('/campaigns/:moderatorID', middleware.verifyToken, CampaignController.findCampaignsByModerator); // not in use
 router.get('/campaign/:campaignID', middleware.verifyToken, CampaignController.findCampaignByPk);
 router.put('/campaign/:campaignID', middleware.verifyToken, CampaignController.editCampaign);
-
+router.delete('/campaign/:campaignID', middleware.verifyToken, campaignController.deleteCampaign);
 
 
 module.exports = router;
