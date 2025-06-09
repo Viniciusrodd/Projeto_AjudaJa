@@ -54,7 +54,7 @@ const MyHelpRequests = () => {
         modal_btt.current.innerText = 'Tenho certeza'
         
         modal_btt.current.onclick = () =>{
-            deleteRequest_event(id)
+            deleteRequest_event(id);
         };        
         modal_btt_2.current.onclick = () =>{
             modal.current.style.display = 'none';

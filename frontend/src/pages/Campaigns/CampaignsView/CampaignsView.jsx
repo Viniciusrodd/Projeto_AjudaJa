@@ -18,6 +18,9 @@ import axios from 'axios';
 // context
 import { UserContext } from '../../../context/UserContext';
 
+// service
+import { deleteCampaign } from '../../../services/CampaignService';
+
 
 const Campaigns = () => {
     // states
@@ -39,12 +42,12 @@ const Campaigns = () => {
     const select_options = useRef(null);
 
     // get campaigns data
-    const { campaignData } = useCampaignData();
+    const { campaignData, setCampaignData } = useCampaignData();
     useEffect(() =>{
         if(campaignData && campaignData.length === 0){
             setNoCampaigns('Sem campanhas...');
         }
-    }, [campaignData]);
+    }, [campaignData, setCampaignData]);
 
 
     // search form
@@ -112,6 +115,66 @@ const Campaigns = () => {
 
             setMyCampaigns(filtered);
         }
+    };
+
+
+    // modal for delete campaign
+    const modal_deleteCampaign = (id) =>{
+        modal.current.style.display = 'flex';
+        modal_msg.current.innerText = 'Tem certeza que deseja excluir sua campanha ?'
+        modal_btt.current.innerText = 'Tenho certeza'
+        
+        modal_btt.current.onclick = () =>{
+            deleteCampaign_event(id);
+        };        
+        modal_btt_2.current.onclick = () =>{
+            modal.current.style.display = 'none';
+        };
+    };    
+
+
+    // delete campaign
+    const deleteCampaign_event = async (id) =>{
+        try{
+            const res = await deleteCampaign(id);
+
+            if(res.status === 200){                
+                modal.current.style.display = 'flex';
+                modal_title.current.innerText = 'Sucesso'
+                modal_msg.current.innerText = `Poderá criar nova campanha quando desejar...`;
+                modal_btt.current.style.display = 'none';
+                modal_btt_2.current.style.display = 'none';                
+                
+                
+                const clearMessage = setTimeout(() => {
+                    modal.current.style.display = 'none';                    
+                    const updatedCampaigns = filteredCampaigns?.filter(data => data.id !== id);
+
+                    if (searchedData !== null) {
+                        setSearchedData(updatedCampaigns);
+                    } else if (myCampaigns !== null) {
+                        setMyCampaigns(updatedCampaigns);
+                    } else {
+                        setCampaignData(updatedCampaigns);
+                    }
+                }, 3000);
+                
+                return () => {
+                    clearTimeout(clearMessage);
+                };
+            }
+        }
+        catch(error){
+            console.log('Error at delete campaign at frontend', error);
+            modal.current.style.display = 'flex';
+            modal_msg.current.innerText = `Erro ao excluir campanha de ajuda...`;
+            modal_btt.current.innerText = 'Tente novamente';
+            modal_btt_2.current.style.display = 'none';
+
+            modal_btt.current.onclick = () => {
+                modal.current.style.display = 'none';
+            };           
+        };
     };
 
 
@@ -233,7 +296,7 @@ const Campaigns = () => {
                                             </button>
                                         </Link>
                                     
-                                        <button className="button is-danger is-dark">
+                                        <button onClick={ () => modal_deleteCampaign(campaign.id) }  className="button is-danger is-dark">
                                             Excluir
                                         </button>
                                     </div>

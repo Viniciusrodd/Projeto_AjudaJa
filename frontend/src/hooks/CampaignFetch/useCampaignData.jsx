@@ -39,5 +39,5 @@ export const useCampaignData = (id) =>{
     }, []);
 
 
-    return { campaignData, campaignDataById };
+    return { campaignData, setCampaignData, campaignDataById };
 }
