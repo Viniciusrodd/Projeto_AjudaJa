@@ -70,14 +70,10 @@ const MyOffers = () => {
                 modal_btt_2.current.style.display = 'none';                
                 
                 
-                const clearMessage = setTimeout(() => {
+                setTimeout(() => {
                     modal.current.style.display = 'none';                    
                     setOfferDataByUserId(prev => prev.filter(data => data.id !== offerID));
                 }, 3000);
-                
-                return () => {
-                    clearTimeout(clearMessage);
-                };
             }
         }
         catch(error){

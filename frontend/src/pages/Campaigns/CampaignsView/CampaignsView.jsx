@@ -146,7 +146,7 @@ const Campaigns = () => {
                 modal_btt_2.current.style.display = 'none';                
                 
                 
-                const clearMessage = setTimeout(() => {
+                setTimeout(() => {
                     modal.current.style.display = 'none';                    
                     const updatedCampaigns = filteredCampaigns?.filter(data => data.id !== id);
 
@@ -158,10 +158,6 @@ const Campaigns = () => {
                         setCampaignData(updatedCampaigns);
                     }
                 }, 3000);
-                
-                return () => {
-                    clearTimeout(clearMessage);
-                };
             }
         }
         catch(error){

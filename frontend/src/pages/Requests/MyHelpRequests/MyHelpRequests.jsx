@@ -74,15 +74,10 @@ const MyHelpRequests = () => {
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';                
                 
-                
-                const clearMessage = setTimeout(() => {
+                setTimeout(() => {
                     modal.current.style.display = 'none';                    
                     setRequestDataByUserId(prev => prev.filter(data => data.id !== id));
                 }, 3000);
-                
-                return () => {
-                    clearTimeout(clearMessage);
-                };
             }
         }
         catch(error){
@@ -129,14 +124,10 @@ const MyHelpRequests = () => {
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';
 
-                const clearMessage = setTimeout(() => {
+                setTimeout(() => {
                     modal.current.style.display = 'none';                    
                     setOffers(prevOffers => prevOffers.map(offer => offer.id === id ? { ...offer, status: decision } : offer));
                 }, 3000);
-                
-                return () => {
-                    clearTimeout(clearMessage);
-                };
             }
         }
         catch(error){

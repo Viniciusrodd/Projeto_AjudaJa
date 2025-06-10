@@ -192,13 +192,9 @@ const AccountDetail = () => {
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';                
 
-                const clearMessage = setTimeout(() => {
+                setTimeout(() => {
                     navigate('/cadastro');
                 }, 3000);
-        
-                return () => {
-                    clearTimeout(clearMessage);
-                };
             }    
         }
         catch(error){
