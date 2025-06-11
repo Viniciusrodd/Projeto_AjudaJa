@@ -70,6 +70,8 @@ const Campaigns = () => {
                 setTimeout(() =>{
                     setNoCampaignsFound('');
                     setSearchedData(null);
+                    setSearch('');
+                    setIsSearching(false);
                 }, 3000);
             }
         }catch(error){
@@ -141,6 +143,7 @@ const Campaigns = () => {
             if(res.status === 200){                
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Sucesso'
+                modal_title.current.style.color = 'rgb(38, 255, 0)';
                 modal_msg.current.innerText = `Poderá criar nova campanha quando desejar...`;
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';                
@@ -163,6 +166,8 @@ const Campaigns = () => {
         catch(error){
             console.log('Error at delete campaign at frontend', error);
             modal.current.style.display = 'flex';
+            modal_title.current.innerText = 'Erro';
+            modal_title.current.style.color = 'rgb(255, 0, 0)';
             modal_msg.current.innerText = `Erro ao excluir campanha de ajuda...`;
             modal_btt.current.innerText = 'Tente novamente';
             modal_btt_2.current.style.display = 'none';
@@ -209,14 +214,6 @@ const Campaigns = () => {
             <div className='campaigns'>
                 <h1 className='title is-1'>Campanhas</h1>
 
-                {
-                    noCampaigns && !searchedData && (
-                        <div className='noRequests'>
-                            <h1 className='title is-2'>{ noCampaigns }</h1>
-                        </div>
-                    )
-                }
-
                 { /* CAMAPAIGN SEARCH OPTION */ }
                 <form onSubmit={ search_form } className='search_container_campaign'>
                     <div className="select is-primary">
@@ -248,6 +245,14 @@ const Campaigns = () => {
                 </button>
 
                 {/* CAMPAIGNS */}
+
+                {
+                    noCampaigns && !searchedData && !noCampaignsFound && (
+                        <div className='noRequests'>
+                            <h1 className='title is-2'>{ noCampaigns }</h1>
+                        </div>
+                    )
+                }
 
                 {
                     noCampaignsFound && (

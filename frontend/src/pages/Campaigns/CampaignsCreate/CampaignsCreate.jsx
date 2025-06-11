@@ -1,7 +1,8 @@
 
 // css
 import '../../../utils/FormsCss/FormsUtil.css';
-import '../../../utils/FeedsCss/FeedsUtil.css'
+import '../../../utils/FeedsCss/FeedsUtil.css';
+import '../../../utils/modal.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -64,6 +65,7 @@ const CampaignsCreate = () => {
             if(response.status === 200){
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Sucesso!!!'
+                modal_title.current.style.color = 'rgb(38, 255, 0)';
                 modal_msg.current.innerText = `Campanha criada! \n 
                 você será redirecionado para a página de campanhas...`;
                 modal_btt.current.style.display = 'none';
@@ -78,6 +80,7 @@ const CampaignsCreate = () => {
             if(error.response.status === 401){
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Erro';
+                modal_title.current.style.color = 'rgb(255, 0, 0)';
                 modal_msg.current.innerText = `É necessário ser um moderador para criar a campanha...\n
                 mude seu papel de "usuário" para "moderador"`;
                 modal_btt.current.innerText = 'Criar depois';
@@ -95,6 +98,7 @@ const CampaignsCreate = () => {
             if(error.response.data.error === 'Start date cannot be in the past'){
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Erro de datas';
+                modal_title.current.style.color = 'rgb(255, 0, 0)';
                 modal_msg.current.innerText = `Data inicial não pode ser menor que a atual...`;
                 modal_btt.current.innerText = 'Tentar novamente';
                 modal_btt_2.current.style.display = 'none';
@@ -108,6 +112,7 @@ const CampaignsCreate = () => {
             if(error.response.data.error === 'End date must be within the next year'){
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Erro de datas';
+                modal_title.current.style.color = 'rgb(255, 0, 0)';
                 modal_msg.current.innerText = `Data final não pode ser maior que ${new Date().getFullYear() + 1}...`;
                 modal_btt.current.innerText = 'Tentar novamente';
                 modal_btt_2.current.style.display = 'none';
@@ -120,6 +125,7 @@ const CampaignsCreate = () => {
             
             modal.current.style.display = 'flex';
             modal_title.current.innerText = 'Erro';
+                modal_title.current.style.color = 'rgb(255, 0, 0)';
             modal_msg.current.innerText = 'Erro ao criar campanha...';
             modal_btt.current.innerText = 'Tentar novamente';
             modal_btt_2.current.style.display = 'none';
@@ -138,12 +144,12 @@ const CampaignsCreate = () => {
             <div className='modal-background'></div>
                 <div className='modal-card'>
                     <header className='modal-card-head'>
-                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
+                        <p className='modal_title modal-card-title has-text-centered' style={{ textAlign:'center' }} ref={ modal_title }>
                             Espere um pouco
                         </p>
                     </header>
                     <section className='modal-card-body'>
-                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                        <p className='modal-card-title has-text-centered' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
                     </section>
                     <footer className='modal-card-foot is-justify-content-center'>
                         <div className='div-buttons'>
@@ -157,6 +163,27 @@ const CampaignsCreate = () => {
                     </footer>
                 </div>
             </div>
+
+            {
+                /*    
+                    <div className="modal_perso" ref={ modal }>
+                        <div className="modal-content_perso">
+                            <h2 className="h2-modal_perso" ref={ modal_title }>
+
+                            </h2>
+                            <p className="p-modal_perso" ref={ modal_msg }>
+
+                            </p>
+                            <button className="button is-danger is-dark" ref={ modal_btt }>
+                                Excluir
+                            </button>
+                            <button className="button is-primary is-dark" ref={ modal_btt_2 }>
+                                Voltar
+                            </button>
+                        </div>
+                    </div>
+                */
+            }
 
             { /* SIDEBAR */ }
             <SideBar />

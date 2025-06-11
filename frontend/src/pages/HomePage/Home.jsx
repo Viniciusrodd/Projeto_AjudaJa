@@ -111,11 +111,12 @@ const Home = () => {
                 setNoPostsFound(false);
             }else{
                 setSearchedData([]); // limpa resultados anteriores
-
                 setNoPostsFound('Pedido de ajuda não encontrado');
                 setTimeout(() =>{
                     setNoPostsFound('');
                     setSearchedData(null);
+                    setSearch('');
+                    setIsSearching(false);
                 }, 3000);
             }
         }catch(error){
@@ -294,7 +295,7 @@ const Home = () => {
 
                 { /* FEED PUBLICATIONS */ }
                 {
-                    noPosts && !searchedData && (
+                    noPosts && !searchedData && !noPostsFound && (
                         <div className='noRequests'>
                             <h1 className='title is-2'>Sem pedidos de ajuda...</h1>
                         </div>
