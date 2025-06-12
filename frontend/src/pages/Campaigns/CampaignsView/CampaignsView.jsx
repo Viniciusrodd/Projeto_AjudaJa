@@ -30,16 +30,24 @@ const Campaigns = () => {
     const [ noCampaigns, setNoCampaigns ] = useState(false);
     const [ noCampaignsFound, setNoCampaignsFound ] = useState(false);
     const [ myCampaigns, setMyCampaigns ] = useState(null);
+    const [ campaignId, setCampaignId ] = useState(0);
+
+    // modal
+    const [ modal_display, setModal_display ] = useState(false);
+    const [ modal_title, setModal_title ] = useState(null);
+    const [ modal_msg, setModal_msg ] = useState(null);
+    const [ modal_btt, setmodal_btt ] = useState(false);
+    const [ modal_btt_2, setModal_btt_2 ] = useState(false);
+    const [ title_color, setTitle_color ] = useState('#000');
 
     // consts
     const { userId } = useContext(UserContext);
     const navigate = useNavigate();
-    const modal = useRef(null);
-    const modal_title = useRef(null);
-    const modal_msg = useRef(null);
-    const modal_btt = useRef(null);
-    const modal_btt_2 = useRef(null);
     const select_options = useRef(null);
+
+
+    ////////////// functions
+
 
     // get campaigns data
     const { campaignData, setCampaignData } = useCampaignData();
@@ -48,7 +56,6 @@ const Campaigns = () => {
             setNoCampaigns('Sem campanhas...');
         }
     }, [campaignData, setCampaignData]);
-
 
     // search form
     const search_form = async (e) =>{
@@ -79,14 +86,12 @@ const Campaigns = () => {
         }
     };
 
-
     // is searching ?
     useEffect(() =>{
         if(search != ''){
             setIsSearching(true);
         }
     }, [search]);
-
 
     // clean search
     const cleanSearch = () =>{
@@ -96,7 +101,6 @@ const Campaigns = () => {
         setIsSearching(false);
         return;
     };
-
 
     // filtering my campaigns 
     const filteredCampaigns = searchedData !== null ? searchedData : myCampaigns || campaignData;
@@ -119,45 +123,69 @@ const Campaigns = () => {
         }
     };
 
+    // modal config
+    const modal_config = ({ title, msg, btt1, btt2, display, title_color }) => {
+        setModal_title(title ?? null);
+        setModal_msg(msg ?? null);
+        setmodal_btt(btt1 ?? false);
+        setModal_btt_2(btt2 ?? false);
+        setModal_display(display ?? false);
+        setTitle_color(title_color ?? '#000');
+
+        // The "??" (nullish coalescing operator) 
+        // returns the value on the right ONLY if the value on the left is null or undefined
+    };    
+    
+    // close modal
+    const closeModal = () =>{
+        if(modal_btt_2 !== null){
+            modal_config({
+                title: null, msg: null, btt1: false, 
+                btt2: false, display: false, title_color: '#000'
+            });
+        }
+    };
 
     // modal for delete campaign
     const modal_deleteCampaign = (id) =>{
-        modal.current.style.display = 'flex';
-        modal_msg.current.innerText = 'Tem certeza que deseja excluir sua campanha ?'
-        modal_btt.current.innerText = 'Tenho certeza'
-        
-        modal_btt.current.onclick = () =>{
-            deleteCampaign_event(id);
-        };        
-        modal_btt_2.current.onclick = () =>{
-            modal.current.style.display = 'none';
-        };
-    };    
-
+        modal_config({
+            title: 'Espere',
+            msg: 'Tem certeza que deseja excluir sua campanha ?',
+            btt1: 'Tenho certeza',
+            btt2: 'Voltar',
+            display: 'flex',
+            title_color: 'rgb(0, 136, 255)'
+        });
+        setCampaignId(id);
+    };
 
     // delete campaign
-    const deleteCampaign_event = async (id) =>{
+    const deleteCampaign_event = async () =>{
         try{
-            const res = await deleteCampaign(id);
+            const res = await deleteCampaign(campaignId);
 
-            if(res.status === 200){                
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Sucesso'
-                modal_title.current.style.color = 'rgb(38, 255, 0)';
-                modal_msg.current.innerText = `Poderá criar nova campanha quando desejar...`;
-                modal_btt.current.style.display = 'none';
-                modal_btt_2.current.style.display = 'none';                
-                
+            if(res.status === 200){
+                modal_config({
+                    title: 'Sucesso',
+                    msg: 'Poderá criar nova campanha quando desejar...',
+                    btt1: false,
+                    btt2: false,
+                    display: 'flex',
+                    title_color: 'rgb(38, 255, 0)'
+                });                
                 
                 setTimeout(() => {
-                    modal.current.style.display = 'none';                    
-                    const updatedCampaigns = filteredCampaigns?.filter(data => data.id !== id);
+                    modal_config({
+                        title: null, msg: null, btt1: false, 
+                        btt2: false, display: false, title_color: '#000'
+                    });
+                    const updatedCampaigns = filteredCampaigns?.filter(data => data.id !== campaignId);
 
-                    if (searchedData !== null) {
+                    if(searchedData !== null){
                         setSearchedData(updatedCampaigns);
-                    } else if (myCampaigns !== null) {
+                    }else if(myCampaigns !== null){
                         setMyCampaigns(updatedCampaigns);
-                    } else {
+                    }else{
                         setCampaignData(updatedCampaigns);
                     }
                 }, 3000);
@@ -165,43 +193,50 @@ const Campaigns = () => {
         }
         catch(error){
             console.log('Error at delete campaign at frontend', error);
-            modal.current.style.display = 'flex';
-            modal_title.current.innerText = 'Erro';
-            modal_title.current.style.color = 'rgb(255, 0, 0)';
-            modal_msg.current.innerText = `Erro ao excluir campanha de ajuda...`;
-            modal_btt.current.innerText = 'Tente novamente';
-            modal_btt_2.current.style.display = 'none';
-
-            modal_btt.current.onclick = () => {
-                modal.current.style.display = 'none';
-            };           
+            modal_config({
+                title: 'Erro',
+                msg: 'Erro ao excluir campanha de ajuda...',
+                btt1: false,
+                btt2: 'Tente novamente',
+                display: 'flex',
+                title_color: 'rgb(255, 0, 0)'
+            });
         };
     };
 
+
+    ////////////// jsx
 
 
     return (
         <div className='container_campaigns'>
             { /* Modal */ }
-            <div className='modal' ref={ modal }>
+            <div className='modal' style={{ display: modal_display ? 'flex' : 'none' }}>
             <div className='modal-background'></div>
                 <div className='modal-card'>
                     <header className='modal-card-head'>
-                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
-                            Espere um pouco
+                        <p className='modal-card-title' style={{ textAlign:'center', color: title_color }}>
+                            { modal_title }
                         </p>
                     </header>
                     <section className='modal-card-body'>
-                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                        <p className='modal-card-title' style={{ textAlign:'center' }}>
+                            { modal_msg }
+                        </p>
                     </section>
                     <footer className='modal-card-foot is-justify-content-center'>
-                        <div className='div-buttons'>
-                            <button className="button is-danger is-dark" ref={ modal_btt }>
-                                Excluir
-                            </button>
-                            <button className="button is-primary is-dark" ref={ modal_btt_2 } style={{ marginLeft:'10px' }}>
-                                Voltar
-                            </button>
+                        <div className='div_bottoms'>
+                            {modal_btt && (
+                                <button onClick={ deleteCampaign_event } className="button is-danger is-dark">
+                                    { modal_btt }
+                                </button>
+                            )}
+                            {modal_btt_2 && (
+                                <button onClick={ closeModal } className="button is-primary is-dark" 
+                                style={{ marginLeft:'10px' }}>
+                                    { modal_btt_2 }
+                                </button>
+                            )}
                         </div>
                     </footer>
                 </div>

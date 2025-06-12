@@ -76,6 +76,8 @@ const Home = () => {
         if(errorRes){
             console.log('Error at fetchToken in Homepage: ', errorRes);            
             modal.current.style.display = 'flex';
+            modal_title.current.innerText = 'Espere';
+            modal_title.current.style.color = 'rgb(255, 0, 0)';
             modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
             modal_btt.current.style.display = 'none';
             modal_btt_2.current.style.display = 'none';
@@ -168,6 +170,7 @@ const Home = () => {
             if(response.status === 200){
                 modal.current.style.display = 'flex';
                 modal_title.current.innerText = 'Sucesso!!!';
+                modal_title.current.style.color = 'rgb(38, 255, 0)';
                 modal_msg.current.innerText = `Oferta de ajuda ${decision === 'aceito' ? 'aceitada' : 'rejeitada'}!`;
                 modal_btt.current.style.display = 'none';
                 modal_btt_2.current.style.display = 'none';
@@ -182,6 +185,8 @@ const Home = () => {
             console.log('Error at accept help');
 
             modal.current.style.display = 'flex';
+            modal_title.current.innerText = 'Erro';
+            modal_title.current.style.color = 'rgb(255, 0, 0)';
             modal_msg.current.innerText = `Erro ao ${decision === 'aceito' ? 'aceitar' : 'rejeitar'} oferta de ajuda...`;
             modal_btt.current.innerText = 'Tente novamente';
             modal_btt_2.current.style.display = 'none';

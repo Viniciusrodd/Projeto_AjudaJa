@@ -9,7 +9,7 @@ const request = supertest(app);
 // variables
 let jwtToken = '';
 let userID = '';
-const requestID = '20aed975-544e-4211-80d4-23850e551017'
+const requestID = '80f212c4-6479-4954-b35a-bada287b4583'
 let offerID = '';
 
 
