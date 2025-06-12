@@ -215,12 +215,12 @@ const Campaigns = () => {
             <div className='modal-background'></div>
                 <div className='modal-card'>
                     <header className='modal-card-head'>
-                        <p className='modal-card-title' style={{ textAlign:'center', color: title_color }}>
+                        <p className='modal_title modal-card-title has-text-centered' style={{ textAlign:'center', color: title_color }}>
                             { modal_title }
                         </p>
                     </header>
                     <section className='modal-card-body'>
-                        <p className='modal-card-title' style={{ textAlign:'center' }}>
+                        <p className='modal-card-title has-text-centered' style={{ textAlign:'center' }}>
                             { modal_msg }
                         </p>
                     </section>
