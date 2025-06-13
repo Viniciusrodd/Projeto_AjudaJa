@@ -176,7 +176,7 @@ const Campaigns = () => {
                 
                 setTimeout(() => {
                     modal_config({
-                        title: null, msg: null, btt1: false, 
+                        title1: null, msg: null, btt1: false, 
                         btt2: false, display: false, title_color: '#000'
                     });
                     const updatedCampaigns = filteredCampaigns?.filter(data => data.id !== campaignId);

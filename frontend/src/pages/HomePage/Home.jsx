@@ -35,19 +35,26 @@ const Home = () => {
     const [ isSearching, setIsSearching ] = useState(false);
     const [ myRequests, setMyRequests ] = useState(null);
 
+    // modal
+    const [ modal_display, setModal_display ] = useState(false);
+    const [ modal_title, setModal_title ] = useState(null);
+    const [ modal_msg, setModal_msg ] = useState(null);
+    const [ modal_btt, setmodal_btt ] = useState(false);
+    const [ modal_btt_2, setModal_btt_2 ] = useState(false);
+    const [ title_color, setTitle_color ] = useState('#000');
+    const [ modal_errorType, setModal_errorType ] = useState(null);
+
     // consts
     const navigate = useNavigate();
-    const modal = useRef(null);
-    const modal_title = useRef(null);
-    const modal_msg = useRef(null);
-    const modal_btt = useRef(null);
-    const modal_btt_2 = useRef(null);
     const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
     const divImageRef = useRef(null);
     const select_options = useRef(null);
 
 
-    // redirect
+    ////////////// functions
+
+
+    // redirect to login
     useEffect(() =>{
         if(redirectLogin){
             const clearMessage = setTimeout(() => {
@@ -60,6 +67,33 @@ const Home = () => {
         }
     }, [redirectLogin]);
 
+    // modal config
+    const modal_config = ({ title, msg, btt1, btt2, display, title_color }) => {
+        setModal_title(title ?? null);
+        setModal_msg(msg ?? null);
+        setmodal_btt(btt1 ?? false);
+        setModal_btt_2(btt2 ?? false);
+        setModal_display(display ?? false);
+        setTitle_color(title_color ?? '#000');
+
+        // The "??" (nullish coalescing operator) 
+        // returns the value on the right ONLY if the value on the left is null or undefined
+    };    
+
+    // close modal
+    const closeModal = () =>{
+        if(modal_btt_2 !== null){
+            modal_config({
+                title: null, msg: null, btt1: false, 
+                btt2: false, display: false, title_color: '#000'
+            });
+        }
+    };
+
+    // modal btt events
+    const modal_events = (modal_error) =>{
+
+    };
 
     // login verify
     const { userData, errorRes } = useTokenVerify();
@@ -75,17 +109,15 @@ const Home = () => {
         
         if(errorRes){
             console.log('Error at fetchToken in Homepage: ', errorRes);            
-            modal.current.style.display = 'flex';
-            modal_title.current.innerText = 'Espere';
-            modal_title.current.style.color = 'rgb(255, 0, 0)';
-            modal_msg.current.innerText = 'É necessário login para continuar, você será redirecionado...';
-            modal_btt.current.style.display = 'none';
-            modal_btt_2.current.style.display = 'none';
-    
+            modal_config({
+                title: 'Espere',
+                msg: `É necessário login para continuar, você será redirecionado...`,
+                btt1: false, btt2: false,
+                display: 'flex', title_color: 'rgb(0, 136, 255)'
+            });    
             setRedirectLogin(true);
         }
     }, [userData, errorRes]);
-
 
     // get Help requestsHelp data
     const { requestData, setRequestData } = useRequestData(); // array with objects...
@@ -94,7 +126,6 @@ const Home = () => {
             setNoPosts(true);
         }
     }, [requestData]);
-
 
     // search
     const search_form = async (e) => {
@@ -123,9 +154,22 @@ const Home = () => {
             }
         }catch(error){
             console.error("Error at searching requests:", error);
+            modal_config({
+                title: 'Erro',
+                msg: `Erro ao pesquisar por pedido de ajuda...`,
+                btt1: false, btt2: false,
+                display: 'flex', title_color: 'rgb(255, 0, 0)'
+            });
+            setTimeout(() => {
+                modal_config({
+                    title: null, msg: null, btt1: false, 
+                    btt2: false, display: false, title_color: '#000'
+                });
+                setSearch('');
+                setIsSearching(false);
+            }, 3000);
         }
     };
-
 
     // is searching ?
     useEffect(() =>{
@@ -133,7 +177,6 @@ const Home = () => {
             setIsSearching(true);
         }
     }, [search]);
-
 
     // clean search
     const cleanSearch = () =>{
@@ -143,7 +186,6 @@ const Home = () => {
         return;
     };
 
-
     // get offers data
     const { offerData } = useOfferData();
     useEffect(() =>{
@@ -151,7 +193,6 @@ const Home = () => {
             setOffers(offerData)
         }
     }, [offerData]);
-
 
     // show offers
     const toggleOffers = (requestId) => {
@@ -161,42 +202,39 @@ const Home = () => {
         }));
     };
 
-
     // status decision
     const statusChange = async (id, decision) =>{
         try{
             const response = await statusChangeService({ decision }, id);
 
             if(response.status === 200){
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Sucesso!!!';
-                modal_title.current.style.color = 'rgb(38, 255, 0)';
-                modal_msg.current.innerText = `Oferta de ajuda ${decision === 'aceito' ? 'aceitada' : 'rejeitada'}!`;
-                modal_btt.current.style.display = 'none';
-                modal_btt_2.current.style.display = 'none';
+                modal_config({
+                    title: 'Sucesso', 
+                    msg: `Oferta de ajuda ${decision === 'aceito' ? 'aceitada' : 'rejeitada'}!`,
+                    btt1: false, btt2: false, 
+                    display: 'flex', title_color: 'rgb(38, 255, 0)'
+                });
 
                 setTimeout(() => {
-                    modal.current.style.display = 'none';                    
                     setOffers(prevOffers => prevOffers.map(offer => offer.id === id ? { ...offer, status: decision } : offer));
+                    modal_config({
+                        title: null, msg: null, btt1: false, 
+                        btt2: false, display: false, title_color: '#000'
+                    });
                 }, 3000);                
             }
         }
         catch(error){
             console.log('Error at accept help');
 
-            modal.current.style.display = 'flex';
-            modal_title.current.innerText = 'Erro';
-            modal_title.current.style.color = 'rgb(255, 0, 0)';
-            modal_msg.current.innerText = `Erro ao ${decision === 'aceito' ? 'aceitar' : 'rejeitar'} oferta de ajuda...`;
-            modal_btt.current.innerText = 'Tente novamente';
-            modal_btt_2.current.style.display = 'none';
-
-            modal_btt.current.onclick = () => {
-                modal.current.style.display = 'none';
-            };           
+            modal_config({
+                title: 'Erro', 
+                msg: `Erro ao ${decision === 'aceito' ? 'aceitar' : 'rejeitar'} oferta de ajuda...`,
+                btt1: false, btt2: 'Tente novamente', 
+                display: 'flex', title_color: 'rgb(255, 0, 0)'
+            });
         }
     };
-
 
     // filtering service function
     const filtering = (data) =>{
@@ -229,29 +267,41 @@ const Home = () => {
     };
 
 
+    ////////////// jsx
+
+
     return (
         <div className='container_home'>
             
             { /* Modal */ }
-            <div className='modal' ref={ modal }>
+            <div className='modal' style={{ display: modal_display ? 'flex' : 'none' }}>
             <div className='modal-background'></div>
                 <div className='modal-card'>
                     <header className='modal-card-head'>
-                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
-                            Espere um pouco
+                        <p className='modal_title modal-card-title has-text-centered' 
+                        style={{ textAlign:'center', color: title_color }}>
+                            { modal_title }
                         </p>
                     </header>
                     <section className='modal-card-body'>
-                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                        <p className='modal-card-title has-text-centered' 
+                        style={{ textAlign:'center' }}>
+                            { modal_msg }
+                        </p>
                     </section>
                     <footer className='modal-card-foot is-justify-content-center'>
                         <div className='div-buttons'>
-                            <button className="button is-danger is-dark" ref={ modal_btt }>
-                                Excluir
-                            </button>
-                            <button className="button is-primary is-dark" ref={ modal_btt_2 } style={{ marginLeft:'10px' }}>
-                                Voltar
-                            </button>
+                            {modal_btt && (
+                                <button onClick={ () => modal_events(modal_errorType) } className="button is-danger is-dark">
+                                    { modal_btt }
+                                </button>
+                            )}
+                            {modal_btt_2 && (
+                                <button onClick={ closeModal } className="button is-primary is-dark" 
+                                style={{ marginLeft:'10px' }}>
+                                    { modal_btt_2 }
+                                </button>
+                            )}
                         </div>
                     </footer>
                 </div>
@@ -432,7 +482,8 @@ const Home = () => {
                                                                     </div>
                                                                 ) : offer.status === 'pendente' ? (
                                                                     <div className='div_bottoms'>
-                                                                        <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' style={{ width:'120px' }}>
+                                                                        <button onClick={ () => statusChange(offer.id, 'aceito') } className='button is-primary is-dark' 
+                                                                        style={{ width:'120px', marginRight: '10px' }}>
                                                                             Aceitar ajuda
                                                                         </button>
                                                                         
