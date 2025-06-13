@@ -84,8 +84,8 @@ const CampaignsCreate = () => {
     };
 
     // modal btt events
-    const modal_events = (modal_error) =>{
-        if(modal_error === 'requires be moderator'){
+    const modal_events = (event) =>{
+        if(event === 'requires be moderator'){
             navigate(`/detalhesDeConta/${userId}`);
         }
     };

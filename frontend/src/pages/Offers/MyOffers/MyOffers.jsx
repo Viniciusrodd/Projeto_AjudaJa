@@ -20,15 +20,23 @@ import { deleteOffer } from '../../../services/OfferHelpServices';
 const MyOffers = () => {
     // states
     const [ noPosts, setNoPosts ] = useState(false);
+    const [ offerId, setOfferId ] = useState(0);
+
+    // modal
+    const [ modal_display, setModal_display ] = useState(false);
+    const [ modal_title, setModal_title ] = useState(null);
+    const [ modal_msg, setModal_msg ] = useState(null);
+    const [ modal_btt, setmodal_btt ] = useState(false);
+    const [ modal_btt_2, setModal_btt_2 ] = useState(false);
+    const [ title_color, setTitle_color ] = useState('#000');
+    const [ modal_errorType, setModal_errorType ] = useState(null);
 
     // consts
     const { userId } = useContext(UserContext); // context
     const navigate = useNavigate();
-    const modal = useRef(null);
-    const modal_title = useRef(null);
-    const modal_msg = useRef(null);
-    const modal_btt = useRef(null);
-    const modal_btt_2 = useRef(null);
+
+
+    ////////////// functions
 
 
     // get offers by user id
@@ -41,77 +49,116 @@ const MyOffers = () => {
         }
     }, [offerDataByUserId, setOfferDataByUserId]);
 
+    // modal config
+    const modal_config = ({ title, msg, btt1, btt2, display, title_color }) => {
+        setModal_title(title ?? null);
+        setModal_msg(msg ?? null);
+        setmodal_btt(btt1 ?? false);
+        setModal_btt_2(btt2 ?? false);
+        setModal_display(display ?? false);
+        setTitle_color(title_color ?? '#000');
+
+        // The "??" (nullish coalescing operator) 
+        // returns the value on the right ONLY if the value on the left is null or undefined
+    };    
+    
+    // close modal
+    const closeModal = () =>{
+        if(modal_btt_2 !== null){
+            modal_config({
+                title: null, msg: null, btt1: false, 
+                btt2: false, display: false, title_color: '#000'
+            });
+        }
+    };
+
+    // modal btt events
+    const modal_events = (event) =>{
+        if(event === 'offer delete'){
+            deleteOffer_event();
+        }
+    };
 
     // modal for delete requestHelp
     const modal_deleteOffer = (id) =>{
-        modal.current.style.display = 'flex';
-        modal_msg.current.innerText = 'Tem certeza que deseja excluir sua oferta de ajuda ?'
-        modal_btt.current.innerText = 'Tenho certeza'
-        
-        modal_btt.current.onclick = () =>{
-            deleteOffer_event(id)
-        };        
-        modal_btt_2.current.onclick = () =>{
-            modal.current.style.display = 'none';
-        };
+        setOfferId(id);
+        modal_config({
+            title: 'Erro',
+            msg: `Tem certeza que deseja excluir sua oferta de ajuda ?`,
+            btt1: 'Tenho certeza', btt2: 'voltar',
+            display: 'flex', title_color: 'rgb(255, 0, 0)'
+        });
+        setModal_errorType('offer delete');
     };
 
-
     // delete requestHelp
-    const deleteOffer_event = async (offerID) =>{
+    const deleteOffer_event = async () =>{
         try{
-            const res = await deleteOffer(offerID);
+            const res = await deleteOffer(offerId);
 
-            if(res.status === 200){                
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Sucesso'
-                modal_msg.current.innerText = `Oferta de ajuda excluida com sucesso`;
-                modal_btt.current.style.display = 'none';
-                modal_btt_2.current.style.display = 'none';                
-                
+            if(res.status === 200){
+                modal_config({
+                    title: 'Sucesso',
+                    msg: `Oferta de ajuda excluida com sucesso`,
+                    btt1: false, btt2: false,
+                    display: 'flex', title_color: 'rgb(38, 255, 0)'
+                });
                 
                 setTimeout(() => {
-                    modal.current.style.display = 'none';                    
-                    setOfferDataByUserId(prev => prev.filter(data => data.id !== offerID));
+                    modal_config({
+                        title1: null, msg: null, btt1: false, 
+                        btt2: false, display: false, title_color: '#000'
+                    });
+                    setOfferDataByUserId(prev => prev.filter(data => data.id !== offerId));
                 }, 3000);
             }
         }
         catch(error){
             console.log('Error at delete offer at frontend', error);
-            modal.current.style.display = 'flex';
-            modal_msg.current.innerText = `Erro ao excluir oferta de ajuda...`;
-            modal_btt.current.innerText = 'Tente novamente';
-            modal_btt_2.current.style.display = 'none';
 
-            modal_btt.current.onclick = () => {
-                modal.current.style.display = 'none';
-            };           
+            modal_config({
+                title: 'Erro',
+                msg: 'Erro ao excluir oferta de ajuda...',
+                btt1: false, btt2: 'Tente novamente',
+                display: 'flex', title_color: 'rgb(255, 0, 0)'
+            });
         };
     };
+
+
+    ////////////// jsx
 
 
     return (
         <div className='container_home'>
             { /* Modal */ }
-            <div className='modal' ref={ modal }>
+            <div className='modal' style={{ display: modal_display ? 'flex' : 'none' }}>
             <div className='modal-background'></div>
                 <div className='modal-card'>
                     <header className='modal-card-head'>
-                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
-                            Espere um pouco
+                        <p className='modal_title modal-card-title has-text-centered' 
+                        style={{ textAlign:'center', color: title_color }}>
+                            { modal_title }
                         </p>
                     </header>
                     <section className='modal-card-body'>
-                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                        <p className='modal-card-title has-text-centered' style={{ textAlign:'center' }}>
+                            { modal_msg }
+                        </p>
                     </section>
                     <footer className='modal-card-foot is-justify-content-center'>
                         <div className='div-buttons'>
-                            <button className="button is-danger is-dark" ref={ modal_btt }>
-                                Excluir
-                            </button>
-                            <button className="button is-primary is-dark" ref={ modal_btt_2 } style={{ marginLeft:'10px' }}>
-                                Voltar
-                            </button>
+                            {modal_btt && (
+                                <button onClick={ () => modal_events(modal_errorType) } className="button is-danger is-dark">
+                                    { modal_btt }
+                                </button>
+                            )}
+                            {modal_btt_2 && (
+                                <button onClick={ closeModal } className="button is-primary is-dark" 
+                                style={{ marginLeft:'10px' }}>
+                                    { modal_btt_2 }
+                                </button>
+                            )}
                         </div>
                     </footer>
                 </div>
