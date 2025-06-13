@@ -24,15 +24,23 @@ const MyHelpRequests = () => {
     const [ noPosts, setNoPosts ] = useState(false);
     const [ offers, setOffers ] = useState([]);
     const [showOffersMap, setShowOffersMap] = useState({});
+    const [ helpRequestId, setHelpRequestId ] = useState(0);
+
+    // modal
+    const [ modal_display, setModal_display ] = useState(false);
+    const [ modal_title, setModal_title ] = useState(null);
+    const [ modal_msg, setModal_msg ] = useState(null);
+    const [ modal_btt, setmodal_btt ] = useState(false);
+    const [ modal_btt_2, setModal_btt_2 ] = useState(false);
+    const [ title_color, setTitle_color ] = useState('#000');
+    const [ modal_errorType, setModal_errorType ] = useState(null);
 
     // consts
     const { userId } = useContext(UserContext); // context
     const navigate = useNavigate();
-    const modal = useRef(null);
-    const modal_title = useRef(null);
-    const modal_msg = useRef(null);
-    const modal_btt = useRef(null);
-    const modal_btt_2 = useRef(null);
+
+
+    ////////////// functions
 
 
     // get request data
@@ -46,53 +54,80 @@ const MyHelpRequests = () => {
         requestDataByUserId
     }, [requestDataByUserId, setRequestDataByUserId]);
 
+    // modal config
+    const modal_config = ({ title, msg, btt1, btt2, display, title_color }) => {
+        setModal_title(title ?? null);
+        setModal_msg(msg ?? null);
+        setmodal_btt(btt1 ?? false);
+        setModal_btt_2(btt2 ?? false);
+        setModal_display(display ?? false);
+        setTitle_color(title_color ?? '#000');
+
+        // The "??" (nullish coalescing operator) 
+        // returns the value on the right ONLY if the value on the left is null or undefined
+    };    
+    
+    // close modal
+    const closeModal = () =>{
+        if(modal_btt_2 !== null){
+            modal_config({
+                title: null, msg: null, btt1: false, 
+                btt2: false, display: false, title_color: '#000'
+            });
+        }
+    };
+
+    // modal btt events
+    const modal_events = (event) =>{
+        if(event === 'request delete'){
+            deleteRequest_event();
+        }
+    };
 
     // modal for delete requestHelp
     const modal_deleteRequest = (id) =>{
-        modal.current.style.display = 'flex';
-        modal_msg.current.innerText = 'Tem certeza que deseja excluir seu pedido de ajuda ?'
-        modal_btt.current.innerText = 'Tenho certeza'
-        
-        modal_btt.current.onclick = () =>{
-            deleteRequest_event(id);
-        };        
-        modal_btt_2.current.onclick = () =>{
-            modal.current.style.display = 'none';
-        };
+        modal_config({
+            title: 'Espere',
+            msg: `Tem certeza que deseja excluir seu pedido de ajuda ?`,
+            btt1: 'Tenho certeza', btt2: 'Voltar',
+            display: 'flex', title_color: 'rgb(0, 136, 255)'
+        });
+        setModal_errorType('request delete');        
+        setHelpRequestId(id);
     };
 
-
     // delete requestHelp
-    const deleteRequest_event = async (id) =>{
+    const deleteRequest_event = async () =>{
         try{
-            const res = await deleteRequest(id);
+            const res = await deleteRequest(helpRequestId);
 
             if(res.status === 200){                
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Sucesso'
-                modal_msg.current.innerText = `Ainda poderá criar nova pedido mais tarde...`;
-                modal_btt.current.style.display = 'none';
-                modal_btt_2.current.style.display = 'none';                
-                
+                modal_config({
+                    title: 'Sucesso',
+                    msg: `Ainda poderá criar novo pedido mais tarde...`,
+                    btt1: false, btt2: false,
+                    display: 'flex', title_color: 'rgb(38, 255, 0)'
+                });
+
                 setTimeout(() => {
-                    modal.current.style.display = 'none';                    
-                    setRequestDataByUserId(prev => prev.filter(data => data.id !== id));
+                    modal_config({
+                        title1: null, msg: null, btt1: false, 
+                        btt2: false, display: false, title_color: '#000'
+                    });
+                    setRequestDataByUserId(prev => prev.filter(data => data.id !== helpRequestId));
                 }, 3000);
             }
         }
         catch(error){
             console.log('Error at delete request at frontend', error);
-            modal.current.style.display = 'flex';
-            modal_msg.current.innerText = `Erro ao excluir pedido de ajuda...`;
-            modal_btt.current.innerText = 'Tente novamente';
-            modal_btt_2.current.style.display = 'none';
-
-            modal_btt.current.onclick = () => {
-                modal.current.style.display = 'none';
-            };           
+            modal_config({
+                title: 'Erro',
+                msg: `Erro ao excluir pedido de ajuda...`,
+                btt1: false, btt2: 'Tentar novamente',
+                display: 'flex', title_color: 'rgb(255, 0, 0)'
+            });            
         };
     };
-
 
     // get offers data
     const { offerData } = useOfferData();
@@ -102,7 +137,6 @@ const MyHelpRequests = () => {
         }
     }, [offerData]);
 
-
     // show offers
     const toggleOffers = (requestId) => {
         setShowOffersMap(prev => ({
@@ -111,21 +145,24 @@ const MyHelpRequests = () => {
         }));
     };
     
-
     // status decision
     const statusChange = async (id, decision) =>{
         try{
             const response = await statusChangeService({ decision }, id);
 
             if(response.status === 200){
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Sucesso!!!';
-                modal_msg.current.innerText = `Oferta de ajuda ${decision === 'aceito' ? 'aceitada' : 'rejeitada'}!`;
-                modal_btt.current.style.display = 'none';
-                modal_btt_2.current.style.display = 'none';
-
+                modal_config({
+                    title: 'Sucesso',
+                    msg: `Oferta de ajuda ${decision === 'aceito' ? 'aceitada' : 'rejeitada'}!`,
+                    btt1: false, btt2: false,
+                    display: 'flex', title_color: 'rgb(38, 255, 0)'
+                });    
+    
                 setTimeout(() => {
-                    modal.current.style.display = 'none';                    
+                    modal_config({
+                        title1: null, msg: null, btt1: false, 
+                        btt2: false, display: false, title_color: '#000'
+                    });
                     setOffers(prevOffers => prevOffers.map(offer => offer.id === id ? { ...offer, status: decision } : offer));
                 }, 3000);
             }
@@ -133,47 +170,53 @@ const MyHelpRequests = () => {
         catch(error){
             console.log('Error at accept help');
 
-            modal.current.style.display = 'flex';
-            modal_msg.current.innerText = `Erro ao ${decision === 'aceito' ? 'aceitar' : 'rejeitar'} oferta de ajuda...`;
-            modal_btt.current.innerText = 'Tente novamente';
-            modal_btt_2.current.style.display = 'none';
-
-            modal_btt.current.onclick = () => {
-                modal.current.style.display = 'none';
-            };           
+            modal_config({
+                title: 'Erro',
+                msg: `Erro ao ${decision === 'aceito' ? 'aceitar' : 'rejeitar'} oferta de ajuda...`,
+                btt1: false, btt2: 'Tentar novamente',
+                display: 'flex', title_color: 'rgb(255, 0, 0)'
+            });
         }
     };
 
 
+    ////////////// jsx    
+
 
     return (
         <div className='container_home'>
-
             { /* Modal */ }
-            <div className='modal' ref={ modal }>
+            <div className='modal' style={{ display: modal_display ? 'flex' : 'none' }}>
             <div className='modal-background'></div>
                 <div className='modal-card'>
                     <header className='modal-card-head'>
-                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
-                            Espere um pouco
+                        <p className='modal_title modal-card-title has-text-centered' 
+                        style={{ textAlign:'center', color: title_color }}>
+                            { modal_title }
                         </p>
                     </header>
                     <section className='modal-card-body'>
-                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                        <p className='modal-card-title has-text-centered' style={{ textAlign:'center' }}>
+                            { modal_msg }
+                        </p>
                     </section>
                     <footer className='modal-card-foot is-justify-content-center'>
                         <div className='div-buttons'>
-                            <button className="button is-danger is-dark" ref={ modal_btt }>
-                                Excluir
-                            </button>
-                            <button className="button is-primary is-dark" ref={ modal_btt_2 } style={{ marginLeft:'10px' }}>
-                                Voltar
-                            </button>
+                            {modal_btt && (
+                                <button onClick={ () => modal_events(modal_errorType) } className="button is-danger is-dark">
+                                    { modal_btt }
+                                </button>
+                            )}
+                            {modal_btt_2 && (
+                                <button onClick={ closeModal } className="button is-primary is-dark" 
+                                style={{ marginLeft:'10px' }}>
+                                    { modal_btt_2 }
+                                </button>
+                            )}
                         </div>
                     </footer>
                 </div>
-            </div>
-
+            </div>            
 
             { /* SIDEBAR */ }
             <SideBar />
@@ -260,7 +303,7 @@ const MyHelpRequests = () => {
                                 {
                                     relatedOffers.length > 0 && (
                                         <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined' 
-                                        style={{ marginTop: '15px', padding:'15px', width:'24%' }}>
+                                        style={{ marginTop: '15px', padding:'15px', width:'25%' }}>
                                             { !isVisible ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
                                         </button>
                                     )

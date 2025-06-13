@@ -39,11 +39,11 @@ const HelpRequest = () => {
     ////////////// functions
 
 
-    // redirect user to homepage
+    // redirect
     useEffect(() => {
         if(redirect === true){   
             const clearMessage = setTimeout(() => {
-                navigate('/');
+                navigate('/meusPedidosDeAjuda');
             }, 3000);
             
             return () => {
@@ -125,7 +125,7 @@ const HelpRequest = () => {
                 modal_config({
                     title: 'Sucesso',
                     msg: `Pedido de ajuda postado! \n 
-                    você será redirecionado para a página principal...`,
+                    você será redirecionado para seus pedidos de ajuda...`,
                     btt1: false, btt2: false,
                     display: 'flex', title_color: 'rgb(38, 255, 0)'
                 });
