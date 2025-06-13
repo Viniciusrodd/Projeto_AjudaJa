@@ -42,7 +42,6 @@ const Home = () => {
     const [ modal_btt, setmodal_btt ] = useState(false);
     const [ modal_btt_2, setModal_btt_2 ] = useState(false);
     const [ title_color, setTitle_color ] = useState('#000');
-    const [ modal_errorType, setModal_errorType ] = useState(null);
 
     // consts
     const navigate = useNavigate();
@@ -88,11 +87,6 @@ const Home = () => {
                 btt2: false, display: false, title_color: '#000'
             });
         }
-    };
-
-    // modal btt events
-    const modal_events = (modal_error) =>{
-
     };
 
     // login verify
@@ -292,7 +286,7 @@ const Home = () => {
                     <footer className='modal-card-foot is-justify-content-center'>
                         <div className='div-buttons'>
                             {modal_btt && (
-                                <button onClick={ () => modal_events(modal_errorType) } className="button is-danger is-dark">
+                                <button className="button is-danger is-dark">
                                     { modal_btt }
                                 </button>
                             )}
