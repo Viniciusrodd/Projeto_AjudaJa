@@ -25,36 +25,31 @@ const Register = () => {
     const [ redirectHome, setRedirectHome ] = useState(false);
     const [ redirectLogin, setRedirectLogin ] = useState(false);
 
+    // modal
+    const [ modal_display, setModal_display ] = useState(false);
+    const [ modal_title, setModal_title ] = useState(null);
+    const [ modal_msg, setModal_msg ] = useState(null);
+    const [ modal_btt, setmodal_btt ] = useState(false);
+    const [ modal_btt_2, setModal_btt_2 ] = useState(false);
+    const [ title_color, setTitle_color ] = useState('#000');
+
     // consts
     const divImage = useRef(null);
     const imageInput = useRef(null);
     const navigate = useNavigate();
-    const modal = useRef(null);
-    const modal_title = useRef(null);
-    const modal_msg = useRef(null);
-    const modal_btt = useRef(null);
 
 
-    // verify login
-    const { userData, errorRes } = useTokenVerify();
-    useEffect(() => {
-        if(userData){
-            modal.current.style.display = 'flex';
-            modal_msg.current.innerText = 'Usuário já logado, você será redirecionado...';
-            modal_btt.current.style.display = 'none';
-            setRedirectHome(true);
-        }
-        
-        if(errorRes){
-            console.log('Error at fetchToken at Register: ', errorRes);
-        }
-    }, [userData, errorRes]);
+    ////////////// functions
 
 
     // redirect
     useEffect(() =>{
         if(redirectHome){
             const clearMessage = setTimeout(() => {
+                modal_config({
+                    title1: null, msg: null, btt1: false, 
+                    btt2: false, display: false, title_color: '#000'
+                });
                 navigate('/');
             }, 3000);
         
@@ -65,6 +60,10 @@ const Register = () => {
 
         if(redirectLogin){
             const clearMessage = setTimeout(() => {
+                modal_config({
+                    title1: null, msg: null, btt1: false, 
+                    btt2: false, display: false, title_color: '#000'
+                });
                 navigate('/login');
             }, 3000);
         
@@ -74,6 +73,46 @@ const Register = () => {
         }
     }, [redirectHome, redirectLogin]);
 
+    // modal config
+    const modal_config = ({ title, msg, btt1, btt2, display, title_color }) => {
+        setModal_title(title ?? null);
+        setModal_msg(msg ?? null);
+        setmodal_btt(btt1 ?? false);
+        setModal_btt_2(btt2 ?? false);
+        setModal_display(display ?? false);
+        setTitle_color(title_color ?? '#000');
+
+        // The "??" (nullish coalescing operator) 
+        // returns the value on the right ONLY if the value on the left is null or undefined
+    };    
+    
+    // close modal
+    const closeModal = () =>{
+        if(modal_btt_2 !== null){
+            modal_config({
+                title: null, msg: null, btt1: false, 
+                btt2: false, display: false, title_color: '#000'
+            });
+        }
+    };
+
+    // verify login
+    const { userData, errorRes } = useTokenVerify();
+    useEffect(() => {
+        if(userData){
+            modal_config({
+                title: 'Espere',
+                msg: `Usuário já logado, você será redirecionado...`,
+                btt1: false, btt2: false,
+                display: 'flex', title_color: 'rgb(0, 136, 255)'
+            });
+            setRedirectHome(true);
+        }
+        
+        if(errorRes){
+            console.log('Error at fetchToken at Register: ', errorRes);
+        }
+    }, [userData, errorRes]);
 
     // upload image
     const uploadImage = (e) => {
@@ -95,20 +134,17 @@ const Register = () => {
         }
     };
 
-
     // create user request
     const handleForm = async (e) =>{
         e.preventDefault();
 
         if(password != confirmPassword){
-            modal.current.style.display = 'flex';
-            modal_msg.current.innerText = 'Por favor, confirme a senha correta para continuar...';
-            modal_btt.current.innerText = 'Tentar novamente';          
-
-            modal_btt.current.addEventListener('click', () =>{
-                modal.current.style.display = 'none';
+            modal_config({
+                title: 'Erro',
+                msg: `Por favor, confirme a senha correta para continuar...`,
+                btt1: false, btt2: 'Tentar novamente',
+                display: 'flex', title_color: 'rgb(255, 0, 0)'
             });
-
             return;
         }
 
@@ -128,27 +164,30 @@ const Register = () => {
                 divImage.current.style.backgroundImage = `url(../../../images/user.jpg)`
                 imageInput.current.value = ''
 
-                modal.current.style.display = 'flex';
-                modal_title.current.innerText = 'Sucesso'
-                modal_msg.current.innerText = `Usuário criado!!! \n 
-                você será redirecionado para login...`;
-                modal_btt.current.style.display = 'none';            
-    
+                modal_config({
+                    title: 'Sucesso',
+                    msg: `Usuário criado \n
+                    você será redirecionado para login...`,
+                    btt1: false, btt2: false,
+                    display: 'flex', title_color: 'rgb(38, 255, 0)'
+                });
                 setRedirectLogin(true);
             }
         }
         catch(error){
             console.log('Error ar register user', error);
 
-            modal.current.style.display = 'flex';
-            modal_msg.current.innerText = 'Erro ao registrar usuário, por favor tente novamente...';
-            modal_btt.current.innerText = 'Tentar novamente';
-
-            modal_btt.current.onclick = () =>{
-                modal.current.style.display = 'none';
-            };
+            modal_config({
+                title: 'Erro',
+                msg: `Erro ao registrar usuário, por favor tente novamente...`,
+                btt1: false, btt2: 'Tentar novamente',
+                display: 'flex', title_color: 'rgb(255, 0, 0)'
+            });
         }
     };
+
+
+    ////////////// jsx
 
 
     return (
@@ -156,22 +195,33 @@ const Register = () => {
             <NavBar condition={ true } />
 
             { /* Modal */ }
-            <div className='modal' ref={ modal }>
+            <div className='modal' style={{ display: modal_display ? 'flex' : 'none' }}>
             <div className='modal-background'></div>
                 <div className='modal-card'>
                     <header className='modal-card-head'>
-                        <p className='modal-card-title' style={{ textAlign:'center' }} ref={ modal_title }>
-                            Espere um pouco
+                        <p className='modal_title modal-card-title has-text-centered' 
+                        style={{ textAlign:'center', color: title_color }}>
+                            { modal_title }
                         </p>
                     </header>
                     <section className='modal-card-body'>
-                        <p className='modal-card-title' ref={ modal_msg } style={{ textAlign:'center' }}>Mensagem de aviso...</p>
+                        <p className='modal-card-title has-text-centered' style={{ textAlign:'center' }}>
+                            { modal_msg }
+                        </p>
                     </section>
                     <footer className='modal-card-foot is-justify-content-center'>
                         <div className='div-buttons'>
-                            <button className="button is-danger is-dark" ref={ modal_btt }>
-                                Excluir
-                            </button>
+                            {modal_btt && (
+                                <button className="button is-danger is-dark">
+                                    { modal_btt }
+                                </button>
+                            )}
+                            {modal_btt_2 && (
+                                <button onClick={ closeModal } className="button is-primary is-dark" 
+                                style={{ marginLeft:'10px' }}>
+                                    { modal_btt_2 }
+                                </button>
+                            )}
                         </div>
                     </footer>
                 </div>
