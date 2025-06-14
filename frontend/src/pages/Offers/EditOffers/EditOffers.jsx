@@ -137,7 +137,12 @@ const EditOffers = () => {
                     </header>
                     <section className='modal-card-body'>
                         <p className='modal-card-title has-text-centered' style={{ textAlign:'center' }}>
-                            { modal_msg }
+                            {modal_msg?.split('\n').map((line, idx) => (
+                                <span className='modal_span' key={idx}>
+                                    {line}
+                                    <br />
+                                </span>
+                            ))}
                         </p>
                     </section>
                     <footer className='modal-card-foot is-justify-content-center'>
