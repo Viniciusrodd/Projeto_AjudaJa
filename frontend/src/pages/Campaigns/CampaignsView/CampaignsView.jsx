@@ -48,6 +48,10 @@ const Campaigns = () => {
 
     ////////////// functions
 
+    // scroll top at beginning
+    useEffect(() =>{
+        window.scrollTo(0, 0);
+    }, []);    
 
     // get campaigns data
     const { campaignData, setCampaignData } = useCampaignData();

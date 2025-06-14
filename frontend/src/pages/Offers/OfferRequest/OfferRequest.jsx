@@ -37,6 +37,10 @@ const OfferRequest = () => {
 
     ////////////// functions
 
+    // scroll top at beginning
+    useEffect(() =>{
+        window.scrollTo(0, 0);
+    }, []);
 
     // get user data
     const { userData, errorRes } = useTokenVerify();

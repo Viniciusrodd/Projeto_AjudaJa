@@ -38,6 +38,10 @@ const MyOffers = () => {
 
     ////////////// functions
 
+    // scroll top at beginning
+    useEffect(() =>{
+        window.scrollTo(0, 0);
+    }, []);    
 
     // get offers by user id
     const { offerDataByUserId, setOfferDataByUserId } = useOfferData(userId);

@@ -41,6 +41,10 @@ const CampaignsCreate = () => {
 
     ////////////// functions
 
+    // scroll top at beginning
+    useEffect(() =>{
+        window.scrollTo(0, 0);
+    }, []);    
 
     // userId for moderator_id
     useEffect(() =>{

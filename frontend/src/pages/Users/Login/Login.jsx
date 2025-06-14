@@ -34,6 +34,10 @@ const Login = () => {
 
     ////////////// functions
 
+    // scroll top at beginning
+    useEffect(() =>{
+        window.scrollTo(0, 0);
+    }, []);
 
     // redirect
     useEffect(() =>{

@@ -35,6 +35,10 @@ const EditCampaign = () => {
 
     ////////////// functions
 
+    // scroll top at beginning
+    useEffect(() =>{
+        window.scrollTo(0, 0);
+    }, []);    
 
     // redirect user
     useEffect(() => {

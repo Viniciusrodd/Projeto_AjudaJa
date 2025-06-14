@@ -42,6 +42,10 @@ const MyHelpRequests = () => {
 
     ////////////// functions
 
+    // scroll top at beginning
+    useEffect(() =>{
+        window.scrollTo(0, 0);
+    }, []);    
 
     // get request data
     const { requestDataByUserId, setRequestDataByUserId } = useRequestData(null, userId);
