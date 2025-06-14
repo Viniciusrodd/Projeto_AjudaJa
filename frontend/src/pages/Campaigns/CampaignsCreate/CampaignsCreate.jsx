@@ -51,6 +51,11 @@ const CampaignsCreate = () => {
     useEffect(() => {
         if(redirect === true){   
             const clearMessage = setTimeout(() => {
+                modal_config({
+                    title1: null, msg: null, btt1: false, 
+                    btt2: false, display: false, title_color: '#000'
+                });
+                
                 navigate('/campanhas');
             }, 3000);
             

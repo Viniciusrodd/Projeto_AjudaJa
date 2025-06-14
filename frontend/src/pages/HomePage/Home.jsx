@@ -57,6 +57,11 @@ const Home = () => {
     useEffect(() =>{
         if(redirectLogin){
             const clearMessage = setTimeout(() => {
+                modal_config({
+                    title1: null, msg: null, btt1: false, 
+                    btt2: false, display: false, title_color: '#000'
+                });
+
                 navigate('/login');
             }, 3000);
         
