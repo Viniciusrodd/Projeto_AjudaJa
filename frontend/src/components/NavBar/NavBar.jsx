@@ -4,7 +4,7 @@ import styles from './NavBar.module.css'
 
 // hooks
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 // context
 import { UserContext } from '../../context/UserContext';

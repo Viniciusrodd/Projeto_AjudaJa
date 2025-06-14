@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
     const [ isLogged, setIsLogged ] = useState(false);
     const [ userName, setUserName ] = useState('');
     const [ userId, setUserId ] = useState(null);
+    const [userNameManuallySet, setUserNameManuallySet] = useState(false);
     
     
     // token verify + user id
@@ -33,7 +34,7 @@ export const UserProvider = ({ children }) => {
 
     // get user name
     useEffect(() =>{
-        if(userId !== null){
+        if(userId !== null && !userNameManuallySet){
             const getUserName = async () =>{
                 try{
                     const user = await axios.get(`http://localhost:2130/user/${userId}`, { withCredentials: true });
@@ -45,11 +46,15 @@ export const UserProvider = ({ children }) => {
             }
             getUserName();
         }
-    }, [userId]);
+    }, [userId, userNameManuallySet]);
 
 
     return(
-        <UserContext.Provider value={{ userId, setUserId, userName, setUserName, isLogged, setIsLogged }}>
+        <UserContext.Provider value={{ 
+            userId, setUserId, userName, 
+            setUserName, isLogged, setIsLogged,
+            userNameManuallySet, setUserNameManuallySet 
+        }}>
             { children }
         </UserContext.Provider>
     );

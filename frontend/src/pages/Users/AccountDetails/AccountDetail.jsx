@@ -18,6 +18,7 @@ import { UserContext } from '../../../context/UserContext';
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 
+import axios from 'axios';
 
 const AccountDetail = () => {
     // states
@@ -41,7 +42,7 @@ const AccountDetail = () => {
     const { userID } = useParams();
     const divImageRef = useRef(null);
     const navigate = useNavigate();
-    const { setUserName } = useContext(UserContext);
+    const { setUserName, setUserNameManuallySet } = useContext(UserContext);
 
 
     ////////////// functions
@@ -67,9 +68,7 @@ const AccountDetail = () => {
     // set fields from request
     const { userData, userImage, errorRes } = useUserdata(userID);
     useEffect(() => {
-        if(userData){
-            setUserName(userData.name);
-            
+        if(userData){            
             setUserFields({ ...userFields, 
                 id: userData.id || '',
                 name: userData.name || '',
@@ -177,6 +176,12 @@ const AccountDetail = () => {
             const response = await useEditUser(userFields.id, formData);
 
             if(response.status === 200){
+                // update user context name
+                const tokenCheck = await axios.post('http://localhost:2130/verifyToken', {}, { withCredentials: true });
+                const newName = tokenCheck.data.user.name;                
+                setUserName(newName);
+                setUserNameManuallySet(true);            
+
                 modal_config({
                     title: 'Sucesso',
                     msg: `Perfil atualizado! \n 
@@ -189,7 +194,7 @@ const AccountDetail = () => {
         }
         catch(error){
             console.log('Error at update user', error);
-            if(error.response.data.errorPass){
+            if(error?.response?.data?.errorPass){
                 modal_config({
                     title: 'Erro',
                     msg: `Senha atual incorreta, tente novamente...`,
@@ -200,7 +205,7 @@ const AccountDetail = () => {
         }
     };
 
-    // modal messages
+    // modal delete profile
     const modal_deleteProfile = () =>{
         modal_config({
             title: 'Espere',

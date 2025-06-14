@@ -215,9 +215,27 @@ class User{
                 where: { id: userId }
             });
 
+            // get updated user
+            const updatedUser = await UserModel.findOne({ where: { id: userId } });
+
+            let updatedToken = jwt.sign({
+                id: updatedUser.id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                iat: Math.floor(Date.now() / 1000),
+                exp: Math.floor(Date.now() / 1000) + (10 * 24 * 60 * 60)
+            }, secretToken);
+
+            res.cookie('token', updatedToken, {
+                httpOnly: true,
+                sameSite: 'Strict',
+                maxAge: 10 * 24 * 60 * 60 * 1000,
+            });
+
             if(!userImage){
                 return res.status(200).send({
-                    successMsg: 'Update user with success (without image)' 
+                    successMsg: 'Update user with success (without image)',
+                    updatedUser
                 });
             }
         
@@ -235,7 +253,8 @@ class User{
             );
 
             return res.status(200).send({
-                successMsg: 'Update user with success (with image)' 
+                successMsg: 'Update user with success (with image)',
+                updatedUser
             });
         }
         catch(error){
