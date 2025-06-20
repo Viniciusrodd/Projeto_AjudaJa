@@ -5,10 +5,8 @@ import './Profiles.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
-import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate, Link } from 'react-router-dom';
-import { useRequestData } from '../../../hooks/RequestsFetch/useRequestData'; // custom hook
-import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custom hook
+import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -66,6 +64,14 @@ const Profiles = () => {
             });
         }
     };
+
+    // get profiles data
+    const { allUsersData } = useUserdata();
+    useEffect(() =>{
+        if(allUsersData && allUsersData.length !== 0){
+            console.log(allUsersData)
+        }
+    }, [allUsersData]);
 
     // search form
     const search_form = (e) =>{
