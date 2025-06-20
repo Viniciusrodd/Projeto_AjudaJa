@@ -1,20 +1,22 @@
 
 // css
-import '../../utils/FeedsCss/FeedsUtil.css';
+import '../../../utils/FeedsCss/FeedsUtil.css';
+import './Profiles.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
-import { useTokenVerify } from '../../hooks/UserMiddleware/useTokenVerify'; // custom hook
+import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 import { useNavigate, Link } from 'react-router-dom';
-import { useRequestData } from '../../hooks/RequestsFetch/useRequestData'; // custom hook
-import { useOfferData } from '../../hooks/OffersFetch/useOfferData'; // custom hook
+import { useRequestData } from '../../../hooks/RequestsFetch/useRequestData'; // custom hook
+import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custom hook
 
 // components
-import SideBar from '../../components/SideBar/SideBar';
+import SideBar from '../../../components/SideBar/SideBar';
 
 
-const Messages = () => {
+const Profiles = () => {
     // states
+    const [ profiles, setProfiles ] = useState(null)
     const [ search, setSearch ] = useState('');
     const [ isSearching, setIsSearching ] = useState(false);
     const [ searchedData, setSearchedData ] = useState(null);
@@ -87,11 +89,35 @@ const Messages = () => {
         return;
     };
 
+    let userData; // substitua pelos dados de usuários do backend
+
+    // filtering service function
+    const filtering = (data) =>{
+        const filtered = userData.filter(user => user.role === data);
+
+        if(filtered.length === 0){
+            setNoProfileFound(`Perfis de ${data} não encontrados`);
+            setTimeout(() => {
+                setNoProfileFound('');
+                setProfiles(null);
+                select_options.current.value = 'Todos perfis'
+            }, 3000);
+        }
+
+        setProfiles(filtered);
+    };
+
     // filtering profiles
+    const filteredProfiles = searchedData !== null ? searchedData : profiles || userData;
     const handleFilterChange = (selectedValue) =>{
-
-    }
-
+        if(selectedValue === 'Todos perfis'){
+            return;
+        }else if(selectedValue === 'Usuário'){
+            filtering('usuario');
+        }else if(selectedValue === 'Moderador'){
+            filtering('moderador');
+        }
+    };
 
 
     ////////////// jsx
@@ -177,10 +203,36 @@ const Messages = () => {
                     transition: 'opacity 0.2s ease-out, visibility 0.2s ease-out' 
                 }}>
                     Limpar pesquisa...
-                </button>                
+                </button>   
+
+                {/* Profiles */}
+
+                {
+                    noProfiles && !searchedData && !noProfileFound && (
+                        <div className='noRequests'>
+                            <h1 className='title is-2'>{ noProfiles }</h1>
+                        </div>
+                    )
+                }
+
+                {
+                    noProfileFound && (
+                        <div className='noRequests'>
+                            <h1 className='title is-2'>{ noProfileFound }</h1>
+                        </div>
+                    )
+                }
+
+                {
+                    filteredProfiles?.map((profiles) =>(
+                        <div>
+
+                        </div>
+                    ))
+                }
             </div>
         </div>
     );
 };
 
-export default Messages;
+export default Profiles;

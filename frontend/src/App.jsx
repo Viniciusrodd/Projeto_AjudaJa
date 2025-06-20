@@ -22,7 +22,7 @@ import EditOffers from './pages/Offers/EditOffers/EditOffers';
 import Campaigns from './pages/Campaigns/CampaignsView/CampaignsView';
 import CampaignsCreate from './pages/Campaigns/CampaignsCreate/CampaignsCreate';
 import EditCampaign from './pages/Campaigns/EditCampaign/EditCampaign';
-import Messages from './pages/Messages/Messages';
+import Profiles from './pages/Messages/Profiles/Profiles';
 
 
 function App() {
@@ -47,7 +47,7 @@ function App() {
                 <Route path='/campanhas' element={ <Campaigns /> } />                
                 <Route path='/criarCampanha' element={ <CampaignsCreate /> } />                
                 <Route path='/editarCampanha/:campaignID' element={ <EditCampaign /> } />                
-                <Route path='/mensagens' element={ <Messages /> } />                
+                <Route path='/mensagens' element={ <Profiles /> } />                
             </Routes>
         </div>
     )
