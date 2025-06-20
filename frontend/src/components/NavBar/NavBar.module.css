@@ -23,7 +23,7 @@ span{
     align-items: center;
     height: 16vh;
     width: 100vw;
-    background-color: rgb(20, 20, 20);
+    background-color: transparent;
 }
 
 .nav_bar_container{

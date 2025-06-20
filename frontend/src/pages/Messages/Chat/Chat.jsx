@@ -111,10 +111,39 @@ const Chat = () => {
             <SideBar />
 
 
-            <div className='campaigns'>
-                <h1 className='title is-1'>
-                    Chat online
-                </h1>
+            <div className='container_feed_2'>
+
+                <div className='chat'>
+                    <header>
+                        <div className='user_image' style={{
+                            height:'80px', width:'80px'
+                        }} ></div>
+                        <h1 className='title is-4'>
+                            Nome do usuário de destino
+                        </h1>
+                    </header>
+
+                    <div className='chat_body'>
+                        <div className='message_sender'>
+                            <div className='message'>
+                                <p>messagem de quem envia</p>
+                            </div>
+                        </div>
+                        <div className='message_receive'>
+                            <div className='receive_user_img'></div>
+                            <div className='message'>
+                                <p>messagem de quem recebe</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <footer>
+                        <input type="text" placeholder='Mensagem...' className="input is-rounded" />
+                        <button className='button is-rounded'>
+                            Enviar
+                        </button>
+                    </footer>
+                </div>
             </div>            
         </div>
     );
