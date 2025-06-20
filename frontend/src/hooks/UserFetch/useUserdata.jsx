@@ -34,6 +34,9 @@ export const useUserdata = (userID) => {
         const requestAllUsers = async () =>{
             try{
                 const res = await axios.get(`http://localhost:2130/users`, { withCredentials: true });
+                if(res.status === 204){
+                    setAllUsersData([]);
+                }
                 setAllUsersData(res.data.combined_data);
             }
             catch(error){
@@ -45,5 +48,5 @@ export const useUserdata = (userID) => {
     }, []);
 
 
-    return { userData, userImage, errorRes, allUsersData };
+    return { userData, userImage, errorRes, allUsersData, setAllUsersData };
 };

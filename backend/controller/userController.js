@@ -172,7 +172,9 @@ class User{
     // findAll users
     async findAllUsers(req, res){
         try{
-            const users_data = await UserModel.findAll();
+            const users_data = await UserModel.findAll({
+                attributes: ['id', 'name', 'role']
+            });
             if(users_data.length === 0){
                 return res.status(204).send({ 
                     noContent: `There's no users data...` 

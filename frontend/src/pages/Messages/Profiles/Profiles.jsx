@@ -66,12 +66,13 @@ const Profiles = () => {
     };
 
     // get profiles data
-    const { allUsersData } = useUserdata();
+    const { allUsersData, setAllUsersData } = useUserdata();
     useEffect(() =>{
-        if(allUsersData && allUsersData.length !== 0){
-            console.log(allUsersData)
+        if(allUsersData && allUsersData.length === 0){
+            setNoProfiles('Perfis não encontrados...');
         }
-    }, [allUsersData]);
+        //console.log(allUsersData)
+    }, [allUsersData, setAllUsersData]);
 
     // search form
     const search_form = (e) =>{
@@ -95,14 +96,12 @@ const Profiles = () => {
         return;
     };
 
-    let userData; // substitua pelos dados de usuários do backend
-
     // filtering service function
     const filtering = (data) =>{
-        const filtered = userData.filter(user => user.role === data);
+        const filtered = allUsersData.filter(user => user.role === data);
 
         if(filtered.length === 0){
-            setNoProfileFound(`Perfis de ${data} não encontrados`);
+            setNoProfileFound(`${data} não encontrado`);
             setTimeout(() => {
                 setNoProfileFound('');
                 setProfiles(null);
@@ -114,7 +113,7 @@ const Profiles = () => {
     };
 
     // filtering profiles
-    const filteredProfiles = searchedData !== null ? searchedData : profiles || userData;
+    const filteredProfiles = searchedData !== null ? searchedData : profiles || allUsersData;
     const handleFilterChange = (selectedValue) =>{
         if(selectedValue === 'Todos perfis'){
             return;
@@ -230,9 +229,19 @@ const Profiles = () => {
                 }
 
                 {
-                    filteredProfiles?.map((profiles) =>(
-                        <div>
+                    filteredProfiles?.map((profile) =>(
+                        <div className='profile'>
+                            <div className='profile_image' style={{ 
+                                backgroundImage: `url(data:${profile.profile_image.content_type};base64,${profile.profile_image.image_data})`                                        
+                            }}>
 
+                            </div>
+
+                            <h1 className='title is-3'>{ profile.name }</h1>
+
+                            <button className="button is-info is-dark">
+                                Iniciar conversa
+                            </button>
                         </div>
                     ))
                 }
