@@ -23,6 +23,7 @@ import Campaigns from './pages/Campaigns/CampaignsView/CampaignsView';
 import CampaignsCreate from './pages/Campaigns/CampaignsCreate/CampaignsCreate';
 import EditCampaign from './pages/Campaigns/EditCampaign/EditCampaign';
 import Profiles from './pages/Messages/Profiles/Profiles';
+import Chat from './pages/Messages/Chat/Chat';
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
                 <Route path='/criarCampanha' element={ <CampaignsCreate /> } />                
                 <Route path='/editarCampanha/:campaignID' element={ <EditCampaign /> } />                
                 <Route path='/mensagens' element={ <Profiles /> } />                
+                <Route path='/chat/:userId' element={ <Chat /> } />                
             </Routes>
         </div>
     )

@@ -82,7 +82,7 @@ const Profiles = () => {
         e.preventDefault();
 
         if(search.trim() === ''){
-            setSearchedData('');
+            setSearchedData(null);
             return;
         }
 
@@ -220,9 +220,11 @@ const Profiles = () => {
 
 
             { /* FEED CONTAINER */ }
-            <div className='campaigns'>
-                <h2 className='title is-2'>Perfis disponíveis para mensagem</h2>
-            
+            <div className='campaigns'>            
+                <h2 className='title is-2' style={{ marginBottom: '40px' }}>
+                    Perfis disponíveis para mensagem
+                </h2>
+
                 { /* PROFILES SEARCH OPTION */ }
                 <form onSubmit={ search_form } className='search_container_campaign'>
                     <div className="select is-primary">
@@ -274,7 +276,7 @@ const Profiles = () => {
                 }
 
                 {
-                    filteredProfiles?.map((profile) =>(
+                    filteredProfiles && filteredProfiles?.map((profile) =>(
                         <div className='profile' key={ profile.id }>
                             <div className='profile_image' style={{ 
                                 backgroundImage: `url(data:${profile.profile_image.content_type};base64,${profile.profile_image.image_data})`                                        
@@ -284,9 +286,13 @@ const Profiles = () => {
 
                             <h1 className='title is-3'>{ profile.name }</h1>
 
-                            <button className="button is-info is-dark">
-                                Iniciar conversa
-                            </button>
+                            <div className='div_bottoms' style={{ margin:'0px' }}>
+                                <Link to={`/chat/${profile.id}`} style={{ margin:'0px' }}> 
+                                    <button className="button is-info is-dark">
+                                        Iniciar conversa
+                                    </button>
+                                </Link>
+                            </div>
                         </div>
                     ))
                 }
