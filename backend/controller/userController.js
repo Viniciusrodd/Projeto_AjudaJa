@@ -3,6 +3,7 @@
 const { UserModel, CampaignModel, OfferModel, RequestModel } = require('../Database/Relations');
 const profileImage = require('../mongoDatabase/Collections/profileImages');
 const connection = require('../Database/Connection/connection');
+const { Op } = require('sequelize');
 
 // security
 const bcrypt = require('bcrypt');
@@ -214,6 +215,65 @@ class User{
             return res.status(500).send({
                 msgError: 'Internal server error at Find all users',
                 details: error.response?.data || error.message 
+            });
+        }
+    };
+
+
+    // find user by name
+    async findUserByName(req, res){
+        const user_name = req.params.userName;
+        if(!user_name){
+            return res.status(400).send({
+                error: 'Bad request at user_name params'
+            });
+        }
+
+        try{
+            const user_data = await UserModel.findAll({
+                where: {
+                    name: { [Op.like]: `%${user_name}%` }
+                }
+            });
+            if(user_data.length === 0){
+                return res.status(204).send({
+                    msg: 'No users found matching the name'
+                });                
+            }
+
+            // get users ids
+            const users_ids = user_data.map(user => user.id);
+
+            // associated images
+            const profile_images = await profileImage.find({
+                user_id: { $in: users_ids }
+            });
+
+            // mapping user_id => images
+            const imageMap = {};
+            profile_images.forEach((image) =>{
+                imageMap[image.user_id] = {
+                    image_data: image.image_data,
+                    content_type: image.content_type
+                }
+            });
+
+            // combine users data + images
+            const combined_data = user_data.map(user =>({
+                ...user.dataValues,
+                profile_image: imageMap[user.id] || null
+            }));
+
+            return res.status(200).send({
+                msg: 'Users find by name with success',
+                combined_data
+            });
+        }
+        catch(error){
+            console.error('Internal server error at Find user by name', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find user by name', 
+                details: error.response?.data || error.message
             });
         }
     };

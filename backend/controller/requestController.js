@@ -174,7 +174,6 @@ class Request{
                     title: { [Op.like]: `%${request_title}%` } 
                 }
             });
-
             if(request_data.length === 0){
                 return res.status(204).send({
                     msg: 'No requests found matching the title'
