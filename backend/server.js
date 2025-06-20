@@ -4,8 +4,9 @@ const app = require('./app.js');
 const Connection = require('./Database/Connection/connection.js');
 const mongoConnection = require('./mongoDatabase/mongoConnection.js');
 require('dotenv').config();
-
 const relations = require('./Database/Relations.js');
+
+
 
 Connection.authenticate()
     .then(() => {
