@@ -116,9 +116,12 @@ const Campaigns = () => {
             
             if(filtered.length === 0){
                 setNoCampaignsFound('Campanhas pessoais não encontradas')
+                setSearchedData(null);
                 setTimeout(() =>{
                     setNoCampaignsFound('');
                     setMyCampaigns(null);
+                    setSearch('');
+                    setIsSearching(false)
                     select_options.current.value = 'Todas Campanhas'
                 }, 3000);
             }

@@ -264,6 +264,10 @@ class User{
                 profile_image: imageMap[user.id] || null
             }));
 
+            console.log('------------------------')
+            console.log(user_data)
+            console.log('------------------------')
+
             return res.status(200).send({
                 msg: 'Users find by name with success',
                 combined_data

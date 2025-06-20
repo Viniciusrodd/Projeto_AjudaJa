@@ -246,9 +246,12 @@ const Home = () => {
 
         if(filtered.length === 0){
             setNoPostsFound(`Pedidos de ajuda de ${data} urgência não encontrados`);
+            setSearchedData(null);
             setTimeout(() => {
                 setNoPostsFound('');
                 setMyRequests(null);
+                setSearch('');
+                setIsSearching(false)
                 select_options.current.value = 'Todos pedidos'
             }, 3000);
         }

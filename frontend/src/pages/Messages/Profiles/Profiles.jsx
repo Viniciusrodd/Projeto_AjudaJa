@@ -11,6 +11,9 @@ import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom ho
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 
+// libs
+import axios from 'axios';
+
 
 const Profiles = () => {
     // states
@@ -75,9 +78,48 @@ const Profiles = () => {
     }, [allUsersData, setAllUsersData]);
 
     // search form
-    const search_form = (e) =>{
+    const search_form = async (e) =>{
         e.preventDefault();
 
+        if(search.trim() === ''){
+            setSearchedData('');
+            return;
+        }
+
+        try{
+            const response = await axios.get(`http://localhost:2130/user/search/${search}`, { withCredentials: true });
+
+            if(response.data.combined_data?.length > 0){
+                setSearchedData(response.data.combined_data);
+                setNoProfileFound(false);
+            }else{
+                setSearchedData([]); // limpa resultados anteriores
+                setNoProfileFound('Usuário não encontrado');
+                setTimeout(() =>{
+                    setNoProfileFound('');
+                    setSearchedData(null);
+                    setSearch('');
+                    setIsSearching(false);
+                }, 3000);
+            }
+        }
+        catch(error){
+            console.error("Error at searching user:", error);
+            modal_config({
+                title: 'Erro',
+                msg: `Erro ao pesquisar por usuário...`,
+                btt1: false, btt2: false,
+                display: 'flex', title_color: 'rgb(255, 0, 0)'
+            });
+            setTimeout(() => {
+                modal_config({
+                    title: null, msg: null, btt1: false, 
+                    btt2: false, display: false, title_color: '#000'
+                });
+                setSearch('');
+                setIsSearching(false);
+            }, 3000);
+        }
     }
 
     // is searching ?
@@ -102,9 +144,12 @@ const Profiles = () => {
 
         if(filtered.length === 0){
             setNoProfileFound(`${data} não encontrado`);
+            setSearchedData(null);
             setTimeout(() => {
                 setNoProfileFound('');
                 setProfiles(null);
+                setSearch('');
+                setIsSearching(false)
                 select_options.current.value = 'Todos perfis'
             }, 3000);
         }
@@ -116,7 +161,7 @@ const Profiles = () => {
     const filteredProfiles = searchedData !== null ? searchedData : profiles || allUsersData;
     const handleFilterChange = (selectedValue) =>{
         if(selectedValue === 'Todos perfis'){
-            return;
+            setProfiles(null);
         }else if(selectedValue === 'Usuário'){
             filtering('usuario');
         }else if(selectedValue === 'Moderador'){
@@ -190,7 +235,7 @@ const Profiles = () => {
                     </div>
 
                     <div className='searchInput_container_campaign' style={{ width:'83%' }}>
-                        <input className='input is-primary' type="text" name="search" 
+                        <input className='input is-primary' type="text" name="userName" 
                         placeholder='Pesquise pelo nome do perfil' value={ search }
                         autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
                         
@@ -230,7 +275,7 @@ const Profiles = () => {
 
                 {
                     filteredProfiles?.map((profile) =>(
-                        <div className='profile'>
+                        <div className='profile' key={ profile.id }>
                             <div className='profile_image' style={{ 
                                 backgroundImage: `url(data:${profile.profile_image.content_type};base64,${profile.profile_image.image_data})`                                        
                             }}>
