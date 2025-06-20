@@ -11,9 +11,9 @@ const chatSocket = (io) =>{
             console.log(`User: ${userId} entered in his own room`)
         });
 
-        // private message send for someone
+        // private message
         socket.on('private-message', async ({ from, to, content }) =>{
-            const newMessage = new Message({ from, to, content }); // model instânce
+            const newMessage = new Message({ from, to, content }); // model instance
             await newMessage.save();
 
             // Send a message to destiny (if he's in the room)

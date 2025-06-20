@@ -1,7 +1,7 @@
 
 // css
 import '../../../utils/FormsCss/FormsUtil.css';
-import '../../../utils/FeedsCss/expiresAtUtil.css'
+import '../../../utils/FeedsCss/expiresAtUtil.css';
 
 // sidebar
 import SideBar from '../../../components/SideBar/SideBar';

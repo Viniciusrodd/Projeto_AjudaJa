@@ -202,6 +202,19 @@ const SideBar = () => {
                         )
                     }
                 </Link>
+                <Link to='/mensagens'>
+                    {
+                        location.pathname === '/mensagens' ? (
+                            <li style={{ color:'#00EBC7' }}> <i className="material-icons" style={{ color:'#00EBC7' }}>3p</i>
+                                Mensagens
+                            </li>
+                        ) : (
+                            <li> <i className="material-icons">3p</i>
+                                Mensagens
+                            </li>
+                        )
+                    }
+                </Link>
                 <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
             </ul>
 
