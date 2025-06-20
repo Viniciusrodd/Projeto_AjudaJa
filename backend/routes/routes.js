@@ -27,6 +27,7 @@ router.post('/verifyToken', middleware.verifyToken, (req, res) => {
 router.post('/user', upload.single('image'), userController.registerUser);
 router.post('/login', userController.Login);
 router.get('/user/:userID', middleware.verifyToken, userController.findUser);
+router.get('/users', middleware.verifyToken, userController.findAllUsers);
 router.put('/user/:userID', upload.single('image'), middleware.verifyToken, userController.editUser);
 router.delete('/user/:userID', middleware.verifyToken, userController.deleteUser.bind(userController));
 router.get('/logOut', middleware.verifyToken, userController.logOutRoute.bind(userController));

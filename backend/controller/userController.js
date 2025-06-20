@@ -169,6 +169,54 @@ class User{
     };
 
 
+    // findAll users
+    async findAllUsers(req, res){
+        try{
+            const users_data = await UserModel.findAll();
+            if(users_data.length === 0){
+                return res.status(204).send({ 
+                    noContent: `There's no users data...` 
+                });
+            }
+
+            // get users ids
+            const users_ids = users_data.map(data => data.id);
+
+            // associated images
+            const profile_images = await profileImage.find({
+                user_id: { $in: users_ids }
+            });
+
+            // mapping user_id => images
+            const imageMap = {};
+            profile_images.forEach((image) =>{
+                imageMap[image.user_id] = {
+                    image_data: image.image_data,
+                    content_type: image.content_type
+                };
+            });
+
+            // combine users data + images
+            const combined_data = users_data.map(user =>({
+                ...user.dataValues, // sequelize instances, we need to extract the data
+                profile_image: imageMap[user.id] || null
+            }));
+
+            return res.status(200).send({
+                msg: 'Users find with success',
+                combined_data
+            });
+        }
+        catch(error){
+            console.error('Internal server error at Find all users', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at Find all users',
+                details: error.response?.data || error.message 
+            });
+        }
+    };
+
+
     // edit user
     async editUser(req, res){
         const userId = req.params.userID;
