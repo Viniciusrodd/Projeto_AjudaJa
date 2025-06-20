@@ -14,6 +14,17 @@ import SideBar from '../../components/SideBar/SideBar';
 
 
 const Messages = () => {
+    // states
+    const [ search, setSearch ] = useState('');
+    const [ isSearching, setIsSearching ] = useState(false);
+    const [ searchedData, setSearchedData ] = useState(null);
+    const [ noProfiles, setNoProfiles ] = useState(false);
+    const [ noProfileFound, setNoProfileFound ] = useState(false);
+    const [ profileId, setProfileId ] = useState(0);
+
+    // consts
+    const select_options = useRef(null);
+
     // modal
     const [ modal_display, setModal_display ] = useState(false);
     const [ modal_title, setModal_title ] = useState(null);
@@ -53,6 +64,34 @@ const Messages = () => {
             });
         }
     };
+
+    // search form
+    const search_form = (e) =>{
+        e.preventDefault();
+
+    }
+
+    // is searching ?
+    useEffect(() =>{
+        if(search != ''){
+            setIsSearching(true);
+        }
+    }, [search]);
+
+    // clean search
+    const cleanSearch = () =>{
+        setNoProfileFound(false);
+        setSearch('');
+        setSearchedData(null);
+        setIsSearching(false);
+        return;
+    };
+
+    // filtering profiles
+    const handleFilterChange = (selectedValue) =>{
+
+    }
+
 
 
     ////////////// jsx
@@ -107,6 +146,38 @@ const Messages = () => {
             { /* FEED CONTAINER */ }
             <div className='campaigns'>
                 <h2 className='title is-2'>Perfis disponíveis para mensagem</h2>
+            
+                { /* PROFILES SEARCH OPTION */ }
+                <form onSubmit={ search_form } className='search_container_campaign'>
+                    <div className="select is-primary">
+                        <select onChange={(e) => handleFilterChange(e.target.value)} 
+                        style={{ width:'100%' }} className='is-hovered' ref={ select_options }>
+                            <option>Todos perfis</option>
+                            <option>Usuário</option>
+                            <option>Moderador</option>
+                        </select>
+                    </div>
+
+                    <div className='searchInput_container_campaign' style={{ width:'83%' }}>
+                        <input className='input is-primary' type="text" name="search" 
+                        placeholder='Pesquise pelo nome do perfil' value={ search }
+                        autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
+                        
+                        <button className="button is-primary is-outlined" style={{ height:'40px' ,width:'40px' }}>
+                            <i className="material-icons" id='person'>search</i>
+                        </button>
+                    </div>
+                </form>
+
+                <button onClick={ () => cleanSearch() } className="button is-primary is-outlined"
+                style={{ 
+                    margin: isSearching ? '10px 0px 20px 0px' : '0px', 
+                    opacity: isSearching ? 1 : 0, 
+                    visibility: isSearching ? 'visible' : 'hidden', 
+                    transition: 'opacity 0.2s ease-out, visibility 0.2s ease-out' 
+                }}>
+                    Limpar pesquisa...
+                </button>                
             </div>
         </div>
     );
