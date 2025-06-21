@@ -196,7 +196,7 @@ const MyOffers = () => {
                     offerDataByUserId && offerDataByUserId.map((offer) => (
                         <div key={ offer.id } className='relatedOffers_image' style={{ margin:'8px 0px 8% 0px' }}>
                             <div className='relatedOffers' style={{ padding:'30px 10px 50px 10px' }}>
-                                <div className='user_requests_details'>
+                                <div className='user_requests_details' style={{ marginBottom: '30px' }}>
                                     <div className='details'>
                                         <p className='titles_requests'>Ofereceu para: </p>
                                         <h1 className='subtitle is-4'>{ offer.user_data.name }</h1>

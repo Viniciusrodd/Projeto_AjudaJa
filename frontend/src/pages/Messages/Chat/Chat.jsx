@@ -13,8 +13,16 @@ import SideBar from '../../../components/SideBar/SideBar';
 
 
 const Chat = () => {
+// states
+    const [ userFields, setUserFields ] = useState({
+        id: '', name:''
+    });
+    const [ imageField, setImageField ] = useState({ image_data: null, content_type: '' });
+
     // consts
     const { userId } = useParams();
+    const divImageRef = useRef(null);
+    const divImageRef2 = useRef(null);
 
     // modal
     const [ modal_display, setModal_display ] = useState(false);
@@ -26,11 +34,6 @@ const Chat = () => {
     
     
     ////////////// functions
-
-
-    useEffect(() =>{
-        if(userId) console.log(`user id: ${userId}`);
-    }, [userId]);
 
 
     // scroll top at beginning
@@ -60,6 +63,49 @@ const Chat = () => {
             });
         }
     };
+
+
+    const { userData, userImage, errorRes } = useUserdata(userId);
+    useEffect(() =>{
+        if(userData){            
+            setUserFields({ ...userFields, 
+                id: userData.id || '',
+                name: userData.name || ''
+            });
+        }
+        
+        if(!userImage) return;
+
+        setImageField({ ...imageField,
+            image_data: userImage.image_data,
+            content_type: userImage.content_type,
+        });
+
+        if(errorRes){
+            console.log('Error at findUser in Chat: ', errorRes);
+        }
+    }, [userData, userImage, errorRes]);
+
+    // defining profile background image
+    useEffect(() => {
+        if (!divImageRef.current) return;
+
+        if (imageField.image_data) {
+            divImageRef.current.style.backgroundImage = `url(data:${imageField.content_type};base64,${imageField.image_data})`;
+            divImageRef2.current.style.backgroundImage = `url(data:${imageField.content_type};base64,${imageField.image_data})`;
+        } else {
+            divImageRef.current.style.backgroundImage = `url('../../../images/user.jpg')`;
+            divImageRef2.current.style.backgroundImage = `url('../../../images/user.jpg')`;
+        }
+
+        divImageRef.current.style.backgroundSize = "cover";
+        divImageRef.current.style.backgroundRepeat = "no-repeat";
+        divImageRef.current.style.backgroundPosition = "center";
+        
+        divImageRef2.current.style.backgroundSize = "cover";
+        divImageRef2.current.style.backgroundRepeat = "no-repeat";
+        divImageRef2.current.style.backgroundPosition = "center";
+    }, [imageField]);
 
 
     ////////////// jsx
@@ -114,14 +160,16 @@ const Chat = () => {
             <div className='container_feed_2'>
 
                 <div className='chat'>
+                    <div className='header_image'>
                     <header>
-                        <div className='user_image' style={{
-                            height:'80px', width:'80px'
-                        }} ></div>
-                        <h1 className='title is-4'>
-                            Nome do usuário de destino
-                        </h1>
+                            <div ref={ divImageRef } className='user_image' style={{
+                                height:'80px', width:'80px' 
+                            }} ></div>
+                            <h1 className='title is-4' style={{ textShadow: '0px 3px 4px rgba(0, 0, 0, 1)' }}>
+                                { userFields.name }
+                            </h1>
                     </header>
+                    </div>
 
                     <div className='chat_body'>
                         <div className='message_sender'>
@@ -130,19 +178,23 @@ const Chat = () => {
                             </div>
                         </div>
                         <div className='message_receive'>
-                            <div className='receive_user_img'></div>
+                            <div ref={ divImageRef2 }  className='receive_user_img'>
+
+                            </div>
                             <div className='message'>
                                 <p>messagem de quem recebe</p>
                             </div>
                         </div>
                     </div>
                     
+                    <div className='footer_image'>
                     <footer>
                         <input type="text" placeholder='Mensagem...' className="input is-rounded" />
                         <button className='button is-rounded'>
                             Enviar
                         </button>
                     </footer>
+                    </div>
                 </div>
             </div>            
         </div>
