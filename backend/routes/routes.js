@@ -6,6 +6,7 @@ const userController = require('../controller/userController.js');
 const RequestController = require('../controller/requestController.js');
 const OfferController = require('../controller/offerController.js');
 const CampaignController = require('../controller/campaignController.js');
+const chatController = require('../controller/chatController.js');
 
 
 // multer
@@ -62,6 +63,11 @@ router.get('/campaigns/:moderatorID', middleware.verifyToken, CampaignController
 router.get('/campaign/:campaignID', middleware.verifyToken, CampaignController.findCampaignByPk);
 router.put('/campaign/:campaignID', middleware.verifyToken, CampaignController.editCampaign);
 router.delete('/campaign/:campaignID', middleware.verifyToken, campaignController.deleteCampaign);
+
+
+// port 2130 // chat
+router.get('/messages/:userID', middleware.verifyToken, chatController.messagesBetweenUsers);
+
 
 
 module.exports = router;

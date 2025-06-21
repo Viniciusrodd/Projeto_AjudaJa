@@ -122,7 +122,7 @@ class User{
         }
         catch(error){
             console.log('Internal server error at Login controller', error);
-            res.status(500).send({
+            return res.status(500).send({
                 msgError: 'Internal server error at Login controller',
                 details: error.response?.data || error.message
             });
@@ -162,7 +162,7 @@ class User{
         }
         catch(error){
             console.error('Internal server error at Find user data controller', error);
-            res.status(500).send({
+            return res.status(500).send({
                 msgError: 'Internal server error at Find user data controller',
                 details: error.message
             });
@@ -263,10 +263,6 @@ class User{
                 ...user.dataValues,
                 profile_image: imageMap[user.id] || null
             }));
-
-            console.log('------------------------')
-            console.log(user_data)
-            console.log('------------------------')
 
             return res.status(200).send({
                 msg: 'Users find by name with success',
@@ -373,7 +369,7 @@ class User{
         }
         catch(error){
             console.log('Internal server error at Edit user data controller', error);
-            res.status(500).send({
+            return res.status(500).send({
                 msgError: 'Internal server error at Edit user data controller',
                 details: error.response?.data || error.message
             });
@@ -422,7 +418,7 @@ class User{
         }
         catch(error){
             console.log('Internal server error at Delete user data', error);
-            res.status(500).send({
+            return res.status(500).send({
                 msgError: 'Internal server error at Delete user data',
                 details: error.response?.data || error.message
             });
@@ -439,7 +435,7 @@ class User{
         }
         catch(error){
             console.error('Internal server error at logOut route', error);
-            res.status(500).send({
+            return res.status(500).send({
                 msgError: 'Internal server error at logOut route',
                 details: error.response?.data || error.message
             });
