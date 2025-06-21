@@ -17,6 +17,9 @@ import socket from '../../../services/socket';
 // context
 import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify';
 
+// libs
+import axios from 'axios';
+
 
 const Chat = () => {
     // states
@@ -143,6 +146,40 @@ const Chat = () => {
 
         return () => socket.off('private-message')
     }, [userDataLogged]);
+
+
+    // historical messages
+    useEffect(() =>{
+        if(userId){
+            const getMessagesHistoric = async () =>{
+                try{
+                    const response = await axios.get(`http://localhost:2130/messages/${userId}`, { withCredentials: true });
+                    setMessages((prev) => [...prev, ...response.data.messages]);
+                }
+                catch(error){
+                    console.error("Error at searching historic messages:", error);
+                    modal_config({
+                        title: 'Erro',
+                        msg: `Erro ao recuperar histórico de mensagens...`,
+                        btt1: false, btt2: false,
+                        display: 'flex', title_color: 'rgb(255, 0, 0)'
+                    });
+                    setTimeout(() => {
+                        modal_config({
+                            title: null, msg: null, btt1: false, 
+                            btt2: false, display: false, title_color: '#000'
+                        });
+                    }, 3000);
+                }
+            };
+            getMessagesHistoric();
+        }
+    }, [userId]);
+
+
+    useEffect(() =>{
+        console.log(messages);
+    }, [messages]);
 
 
     ////////////// jsx
