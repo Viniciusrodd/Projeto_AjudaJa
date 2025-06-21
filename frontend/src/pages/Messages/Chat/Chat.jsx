@@ -11,18 +11,25 @@ import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom ho
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 
+// services
+import socket from '../../../services/socket';
+
+// context
+import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify';
+
 
 const Chat = () => {
-// states
+    // states
     const [ userFields, setUserFields ] = useState({
         id: '', name:''
     });
     const [ imageField, setImageField ] = useState({ image_data: null, content_type: '' });
+    const [ messages, setMessages ] = useState([]);
+    const [ messageText, setMessageText ] = useState('');
 
     // consts
     const { userId } = useParams();
     const divImageRef = useRef(null);
-    const divImageRef2 = useRef(null);
 
     // modal
     const [ modal_display, setModal_display ] = useState(false);
@@ -64,7 +71,7 @@ const Chat = () => {
         }
     };
 
-
+    // get user destiny data + image
     const { userData, userImage, errorRes } = useUserdata(userId);
     useEffect(() =>{
         if(userData){            
@@ -74,12 +81,12 @@ const Chat = () => {
             });
         }
         
-        if(!userImage) return;
-
-        setImageField({ ...imageField,
-            image_data: userImage.image_data,
-            content_type: userImage.content_type,
-        });
+        if(userImage){
+            setImageField({ ...imageField,
+                image_data: userImage.image_data,
+                content_type: userImage.content_type,
+            });
+        }
 
         if(errorRes){
             console.log('Error at findUser in Chat: ', errorRes);
@@ -88,24 +95,54 @@ const Chat = () => {
 
     // defining profile background image
     useEffect(() => {
-        if (!divImageRef.current) return;
-
-        if (imageField.image_data) {
+        if(divImageRef.current){
             divImageRef.current.style.backgroundImage = `url(data:${imageField.content_type};base64,${imageField.image_data})`;
-            divImageRef2.current.style.backgroundImage = `url(data:${imageField.content_type};base64,${imageField.image_data})`;
-        } else {
-            divImageRef.current.style.backgroundImage = `url('../../../images/user.jpg')`;
-            divImageRef2.current.style.backgroundImage = `url('../../../images/user.jpg')`;
+            divImageRef.current.style.backgroundSize = "cover";
+            divImageRef.current.style.backgroundRepeat = "no-repeat";
+            divImageRef.current.style.backgroundPosition = "center";
         }
 
-        divImageRef.current.style.backgroundSize = "cover";
-        divImageRef.current.style.backgroundRepeat = "no-repeat";
-        divImageRef.current.style.backgroundPosition = "center";
-        
-        divImageRef2.current.style.backgroundSize = "cover";
-        divImageRef2.current.style.backgroundRepeat = "no-repeat";
-        divImageRef2.current.style.backgroundPosition = "center";
     }, [imageField]);
+
+    // get user logged data
+    const { userData: userDataLogged  } = useTokenVerify();
+
+
+    // socket io functions
+
+
+    // join in private room (socket io)
+    useEffect(() =>{
+        if(userDataLogged?.id){
+            socket.emit('join', userDataLogged.id)
+        }
+    }, [userDataLogged]);
+
+    // send messages
+    const sendMessage = (e) =>{
+        e.preventDefault();
+
+        const data = {
+            from: userDataLogged.id,
+            to: userId,
+            content: messageText
+        };
+
+        socket.emit('private-message', data);
+        setMessages((prev) => [...prev, data]);
+        setMessageText('');
+    };
+
+    // receive messages
+    useEffect(() =>{
+        socket.on('private-message', (msg) =>{
+            if(msg.to === userDataLogged.id || msg.from === userDataLogged.id){
+                setMessages((prev) => [...prev, msg]);
+            }
+        });
+
+        return () => socket.off('private-message')
+    }, [userDataLogged]);
 
 
     ////////////// jsx
@@ -172,28 +209,38 @@ const Chat = () => {
                     </div>
 
                     <div className='chat_body'>
-                        <div className='message_sender'>
-                            <div className='message'>
-                                <p>messagem de quem envia</p>
-                            </div>
-                        </div>
-                        <div className='message_receive'>
-                            <div ref={ divImageRef2 }  className='receive_user_img'>
+                        {
+                            messages?.map((msg, index) => {
+                                const isSender = msg.from === userDataLogged.id;
 
-                            </div>
-                            <div className='message'>
-                                <p>messagem de quem recebe</p>
-                            </div>
-                        </div>
+                                return(
+                                    <div key={index} className={isSender ? 'message_sender' : 'message_receive'}>
+                                        {!isSender && (
+                                            <div className='receive_user_img'
+                                            style={{
+                                                backgroundImage: `url(data:${imageField.content_type};base64,${imageField.image_data})`,
+                                                backgroundSize: 'cover',
+                                                backgroundRepeat: 'no-repeat',
+                                                backgroundPosition: 'center'
+                                            }}></div>
+                                        )}
+                                        <div className='message'>
+                                            <p>{msg.content}</p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                     
                     <div className='footer_image'>
-                    <footer>
-                        <input type="text" placeholder='Mensagem...' className="input is-rounded" />
+                    <form onSubmit={ sendMessage }>
+                        <input type="text" placeholder='Mensagem...' className="input is-rounded"
+                        value={ messageText } onChange={(e) => setMessageText(e.target.value)} />
                         <button className='button is-rounded'>
                             Enviar
                         </button>
-                    </footer>
+                    </form>
                     </div>
                 </div>
             </div>            

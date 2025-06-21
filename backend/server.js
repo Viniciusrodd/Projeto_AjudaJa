@@ -33,6 +33,6 @@ Connection.authenticate()
 
 
 // server opens
-app.listen(process.env.BACKEND_PORT, () =>{
+server.listen(process.env.BACKEND_PORT, () =>{
     console.log('Server opens success');
 });
