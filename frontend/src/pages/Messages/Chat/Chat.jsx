@@ -33,6 +33,7 @@ const Chat = () => {
     // consts
     const { userId } = useParams();
     const divImageRef = useRef(null);
+    const messagesEndRef = useRef(null);
 
     // modal
     const [ modal_display, setModal_display ] = useState(false);
@@ -176,9 +177,11 @@ const Chat = () => {
         }
     }, [userId]);
 
-
-    useEffect(() =>{
-        console.log(messages);
+    // scroll to last message
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
     }, [messages]);
 
 
@@ -186,7 +189,7 @@ const Chat = () => {
 
 
     return (
-        <div className='container_campaigns'>
+        <div className='container_campaigns' style={{ paddingBottom:'25px' }}>
             { /* Modal */ }
             <div className='modal' style={{ display: modal_display ? 'flex' : 'none' }}>
             <div className='modal-background'></div>
@@ -268,6 +271,9 @@ const Chat = () => {
                                 )
                             })
                         }
+
+                        {/* Referência para scroll automático */}
+                        <div ref={messagesEndRef}></div>
                     </div>
                     
                     <div className='footer_image'>

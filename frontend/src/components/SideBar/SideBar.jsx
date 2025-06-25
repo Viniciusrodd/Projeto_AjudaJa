@@ -204,12 +204,12 @@ const SideBar = () => {
                 </Link>
                 <Link to='/mensagens'>
                     {
-                        location.pathname === '/mensagens' ? (
-                            <li style={{ color:'#00EBC7' }}> <i className="material-icons" style={{ color:'#00EBC7' }}>3p</i>
+                        location.pathname === '/mensagens' || location.pathname.includes('/chat') ? (
+                            <li style={{ color:'#00EBC7' }}> <i className="material-icons" style={{ color:'#00EBC7' }}>chat</i>
                                 Mensagens
                             </li>
                         ) : (
-                            <li> <i className="material-icons">3p</i>
+                            <li> <i className="material-icons">chat</i>
                                 Mensagens
                             </li>
                         )

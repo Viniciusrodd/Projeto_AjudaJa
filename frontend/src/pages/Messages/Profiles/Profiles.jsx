@@ -94,7 +94,7 @@ const Profiles = () => {
                 setNoProfileFound(false);
             }else{
                 setSearchedData([]); // limpa resultados anteriores
-                setNoProfileFound('Usuário não encontrado');
+                setNoProfileFound('Usuários não encontrado');
                 setTimeout(() =>{
                     setNoProfileFound('');
                     setSearchedData(null);
@@ -107,7 +107,7 @@ const Profiles = () => {
             console.error("Error at searching user:", error);
             modal_config({
                 title: 'Erro',
-                msg: `Erro ao pesquisar por usuário...`,
+                msg: `Erro ao pesquisar por Usuários...`,
                 btt1: false, btt2: false,
                 display: 'flex', title_color: 'rgb(255, 0, 0)'
             });
@@ -162,9 +162,9 @@ const Profiles = () => {
     const handleFilterChange = (selectedValue) =>{
         if(selectedValue === 'Todos perfis'){
             setProfiles(null);
-        }else if(selectedValue === 'Usuário'){
+        }else if(selectedValue === 'Usuários'){
             filtering('usuario');
-        }else if(selectedValue === 'Moderador'){
+        }else if(selectedValue === 'Moderadores'){
             filtering('moderador');
         }
     };
@@ -231,12 +231,12 @@ const Profiles = () => {
                         <select onChange={(e) => handleFilterChange(e.target.value)} 
                         style={{ width:'100%' }} className='is-hovered' ref={ select_options }>
                             <option>Todos perfis</option>
-                            <option>Usuário</option>
-                            <option>Moderador</option>
+                            <option>Usuários</option>
+                            <option>Moderadores</option>
                         </select>
                     </div>
 
-                    <div className='searchInput_container_campaign' style={{ width:'83%' }}>
+                    <div className='searchInput_container_campaign' style={{ width:'80%' }}>
                         <input className='input is-primary' type="text" name="userName" 
                         placeholder='Pesquise pelo nome do perfil' value={ search }
                         autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
