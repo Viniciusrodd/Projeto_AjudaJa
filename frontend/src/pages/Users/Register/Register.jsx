@@ -13,6 +13,7 @@ import { userRegister } from '../../../services/UserServices';
 
 // components
 import NavBar from '../../../components/NavBar/NavBar';
+import Modal from '../../../components/Modal';
 
 
 const Register = () => {
@@ -46,6 +47,31 @@ const Register = () => {
         window.scrollTo(0, 0);
     }, []);    
 
+    // modal config
+    const modal_config = ({ title, msg, btt1, btt2, display, title_color }) => {
+        setModal_title(title ?? null);
+        setModal_msg(msg ?? null);
+        setmodal_btt(btt1 ?? false);
+        setModal_btt_2(btt2 ?? false);
+        setModal_display(display ?? false);
+        setTitle_color(title_color ?? '#000');
+
+        // The "??" (nullish coalescing operator) 
+        // returns the value on the right ONLY if the value on the left is null or undefined
+    };    
+
+    // close modal
+    const closeModal = () => {
+        modal_config({
+            title: null,
+            msg: null,
+            btt1: false,
+            btt2: false,
+            display: false,
+            title_color: '#000'
+        });
+    };    
+
     // redirect
     useEffect(() =>{
         if(redirectHome){
@@ -76,29 +102,6 @@ const Register = () => {
             };
         }
     }, [redirectHome, redirectLogin]);
-
-    // modal config
-    const modal_config = ({ title, msg, btt1, btt2, display, title_color }) => {
-        setModal_title(title ?? null);
-        setModal_msg(msg ?? null);
-        setmodal_btt(btt1 ?? false);
-        setModal_btt_2(btt2 ?? false);
-        setModal_display(display ?? false);
-        setTitle_color(title_color ?? '#000');
-
-        // The "??" (nullish coalescing operator) 
-        // returns the value on the right ONLY if the value on the left is null or undefined
-    };    
-    
-    // close modal
-    const closeModal = () =>{
-        if(modal_btt_2 !== null){
-            modal_config({
-                title: null, msg: null, btt1: false, 
-                btt2: false, display: false, title_color: '#000'
-            });
-        }
-    };
 
     // verify login
     const { userData, errorRes } = useTokenVerify();
@@ -199,42 +202,15 @@ const Register = () => {
             <NavBar condition={ true } />
 
             { /* Modal */ }
-            <div className='modal' style={{ display: modal_display ? 'flex' : 'none' }}>
-            <div className='modal-background'></div>
-                <div className='modal-card'>
-                    <header className='modal-card-head'>
-                        <p className='modal_title modal-card-title has-text-centered' 
-                        style={{ textAlign:'center', color: title_color }}>
-                            { modal_title }
-                        </p>
-                    </header>
-                    <section className='modal-card-body'>
-                        <p className='modal-card-title has-text-centered' style={{ textAlign:'center' }}>
-                            {modal_msg?.split('\n').map((line, idx) => (
-                                <span className='modal_span' key={idx}>
-                                    {line}
-                                    <br />
-                                </span>
-                            ))}
-                        </p>
-                    </section>
-                    <footer className='modal-card-foot is-justify-content-center'>
-                        <div className='div-buttons'>
-                            {modal_btt && (
-                                <button className="button is-danger is-dark">
-                                    { modal_btt }
-                                </button>
-                            )}
-                            {modal_btt_2 && (
-                                <button onClick={ closeModal } className="button is-primary is-dark" 
-                                style={{ marginLeft:'10px' }}>
-                                    { modal_btt_2 }
-                                </button>
-                            )}
-                        </div>
-                    </footer>
-                </div>
-            </div>
+            <Modal 
+                title={ modal_title }
+                msg={ modal_msg }
+                btt1={ modal_btt }
+                btt2={ modal_btt_2 }
+                display={ modal_display }
+                title_color={ title_color } 
+                onClose={ closeModal }
+            />
 
             <div className='user_container'>
                 <form onSubmit={ handleForm } className={ `align_default user_fields_container` }>
