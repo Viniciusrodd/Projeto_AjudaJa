@@ -12,6 +12,8 @@ import { useLogin } from '../../../services/UserServices';
 
 // components
 import NavBar from '../../../components/NavBar/NavBar';
+import Modal from '../../../components/Modal';
+
 
 const Login = () => {
     // states
@@ -147,44 +149,18 @@ const Login = () => {
             <NavBar condition={ true } />
 
             { /* Modal */ }
-            <div className='modal' style={{ display: modal_display ? 'flex' : 'none' }}>
-            <div className='modal-background'></div>
-                <div className='modal-card'>
-                    <header className='modal-card-head'>
-                        <p className='modal_title modal-card-title has-text-centered' 
-                        style={{ textAlign:'center', color: title_color }}>
-                            { modal_title }
-                        </p>
-                    </header>
-                    <section className='modal-card-body'>
-                        <p className='modal-card-title has-text-centered' style={{ textAlign:'center' }}>
-                            {modal_msg?.split('\n').map((line, idx) => (
-                                <span className='modal_span' key={idx}>
-                                    {line}
-                                    <br />
-                                </span>
-                            ))}
-                        </p>
-                    </section>
-                    <footer className='modal-card-foot is-justify-content-center'>
-                        <div className='div-buttons'>
-                            {modal_btt && (
-                                <button className="button is-danger is-dark">
-                                    { modal_btt }
-                                </button>
-                            )}
-                            {modal_btt_2 && (
-                                <button onClick={ closeModal } className="button is-primary is-dark" 
-                                style={{ marginLeft:'10px' }}>
-                                    { modal_btt_2 }
-                                </button>
-                            )}
-                        </div>
-                    </footer>
-                </div>
-            </div>
+            <Modal 
+                title={ modal_title }
+                msg={ modal_msg }
+                btt1={ modal_btt }
+                btt2={ modal_btt_2 }
+                display={ modal_display }
+                title_color={ title_color } 
+                onClose={ closeModal }
+            />
 
 
+            { /* page */ }
             <div className='user_container'>
                 <form onSubmit={ handleLoginForm } className={ `align_default user_fields_container` }>
                     <div className='img_container container_images'></div>

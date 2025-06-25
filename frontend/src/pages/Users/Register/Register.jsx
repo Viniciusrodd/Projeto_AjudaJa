@@ -212,6 +212,8 @@ const Register = () => {
                 onClose={ closeModal }
             />
 
+
+            { /* page */ }
             <div className='user_container'>
                 <form onSubmit={ handleForm } className={ `align_default user_fields_container` }>
                     <div className='img_container container_images'></div>
