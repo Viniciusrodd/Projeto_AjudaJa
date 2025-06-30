@@ -82,13 +82,11 @@
     display: flex;
     justify-content: flex-end;
     width: 95%;
-    margin-bottom: 20px;
 }
 
 .message_receive{
     display: flex;
     justify-content: flex-start;
-    height: 45px;
     width: 95%;
 
     & .receive_user_img{
@@ -105,15 +103,35 @@
 
 .message{
     display: flex;
-    align-items: center;
-    height: 40px;
-    padding: 0px 15px 0px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 60px;
+    max-width: 190px;
+    padding: 10px 15px 10px 15px;
     background-color: black;
     border-bottom: 1px solid white;
     border-radius: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 25px;
+
+    & .message_date_time{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 160px;
+    }
 
     & p{
         font-size: 17px;
+        word-wrap: break-word; /* quebra palavras grandes */
+        overflow-wrap: break-word; /* fallback mais moderno */
+        white-space: normal; /* garante quebra de linha normal */
+        max-width: 100%;
+    }
+
+    & hr{
+        height: 2px;
+        width: 100%;
+        margin: 10px 0px 5px 0px;        
     }
 }

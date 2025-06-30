@@ -186,6 +186,13 @@ const Chat = () => {
     }, [messages]);
 
 
+    useEffect(() =>{
+        if(messages.length > 0){
+            console.log(messages[0]);
+        }
+    }, [messages]);
+
+
     ////////////// jsx
 
 
@@ -238,7 +245,18 @@ const Chat = () => {
                                             }}></div>
                                         )}
                                         <div className='message'>
-                                            <p>{msg.content}</p>
+                                            <div className='message_date_time'>
+                                                <p>
+                                                    { msg.timestamp?.split('T')[0] }
+                                                </p>
+                                                <p>
+                                                    { msg.timestamp &&
+                                                        new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                                                    }
+                                                </p>
+                                            </div>
+                                            <hr />
+                                            <p>{ msg.content }</p>
                                         </div>
                                     </div>
                                 )
