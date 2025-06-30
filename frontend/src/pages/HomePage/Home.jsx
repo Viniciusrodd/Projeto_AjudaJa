@@ -274,6 +274,12 @@ const Home = () => {
         }
     };
 
+    useEffect(() =>{
+        if(filteredRequests !== null){
+            console.log(filteredRequests)
+        }
+    }, [filteredRequests])
+
 
     ////////////// jsx
 
@@ -399,6 +405,14 @@ const Home = () => {
                                                 </h2>
                                             </div>  
                                         </div>
+
+                                        <div className='user_request_location'>
+                                            <Link to={`https://www.google.com/maps?q=${request.latitude},${request.longitude}`} target='_blank'>
+                                                <button className="button is-black">
+                                                    Acessar localização de pedido <img src="../../../images/googleMaps_icon.png"/>
+                                                </button>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -417,8 +431,8 @@ const Home = () => {
 
                                 {
                                     relatedOffers.length > 0 && (
-                                        <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined' 
-                                        style={{ marginTop: '15px', padding:'15px', width:'25%' }}>
+                                        <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined'
+                                        style={{ margin: '10px 10px 0px 0px', padding:'15px', width:'13.5vw' }}>
                                             { !isVisible ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
                                         </button>
                                     )

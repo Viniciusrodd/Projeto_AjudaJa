@@ -270,6 +270,14 @@ const MyHelpRequests = () => {
                                                 </h2>
                                             </div>  
                                         </div>
+                                        
+                                        <div className='user_request_location'>
+                                            <Link to={`https://www.google.com/maps?q=${request.latitude},${request.longitude}`} target='_blank'>
+                                                <button className="button is-black">
+                                                    Acessar localização de pedido <img src="../../../images/googleMaps_icon.png"/>
+                                                </button>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
 

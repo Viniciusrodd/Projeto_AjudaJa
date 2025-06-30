@@ -295,7 +295,11 @@ const Campaigns = () => {
                             <h2 className='title is-2'>{ campaign.title }</h2>
                             <h4 className='title is-4'>Por: { campaign.user_data.name }</h4>
 
-                            <div className='user_requests_description' style={{ margin:'0px 0px 20px 0px' }}>
+                            <div className='user_requests_description' 
+                                style={{ 
+                                    margin:'0px 0px 20px 0px',
+                                    width:'73%' 
+                                }}>
                                 <h5 className='subtitle is-5'>{ campaign.description }</h5>
                             </div>
 
