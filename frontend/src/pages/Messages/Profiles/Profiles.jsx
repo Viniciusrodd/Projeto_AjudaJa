@@ -15,6 +15,13 @@ import Modal from '../../../components/Modal';
 // libs
 import axios from 'axios';
 
+// services
+import socket from '../../../services/socket';
+
+// context
+import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify';
+
+
 
 const Profiles = () => {
     // states
@@ -25,9 +32,11 @@ const Profiles = () => {
     const [ noProfiles, setNoProfiles ] = useState(false);
     const [ noProfileFound, setNoProfileFound ] = useState(false);
     const [ profileId, setProfileId ] = useState(0);
+    const [ showNotification, setShowNotification ] = useState(false);
 
     // consts
     const select_options = useRef(null);
+    const navigate = useNavigate();
 
     // modal
     const [ modal_display, setModal_display ] = useState(false);
@@ -170,6 +179,37 @@ const Profiles = () => {
         }
     };
 
+    // redirect to chat
+    const chatRedirect = (id) =>{
+        setShowNotification(false);
+        navigate(`/chat/${id}`);
+    };
+
+
+
+    // socket io functions
+
+
+    // get user logged data
+    const { userData: userDataLogged  } = useTokenVerify();
+
+    // join in private room (socket io)
+    useEffect(() =>{
+        if(userDataLogged?.id){
+            socket.emit('join', userDataLogged.id)
+        }
+    }, [userDataLogged]);
+
+    // receiving notifications
+    useEffect(() =>{
+        socket.on('notification-message', (notification) =>{
+            console.log(notification);
+            setShowNotification(notification);
+        });
+
+        return () => socket.off('notification-message');
+    }, []);
+
 
     ////////////// jsx
 
@@ -251,6 +291,12 @@ const Profiles = () => {
                 {
                     filteredProfiles && filteredProfiles?.map((profile) =>(
                         <div className='profile' key={ profile.id }>
+                                { showNotification && showNotification === profile.id && (
+                                    <div className='notification-container'>
+                                        <img src="../../../images/notification.png"/>
+                                    </div>
+                                ) }
+
                             <div className='profile_image' style={{ 
                                 backgroundImage: `url(data:${profile.profile_image.content_type};base64,${profile.profile_image.image_data})`                                        
                             }}>
@@ -260,11 +306,9 @@ const Profiles = () => {
                             <h1 className='title is-3'>{ profile.name }</h1>
 
                             <div className='div_bottoms' style={{ margin:'0px' }}>
-                                <Link to={`/chat/${profile.id}`} style={{ margin:'0px' }}> 
-                                    <button className="button is-info is-dark">
-                                        Iniciar conversa
-                                    </button>
-                                </Link>
+                                <button className="button is-info is-dark" onClick={ () => chatRedirect(profile.id) }>
+                                    Iniciar conversa
+                                </button>
                             </div>
                         </div>
                     ))

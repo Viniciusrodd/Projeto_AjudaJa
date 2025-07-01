@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 const MessageSchema = new mongoose.Schema({
     // _id já vem automático como ObjectId (24 caracteres)
-
     from:{
         type: String,
         required: true

@@ -17,7 +17,6 @@ const upload = multer({ storage });
 
 // middleware
 const middleware = require('../middleware/verifyToken.js');
-const requestController = require('../controller/requestController.js');
 const campaignController = require('../controller/campaignController.js');
 router.post('/verifyToken', middleware.verifyToken, (req, res) => {
     return res.status(200).send({ msg: 'Token is valid', user: req.user });

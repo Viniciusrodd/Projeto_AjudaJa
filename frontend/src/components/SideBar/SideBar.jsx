@@ -215,7 +215,6 @@ const SideBar = () => {
                         )
                     }
                 </Link>
-                <li> <i className="material-icons">person_add</i> Convide vizinhos </li>
             </ul>
 
             <div className={ styles.div_btts }>

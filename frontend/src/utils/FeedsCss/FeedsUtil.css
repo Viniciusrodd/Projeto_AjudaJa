@@ -122,9 +122,9 @@
     justify-content: space-around;
     align-items: center;
     border-radius: 10px;
-    padding: 10px 0px 30px 0px;
+    padding: 50px 0px 50px 0px;
     width: 100%;
-    background-color: #0f1219d2;
+    background-color: #040710db;
 }
 
 h1{
@@ -258,7 +258,7 @@ h1{
     justify-content: space-around;
     align-items: center;
     padding: 0px 0px 50px 0px;
-    margin-top: 5%;
+    margin-top: 30px;
     width: 90%;
 }
 

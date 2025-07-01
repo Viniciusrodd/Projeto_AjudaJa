@@ -156,7 +156,7 @@ const Chat = () => {
             const getMessagesHistoric = async () =>{
                 try{
                     const response = await axios.get(`http://localhost:2130/messages/${userId}`, { withCredentials: true });
-                    setMessages((prev) => [...prev, ...response.data.messages]);
+                    setMessages(response.data.messages);
                 }
                 catch(error){
                     console.error("Error at searching historic messages:", error);
@@ -186,11 +186,13 @@ const Chat = () => {
     }, [messages]);
 
 
+    /*
     useEffect(() =>{
         if(messages.length > 0){
-            console.log(messages[0]);
+            console.log(messages);
         }
     }, [messages]);
+    */
 
 
     ////////////// jsx
@@ -231,7 +233,7 @@ const Chat = () => {
                     <div className='chat_body'>
                         {
                             messages?.map((msg, index) => {
-                                const isSender = msg.from === userDataLogged.id;
+                                const isSender = msg.from === userDataLogged?.id;
 
                                 return(
                                     <div key={index} className={isSender ? 'message_sender' : 'message_receive'}>

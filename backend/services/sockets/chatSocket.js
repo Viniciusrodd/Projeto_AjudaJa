@@ -17,7 +17,8 @@ const chatSocket = (io) =>{
             await newMessage.save();
 
             // Send a message to destiny (if he's in the room)
-            io.to(to).emit("private-message", newMessage);
+            io.to(to).emit('private-message', newMessage);
+            io.to(to).emit('notification-message', from);
 
             /* (optional) send back to sender for confirm
             socket.emit("private-message", newMessage);
@@ -25,8 +26,8 @@ const chatSocket = (io) =>{
         });
 
         // disconnect user
-        socket.on("disconnect", () => {
-            console.log("User disconnected:", socket.id);
+        socket.on('disconnect', () => {
+            console.log('User disconnected:', socket.id);
         });
     });
 };
