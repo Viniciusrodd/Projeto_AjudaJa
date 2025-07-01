@@ -274,13 +274,7 @@ const Home = () => {
         }
     };
 
-    useEffect(() =>{
-        if(filteredRequests !== null){
-            console.log(filteredRequests)
-        }
-    }, [filteredRequests])
-
-
+    
     ////////////// jsx
 
 

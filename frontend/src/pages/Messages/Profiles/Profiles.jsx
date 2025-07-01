@@ -84,7 +84,6 @@ const Profiles = () => {
         if(allUsersData && allUsersData.length === 0){
             setNoProfiles('Perfis não encontrados...');
         }
-        //console.log(allUsersData)
     }, [allUsersData, setAllUsersData]);
 
     // search form
@@ -184,7 +183,6 @@ const Profiles = () => {
         setShowNotification(false);
         navigate(`/chat/${id}`);
     };
-
 
 
     // socket io functions

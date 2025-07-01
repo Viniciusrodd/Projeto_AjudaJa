@@ -1,6 +1,7 @@
 
 // hooks
 import { useState, useEffect } from 'react';
+import { useTokenVerify } from '../UserMiddleware/useTokenVerify';
 
 // libs
 import axios from 'axios';
@@ -11,6 +12,7 @@ export const useUserdata = (userID) => {
     const [ errorRes, setErroRes ] = useState(null);
     
     const [ allUsersData, setAllUsersData ] = useState(null);
+    const { userData: userDataLogged } = useTokenVerify();
     
 
     useEffect(() =>{
@@ -36,8 +38,13 @@ export const useUserdata = (userID) => {
                 const res = await axios.get(`http://localhost:2130/users`, { withCredentials: true });
                 if(res.status === 204){
                     setAllUsersData([]);
+                    return;
                 }
-                setAllUsersData(res.data.combined_data);
+
+                if(userDataLogged && userDataLogged.id){
+                    const filtered = res.data.combined_data.filter((data) => data.id !== userDataLogged.id);
+                    setAllUsersData(filtered);
+                }
             }
             catch(error){
                 console.log('Error at useUserData hook request: (find users)', error);
@@ -45,7 +52,7 @@ export const useUserdata = (userID) => {
             }
         }
         requestAllUsers();
-    }, []);
+    }, [userDataLogged]);
 
 
     return { userData, userImage, errorRes, allUsersData, setAllUsersData };
