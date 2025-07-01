@@ -109,8 +109,8 @@
     min-height: 60px;
     max-width: 190px;
     padding: 10px 15px 10px 15px;
-    background-color: black;
-    border-bottom: 1px solid white;
+    background-color: #0c152ad2;
+    border-bottom: 2px solid white;
     border-radius: 10px;
     margin-bottom: 25px;
 
@@ -122,7 +122,8 @@
     }
 
     & p{
-        font-size: 17px;
+        font-size: 16px;
+        color: white;
         word-wrap: break-word; /* quebra palavras grandes */
         overflow-wrap: break-word; /* fallback mais moderno */
         white-space: normal; /* garante quebra de linha normal */
@@ -132,6 +133,7 @@
     & hr{
         height: 2px;
         width: 100%;
-        margin: 10px 0px 5px 0px;        
+        margin: 10px 0px 5px 0px;
+        background-color: rgba(255, 255, 255, 0.403);        
     }
 }

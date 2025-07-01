@@ -248,10 +248,10 @@ const Chat = () => {
                                         )}
                                         <div className='message'>
                                             <div className='message_date_time'>
-                                                <p>
+                                                <p style={{ fontWeight:'bold' }}>
                                                     { msg.timestamp?.split('T')[0] }
                                                 </p>
-                                                <p>
+                                                <p style={{ fontWeight:'bold' }}>
                                                     { msg.timestamp &&
                                                         new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                                                     }

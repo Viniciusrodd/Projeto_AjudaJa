@@ -7,6 +7,7 @@ import './Profiles.css';
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
+import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -19,8 +20,7 @@ import axios from 'axios';
 import socket from '../../../services/socket';
 
 // context
-import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify';
-
+import { UserContext } from '../../../context/UserContext';
 
 
 const Profiles = () => {
@@ -178,14 +178,12 @@ const Profiles = () => {
         }
     };
 
-    // redirect to chat
-    const chatRedirect = (id) =>{
-        setShowNotification(false);
-        navigate(`/chat/${id}`);
-    };
-
 
     // socket io functions
+
+    
+    // context notification
+    const { notification, setNotification } = useContext(UserContext);
 
 
     // get user logged data
@@ -202,11 +200,25 @@ const Profiles = () => {
     useEffect(() =>{
         socket.on('notification-message', (notification) =>{
             console.log(notification);
-            setShowNotification(notification);
+            setNotification(notification)
         });
 
         return () => socket.off('notification-message');
     }, []);
+
+    //  showing notification 
+    useEffect(() =>{
+        if(notification !== null){
+            setShowNotification(notification);
+        }
+    }, [notification, setNotification])
+
+    // redirect to chat
+    const chatRedirect = (id) =>{
+        setNotification(null);
+        setShowNotification(false);
+        navigate(`/chat/${id}`);
+    };
 
 
     ////////////// jsx

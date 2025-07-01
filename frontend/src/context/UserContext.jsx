@@ -16,6 +16,7 @@ export const UserProvider = ({ children }) => {
     const [ userName, setUserName ] = useState('');
     const [ userId, setUserId ] = useState(null);
     const [userNameManuallySet, setUserNameManuallySet] = useState(false);
+    const [ notification, setNotification ] = useState(null);
     
     
     // token verify + user id
@@ -53,7 +54,8 @@ export const UserProvider = ({ children }) => {
         <UserContext.Provider value={{ 
             userId, setUserId, userName, 
             setUserName, isLogged, setIsLogged,
-            userNameManuallySet, setUserNameManuallySet 
+            userNameManuallySet, setUserNameManuallySet,
+            notification, setNotification
         }}>
             { children }
         </UserContext.Provider>
