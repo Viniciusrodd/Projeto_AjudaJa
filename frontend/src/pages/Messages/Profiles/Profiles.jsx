@@ -103,7 +103,7 @@ const Profiles = () => {
                 setNoProfileFound(false);
             }else{
                 setSearchedData([]); // limpa resultados anteriores
-                setNoProfileFound('Usuários não encontrado');
+                setNoProfileFound('Usuário não encontrado');
                 setTimeout(() =>{
                     setNoProfileFound('');
                     setSearchedData(null);

@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+.notfound{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 70px 0px 10px 0px;
+    height: 30vh;
+    width: 45vw;
+    border-radius: 10px;
+    border: 2px solid white;
+
+    & i{
+        font-size: 40px;
+        color: red;
+    }
+
+    & h1, h2{
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0px;
+    }
+}
+
+.p_notfound{
+    color: white;
+    font-size: 23px;
+    margin: 0px;
+}

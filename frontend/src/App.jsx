@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 
 // components
 import NavBar from './components/NavBar/NavBar'
+import NotFound from './components/NotFound/NotFound';
 
 // pages
 import Home from './pages/HomePage/Home';
@@ -50,6 +51,9 @@ function App() {
                 <Route path='/editarCampanha/:campaignID' element={ <EditCampaign /> } />                
                 <Route path='/mensagens' element={ <Profiles /> } />                
                 <Route path='/chat/:userId' element={ <Chat /> } />                
+            
+                {/* not found route */}
+                <Route path='*' element={ <NotFound /> } />                
             </Routes>
         </div>
     )
