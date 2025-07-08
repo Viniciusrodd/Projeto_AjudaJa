@@ -67,7 +67,7 @@ router.delete('/campaign/:campaignID', middleware.verifyToken, campaignControlle
 // port 2130 // chat
 router.get('/messages/:userID', middleware.verifyToken, chatController.messagesBetweenUsers);
 router.get('/notifications', middleware.verifyToken, chatController.findNotification);
-
+router.delete('/notification/:notificationID', middleware.verifyToken, chatController.deleteNotification);
 
 
 module.exports = router;

@@ -63,6 +63,34 @@ class chatController{
             });
         }
     };
+
+
+    // delete notification (read)
+    async deleteNotification(req, res){
+        const notificationId = req.params.notificationID;
+        if(!notificationId){
+            return res.status(400).send({
+                emptyParams: 'Bad request, need send notification id params...'
+            });
+        }
+
+        try{
+            const notification_data = await NotificationModel.findByPk(notificationId);
+            if(!notification_data){
+                return res.status(404).send({ error: 'Notification not found' });
+            }
+
+            await notification_data.destroy();
+            return res.status(200).send({ msg: 'Notification deleted successfully' });
+        }
+        catch(error){
+            console.error('Internal server error at delete notifications', error);
+            return res.status(500).send({
+                msgError: 'Internal server error at delete notifications',
+                details: error.response?.data || error.message
+            });
+        }
+    };
 }
 
 module.exports = new chatController();
