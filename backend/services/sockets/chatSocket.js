@@ -1,6 +1,10 @@
 
-const Message = require('../../mongoDatabase/Collections/Messages');
+// data bases
+const MessageModel = require('../../mongoDatabase/Collections/Messages');
+const NotificationsModel = require('../../Database/models/NotificationsModel');
 
+
+// chat
 const chatSocket = (io) =>{
     io.on('connection', (socket) =>{
         console.log('New user connected at chatSocket: ', socket.id);
@@ -13,8 +17,15 @@ const chatSocket = (io) =>{
 
         // private message
         socket.on('private-message', async ({ from, to, content }) =>{
-            const newMessage = new Message({ from, to, content }); // model instance
+            // messages mongo document
+            const newMessage = new MessageModel({ from, to, content }); // model instance
             await newMessage.save();
+
+            // notifications sql model
+            await NotificationsModel.create({
+                user_id: to,
+                from_user_id: from
+            });
 
             // Send a message to destiny (if he's in the room)
             io.to(to).emit('private-message', newMessage);
