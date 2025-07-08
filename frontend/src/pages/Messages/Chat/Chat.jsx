@@ -14,12 +14,10 @@ import Modal from '../../../components/Modal';
 
 // services
 import socket from '../../../services/socket';
+import { messagesBetweenUsers } from '../../../services/MessagesService';
 
 // context
 import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify';
-
-// libs
-import axios from 'axios';
 
 
 const Chat = () => {
@@ -154,11 +152,9 @@ const Chat = () => {
     useEffect(() =>{
         if(userId){
             const getMessagesHistoric = async () =>{
-                try{
-                    const response = await axios.get(`http://localhost:2130/messages/${userId}`, { withCredentials: true });
-                    setMessages(response.data.messages);
-                }
-                catch(error){
+                const response = await messagesBetweenUsers(userId);
+
+                if(response.status === 500){
                     console.error("Error at searching historic messages:", error);
                     modal_config({
                         title: 'Erro',
@@ -171,8 +167,10 @@ const Chat = () => {
                             title: null, msg: null, btt1: false, 
                             btt2: false, display: false, title_color: '#000'
                         });
-                    }, 3000);
+                    }, 3000);                
                 }
+
+                setMessages(response.data.messages);
             };
             getMessagesHistoric();
         }
