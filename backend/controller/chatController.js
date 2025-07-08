@@ -67,20 +67,24 @@ class chatController{
 
     // delete notification (read)
     async deleteNotification(req, res){
-        const notificationId = req.params.notificationID;
-        if(!notificationId){
+        const userId = req.params.userID;
+        if(!userId){
             return res.status(400).send({
-                emptyParams: 'Bad request, need send notification id params...'
+                emptyParams: 'Bad request, need send user id params...'
             });
         }
 
         try{
-            const notification_data = await NotificationModel.findByPk(notificationId);
+            const notification_data = await NotificationModel.findAll({ 
+                where: {user_id: userId} 
+            });
             if(!notification_data){
                 return res.status(404).send({ error: 'Notification not found' });
             }
 
-            await notification_data.destroy();
+            await NotificationModel.destroy({ 
+                where: {user_id: userId} 
+            });
             return res.status(200).send({ msg: 'Notification deleted successfully' });
         }
         catch(error){

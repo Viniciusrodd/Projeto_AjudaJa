@@ -18,7 +18,7 @@ import axios from 'axios';
 
 // services
 import socket from '../../../services/socket';
-import { findNotifications } from '../../../services/MessagesService';
+import { findNotifications, deleteNotification } from '../../../services/MessagesService';
 
 
 const Profiles = () => {
@@ -212,13 +212,13 @@ const Profiles = () => {
     // notifications in real time from socket.io
     useEffect(() =>{
         const handleNotification = async (fromUserId) => {
-            try {
+            try{
                 const response = await findNotifications();
                 if (response.status === 200) {
                     setNotificationList(response.data?.notification_data); // atualiza lista
                 }
-            } catch (err) {
-                console.error('Erro ao atualizar notificações via socket:', err);
+            }catch(err){
+                console.error('Error at update socket.io notifications:', err);
             }
         };
 
@@ -228,9 +228,18 @@ const Profiles = () => {
     }, []);
 
     // redirect to chat + clean notifications
-    const chatRedirect = (profileId) =>{
-        // route for clean notifications
-        setNotificationList((prev) => prev.filter(n => n.from_user_id !== profileId));
+    const chatRedirect = async (profileId) =>{
+        try{
+            // request
+            const response = await deleteNotification(userDataLogged?.id);
+            if(response.status === 200){
+                // filter
+                setNotificationList((prev) => prev.filter(n => n.from_user_id !== profileId));
+            }
+        }
+        catch(error){
+            console.error('Error at clean notifications', error);    
+        }
         navigate(`/chat/${profileId}`);
     };
 
@@ -239,7 +248,15 @@ const Profiles = () => {
         return notificationList.some(n => n.from_user_id === profileId && n.user_id === userDataLogged.id);
     };    
 
+    /*
+    useEffect(() =>{
+        if(notificationList.length > 0){
+            console.log(notificationList)
+        }
+    }, [notificationList])
+    */
 
+    
     ////////////// jsx
 
     
@@ -323,6 +340,7 @@ const Profiles = () => {
                                 { hasNotificationFrom(profile.id) && (
                                     <div className='notification-container'>
                                         <img src="../../../images/notification.png"/>
+                                        <p>{ notificationList.length }</p>
                                     </div>
                                 ) }
 
