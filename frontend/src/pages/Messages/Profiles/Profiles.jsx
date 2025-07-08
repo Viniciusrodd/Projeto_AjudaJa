@@ -18,9 +18,7 @@ import axios from 'axios';
 
 // services
 import socket from '../../../services/socket';
-
-// context
-import { UserContext } from '../../../context/UserContext';
+import { findNotifications } from '../../../services/MessagesService';
 
 
 const Profiles = () => {
@@ -31,8 +29,7 @@ const Profiles = () => {
     const [ searchedData, setSearchedData ] = useState(null);
     const [ noProfiles, setNoProfiles ] = useState(false);
     const [ noProfileFound, setNoProfileFound ] = useState(false);
-    const [ profileId, setProfileId ] = useState(0);
-    const [ showNotification, setShowNotification ] = useState(false);
+    const [ notificationList, setNotificationList ] = useState([]);
 
     // consts
     const select_options = useRef(null);
@@ -182,10 +179,6 @@ const Profiles = () => {
     // socket io functions
 
     
-    // context notification
-    const { notification, setNotification } = useContext(UserContext);
-
-
     // get user logged data
     const { userData: userDataLogged  } = useTokenVerify();
 
@@ -196,29 +189,55 @@ const Profiles = () => {
         }
     }, [userDataLogged]);
 
-    // receiving notifications
+    // get notifications from bd
     useEffect(() =>{
-        socket.on('notification-message', (notification) =>{
-            console.log(notification);
-            setNotification(notification)
-        });
+        const fetchNotifications = async () =>{
+            if(!userDataLogged?.id) return;
 
-        return () => socket.off('notification-message');
+            try{
+                const response = await findNotifications();
+
+                if(response.status === 200){
+                    setNotificationList(response.data?.notification_data);
+                }
+            }
+            catch(error){
+                console.error("Error at get messages notifications:", error);
+            }
+        };
+
+        fetchNotifications();
+    }, [userDataLogged]);
+
+    // notifications in real time from socket.io
+    useEffect(() =>{
+        const handleNotification = async (fromUserId) => {
+            try {
+                const response = await findNotifications();
+                if (response.status === 200) {
+                    setNotificationList(response.data?.notification_data); // atualiza lista
+                }
+            } catch (err) {
+                console.error('Erro ao atualizar notificações via socket:', err);
+            }
+        };
+
+        socket.on('notification-message', handleNotification);
+
+        return () => socket.off('notification-message', handleNotification);        
     }, []);
 
-    //  showing notification 
-    useEffect(() =>{
-        if(notification !== null){
-            setShowNotification(notification);
-        }
-    }, [notification, setNotification])
-
-    // redirect to chat
-    const chatRedirect = (id) =>{
-        setNotification(null);
-        setShowNotification(false);
-        navigate(`/chat/${id}`);
+    // redirect to chat + clean notifications
+    const chatRedirect = (profileId) =>{
+        // route for clean notifications
+        setNotificationList((prev) => prev.filter(n => n.from_user_id !== profileId));
+        navigate(`/chat/${profileId}`);
     };
+
+    // check if exist pending notification for user logged...
+    const hasNotificationFrom = (profileId) => {
+        return notificationList.some(n => n.from_user_id === profileId && n.user_id === userDataLogged.id);
+    };    
 
 
     ////////////// jsx
@@ -301,7 +320,7 @@ const Profiles = () => {
                 {
                     filteredProfiles && filteredProfiles?.map((profile) =>(
                         <div className='profile' key={ profile.id }>
-                                { showNotification && showNotification === profile.id && (
+                                { hasNotificationFrom(profile.id) && (
                                     <div className='notification-container'>
                                         <img src="../../../images/notification.png"/>
                                     </div>

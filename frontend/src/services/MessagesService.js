@@ -8,3 +8,10 @@ export const messagesBetweenUsers = async (userID) =>{
     const response = await axios.get(`http://localhost:2130/messages/${userID}`, { withCredentials: true });
     return response;
 };
+
+
+// get notifications
+export const findNotifications = async () =>{
+    const response = await axios.get('http://localhost:2130/notifications', { withCredentials: true });
+    return response;
+};

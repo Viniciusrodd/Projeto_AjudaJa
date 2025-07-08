@@ -18,10 +18,6 @@ const Notification = Connection.define('Notifications', {
         type: DataTypes.CHAR(36),
         allowNull: false
     },
-    is_read: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-    },
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
