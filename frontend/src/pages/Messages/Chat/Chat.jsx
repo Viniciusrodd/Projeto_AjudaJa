@@ -128,11 +128,13 @@ const Chat = () => {
         const data = {
             from: userDataLogged.id,
             to: userId,
-            content: messageText
+            content: messageText,
+            timestamp: new Date().toISOString()
         };
 
         socket.emit('private-message', data);
         setMessages((prev) => [...prev, data]);
+        
         setMessageText('');
     };
 
@@ -219,9 +221,17 @@ const Chat = () => {
                 <div className='chat'>
                     <div className='header_image'>
                     <header>
-                            <div ref={ divImageRef } className='user_image' style={{
-                                height:'80px', width:'80px' 
-                            }} ></div>
+                            {
+                                imageField.image_data !== null ? (
+                                    <div ref={ divImageRef } className='user_image' style={{
+                                        height:'80px', width:'80px' 
+                                    }} ></div>
+                                ) : (
+                                    <div className='user_image' style={{
+                                        height:'80px', width:'80px' 
+                                    }} ></div>
+                                )
+                            }
                             <h1 className='title is-4' style={{ textShadow: '0px 3px 4px rgba(0, 0, 0, 1)' }}>
                                 { userFields.name }
                             </h1>

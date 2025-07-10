@@ -78,8 +78,8 @@ const MyOffers = () => {
     };
 
     // modal btt events
-    const modal_events = (event) =>{
-        if(event === 'offer delete'){
+    const modal_events = () =>{
+        if(modal_errorType === 'offer delete'){
             deleteOffer_event();
         }
     };
@@ -88,10 +88,10 @@ const MyOffers = () => {
     const modal_deleteOffer = (id) =>{
         setOfferId(id);
         modal_config({
-            title: 'Erro',
+            title: 'Espere',
             msg: `Tem certeza que deseja excluir sua oferta de ajuda ?`,
             btt1: 'Tenho certeza', btt2: 'voltar',
-            display: 'flex', title_color: 'rgb(255, 0, 0)'
+            display: 'flex', title_color: 'rgb(0, 136, 255)'
         });
         setModal_errorType('offer delete');
     };
@@ -145,6 +145,7 @@ const MyOffers = () => {
                 display={ modal_display }
                 title_color={ title_color } 
                 onClose={ closeModal }
+                modalEvent={ modal_events }
             />
 
 

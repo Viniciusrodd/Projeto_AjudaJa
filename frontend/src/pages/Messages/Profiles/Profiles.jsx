@@ -344,11 +344,19 @@ const Profiles = () => {
                                     </div>
                                 ) }
 
-                            <div className='profile_image' style={{ 
-                                backgroundImage: `url(data:${profile.profile_image.content_type};base64,${profile.profile_image.image_data})`                                        
-                            }}>
+                            {
+                                profile.profile_image ? (
+                                    <div className='profile_image' style={{ 
+                                        backgroundImage: `url(data:${profile.profile_image.content_type};base64,${profile.profile_image.image_data})`                                        
+                                    }}>
 
-                            </div>
+                                    </div>
+                                ) : (
+                                    <div className='profile_image'>
+
+                                    </div>
+                                )
+                            }
 
                             <h1 className='title is-3'>{ profile.name }</h1>
 
