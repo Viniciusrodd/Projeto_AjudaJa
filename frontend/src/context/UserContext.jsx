@@ -12,13 +12,16 @@ export const UserContext = createContext();
 
 // provider
 export const UserProvider = ({ children }) => {
+    // states
     const [ isLogged, setIsLogged ] = useState(false);
     const [ userName, setUserName ] = useState('');
     const [ userId, setUserId ] = useState(null);
     const [ userNameManuallySet, setUserNameManuallySet ] = useState(false);
-    const [ notification, setNotification ] = useState(null);
     
     
+    ///////// functions    
+
+
     // token verify + user id
     const { userData, errorRes } = useTokenVerify();
     useEffect(() => {
@@ -54,8 +57,7 @@ export const UserProvider = ({ children }) => {
         <UserContext.Provider value={{ 
             userId, setUserId, userName, 
             setUserName, isLogged, setIsLogged,
-            userNameManuallySet, setUserNameManuallySet,
-            notification, setNotification
+            userNameManuallySet, setUserNameManuallySet
         }}>
             { children }
         </UserContext.Provider>

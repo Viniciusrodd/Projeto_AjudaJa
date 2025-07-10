@@ -18,6 +18,7 @@ import Modal from '../../components/Modal';
 
 // context
 import { UserContext } from '../../context/UserContext';
+import { LoadingContext } from '../../context/loadingContext';
 
 // services
 import { statusChangeService } from '../../services/OfferHelpServices';
@@ -46,10 +47,13 @@ const Home = () => {
 
     // consts
     const navigate = useNavigate();
-    const { setUserName, setIsLogged, setUserId } = useContext(UserContext); // context
     const divImageRef = useRef(null);
     const select_options = useRef(null);
 
+    // context
+    const { setUserName, setIsLogged, setUserId } = useContext(UserContext);
+    const { loading } = useContext(LoadingContext);
+    
 
     ////////////// functions
 
@@ -333,6 +337,13 @@ const Home = () => {
                 </button>
 
                 { /* FEED PUBLICATIONS */ }
+                {
+                    loading && (
+                        <div className='loading-container'>
+                            <p>Carregando...</p>
+                        </div>
+                    )
+                }
                 {
                     noPosts && !searchedData && !noPostsFound && (
                         <div className='noRequests'>

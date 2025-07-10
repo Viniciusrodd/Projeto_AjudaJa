@@ -358,3 +358,17 @@ h1{
         }
     }
 }
+
+.loading-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    width: 70%;
+
+    & p{
+        font-size: 22px;
+        color: white;
+        font-weight: bold;
+    }
+}

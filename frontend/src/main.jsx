@@ -7,13 +7,17 @@ import '../node_modules/bulma/css/bulma.css';
 
 // provider - UserContext
 import { UserProvider } from './context/UserContext.jsx'
+// provider - LoadingContext
+import { LoadingProvider } from './context/loadingContext.jsx'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <UserProvider>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </UserProvider>
+        <LoadingProvider>
+            <UserProvider>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </UserProvider>
+        </LoadingProvider>
     </StrictMode>,
 )
