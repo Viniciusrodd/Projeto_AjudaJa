@@ -42,18 +42,39 @@ afterAll(async () => {
 
 
 describe('Chat tests', () =>{
-    // get messages between users
+    // get messages between users   
     test('Should test a get messages between users', async () =>{
         try{
             const res = await request.get(`/messages/${userID}`).set('Cookie', `token=${jwtToken}`);
             if(res.status === 200){
-                console.log('GET MESSAGES BETWEEN USERS TEST, SUCCESS!!!');
+                console.log('GET MESSAGES BETWEEN USERS TEST, SUCCESS!!!(with messages)');
+            }else if(res.status === 204){
+                console.log('GET MESSAGES BETWEEN USERS TEST, SUCCESS!!!(without messages)');
             }
 
-            expect(res.status).toEqual(200);
+            expect([200, 204]).toContain(res.status);
         }
         catch(error){
             console.error('ERROR AT GET MESSAGES BETWEEN USERS TESTS', error);
+            throw error;
+        }
+    });
+
+
+    // get notifications
+    test('Should test a get all notifications', async () =>{
+        try{
+            const res = await request.get('/notifications').set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('GET ALL NOTIFICATIONS TEST, SUCCESS!!! (with notifications)');
+            }else if(res.status === 204){
+                console.log('GET ALL NOTIFICATIONS TEST, SUCCESS!!! (without notifications)');
+            }
+
+            expect([200, 204]).toContain(res.status);
+        }
+        catch(error){
+            console.error('ERROR AT GET ALL NOTIFICATIONS TEST', error);
             throw error;
         }
     });

@@ -31,6 +31,12 @@ class chatController{
                 ]
             }).sort({ timestamp: 1 }); // data order...
 
+            if(messages.length === 0){
+                return res.status(204).send({
+                    noContent: `There's no messages data...` 
+                });
+            }
+
             return res.status(200).send({
                 msg: 'Success get chat record data',
                 messages
