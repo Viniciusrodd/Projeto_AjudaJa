@@ -38,10 +38,14 @@ export const useRequestData = (id, userID) =>{
 
     useEffect(() =>{
         const requestById = async () =>{
+            setLoading(true);
+
             const response = await axios.get(`http://localhost:2130/request/${id}`, { withCredentials: true });
             if(response.status === 204){
+                setLoading(false);
                 setRequestDataById([]);    
             }else{
+                setLoading(false);
                 setRequestDataById(response.data.request_data);
             }
         };
@@ -51,10 +55,14 @@ export const useRequestData = (id, userID) =>{
 
     useEffect(() =>{
         const requestByUserId = async () =>{
+            setLoading(true);
+
             const response = await axios.get(`http://localhost:2130/requests/${userID}`, { withCredentials: true });
             if(response.status === 204){
+                setLoading(false);
                 setRequestDataByUserId([]);
             }else{
+                setLoading(false);
                 setRequestDataByUserId(response.data.combined_requests);
             }
         }

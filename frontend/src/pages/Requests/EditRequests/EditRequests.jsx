@@ -4,9 +4,12 @@ import '../../../utils/FormsCss/FormsUtil.css';
 import '../../../utils/FeedsCss/expiresAtUtil.css'
 
 // hooks
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRequestData } from '../../../hooks/RequestsFetch/useRequestData'; // custom hook
+
+// context
+import { LoadingContext } from '../../../context/loadingContext';
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -34,6 +37,9 @@ const EditRequests = () => {
     // consts
     const { requestID } = useParams();
     const navigate = useNavigate();
+
+    // context
+    const { loading } = useContext(LoadingContext);
 
 
     ////////////// functions
@@ -153,6 +159,14 @@ const EditRequests = () => {
 
             { /* Formulário */}
             <div className='form'>
+            {
+                loading && (
+                    <div className='loading-container'>
+                        <p>Carregando...</p>
+                    </div>
+                )
+            }
+
             <form onSubmit={ handleForm } className='user_panel_container'>
                 <h1 className='title is-1'>Edite seu pedido de ajuda</h1>
                 <hr className='hr'/>

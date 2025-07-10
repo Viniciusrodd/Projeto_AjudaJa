@@ -1,30 +1,43 @@
 
 // hooks
-import { useState, useEffect } from 'react';
-import { useTokenVerify } from '../UserMiddleware/useTokenVerify';
+import { useState, useEffect, useContext } from 'react';
+import { useTokenVerify } from '../UserMiddleware/useTokenVerify'; // custom hook
 
 // libs
 import axios from 'axios';
 
+// context
+import { LoadingContext } from '../../context/loadingContext';
+
+
 export const useUserdata = (userID) => {
+    // states
     const [ userData, setUserData ] = useState(null);
     const [ userImage, setUserImage ] = useState(null);
     const [ errorRes, setErroRes ] = useState(null);
-    
     const [ allUsersData, setAllUsersData ] = useState(null);
-    const { userData: userDataLogged } = useTokenVerify();
     
+    // context + custom hook
+    const { userData: userDataLogged } = useTokenVerify();
+    const { setLoading } = useContext(LoadingContext);
+
 
     useEffect(() =>{
         const request = async () =>{
+            setLoading(true);
+
             try{
                 const res = await axios.get(`http://localhost:2130/user/${userID}`, { withCredentials: true });
-                setUserData(res.data.userData);
-                setUserImage(res.data.userImage);
+                if(res.status === 200){
+                    setLoading(false);
+                    setUserData(res.data.userData);
+                    setUserImage(res.data.userImage);
+                }
             }
             catch(error){
                 console.log('Error at useUserData hook request (find user): ', error);
                 setErroRes(error);
+                setLoading(false);
             }
         }
 
@@ -34,9 +47,12 @@ export const useUserdata = (userID) => {
 
     useEffect(() =>{
         const requestAllUsers = async () =>{
+            setLoading(true);
+
             try{
                 const res = await axios.get(`http://localhost:2130/users`, { withCredentials: true });
                 if(res.status === 204){
+                    setLoading(false);
                     setAllUsersData([]);
                     return;
                 }
@@ -49,6 +65,7 @@ export const useUserdata = (userID) => {
             catch(error){
                 console.log('Error at useUserData hook request: (find users)', error);
                 setErroRes(error);
+                setLoading(false);
             }
         }
         requestAllUsers();

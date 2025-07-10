@@ -14,6 +14,7 @@ import Modal from '../../../components/Modal';
 
 // context
 import { UserContext } from '../../../context/UserContext';
+import { LoadingContext } from '../../../context/loadingContext';
 
 // services
 import { deleteRequest } from '../../../services/RequestHelpServices';
@@ -37,11 +38,15 @@ const MyHelpRequests = () => {
     const [ modal_errorType, setModal_errorType ] = useState('');
 
     // consts
-    const { userId } = useContext(UserContext); // context
     const navigate = useNavigate();
+    
+    // contexts
+    const { userId } = useContext(UserContext);
+    const { loading } = useContext(LoadingContext);
 
 
     ////////////// functions
+
 
     // scroll top at beginning
     useEffect(() =>{
@@ -208,9 +213,17 @@ const MyHelpRequests = () => {
 
 
             { /* FEED CONTAINER */ }
-            <div className='container_feed_2'>
+            <div className='container_feed_2'>    
                 { /* FEED PUBLICATIONS */ }
                 <h1 className='title is-1'>Meus pedidos de ajuda</h1>
+                
+                {
+                    loading && (
+                        <div className='loading-container'>
+                            <p>Carregando...</p>
+                        </div>
+                    )
+                }
 
                 {
                     noPosts && (
