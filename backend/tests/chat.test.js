@@ -78,4 +78,23 @@ describe('Chat tests', () =>{
             throw error;
         }
     });
+
+
+    // delete notifications
+    test('Should test a delete notifications', async () =>{
+        try{
+            const res = await request.delete(`/notification/${userID}`).set('Cookie', `token=${jwtToken}`);
+            if(res.status === 200){
+                console.log('DELETE NOTIFICATIONS TEST, SUCCESS!!! (with notifications)');
+            }else if(res.status === 404){
+                console.log('DELETE NOTIFICATIONS TEST, SUCCESS!!! (without notifications)');
+            }
+
+            expect([200, 404]).toContain(res.status);
+        }
+        catch(error){
+            console.error('ERROR AT DELETE NOTIFICATIONS TEST', error);
+            throw error;
+        }
+    });
 });
