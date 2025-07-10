@@ -44,7 +44,7 @@ const AccountDetail = () => {
     const { userID } = useParams();
     const divImageRef = useRef(null);
     const navigate = useNavigate();
-    const { setUserName, setUserNameManuallySet } = useContext(UserContext);
+    const { setUserName, setUserNameManuallySet, setIsLogged } = useContext(UserContext);
 
 
     ////////////// functions
@@ -159,8 +159,8 @@ const AccountDetail = () => {
     };
 
     // modal btt events
-    const modal_events = (event) =>{
-        if(event === 'delete profile'){
+    const modal_events = () =>{
+        if(modal_errorType === 'delete profile'){
             delete_profile();
         }
     };
@@ -229,6 +229,8 @@ const AccountDetail = () => {
             const res = await useDeleteUser(userID);
 
             if(res.status === 200){
+                setIsLogged(false);
+
                 modal_config({
                     title: 'Sucesso',
                     msg: `Você será redirecionado... \n 
@@ -273,6 +275,7 @@ const AccountDetail = () => {
                 display={ modal_display }
                 title_color={ title_color } 
                 onClose={ closeModal }
+                modalEvent={ modal_events }
             />
 
 

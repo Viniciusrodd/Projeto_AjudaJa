@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
     const [ isLogged, setIsLogged ] = useState(false);
     const [ userName, setUserName ] = useState('');
     const [ userId, setUserId ] = useState(null);
-    const [userNameManuallySet, setUserNameManuallySet] = useState(false);
+    const [ userNameManuallySet, setUserNameManuallySet ] = useState(false);
     const [ notification, setNotification ] = useState(null);
     
     

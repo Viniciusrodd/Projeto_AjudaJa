@@ -1,5 +1,5 @@
 
-const Modal = ({title, msg, btt1, btt2, display, title_color, onClose}) => {    
+const Modal = ({title, msg, btt1, btt2, display, title_color, onClose, modalEvent}) => {    
     return (
         <div>
             { /* Modal */ }
@@ -25,7 +25,7 @@ const Modal = ({title, msg, btt1, btt2, display, title_color, onClose}) => {
                     <footer className='modal-card-foot is-justify-content-center'>
                         <div className='div-buttons'>
                             {btt1 && (
-                                <button className="button is-danger is-dark">
+                                <button onClick={ modalEvent } className="button is-danger is-dark">
                                     { btt1 }
                                 </button>
                             )}

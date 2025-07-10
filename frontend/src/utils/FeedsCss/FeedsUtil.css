@@ -102,6 +102,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    border: 2px solid white;
 }
 
 .requests_container_image{

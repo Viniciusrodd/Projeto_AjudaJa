@@ -356,12 +356,20 @@ const Home = () => {
                             <div className='requests' key={ request.id }>
                                 { /* REQUESTS */ }
                                 <div className='user_container_feed'>
-                                    <div className='user_image' ref={ divImageRef }
-                                    style={{ 
-                                        backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
-                                    }}>
+                                    {
+                                        request.profile_image ? (
+                                            <div className='user_image' ref={ divImageRef }
+                                            style={{ 
+                                                backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
+                                            }}>
 
-                                    </div>
+                                            </div>
+                                        ) : (
+                                            <div className='user_image' ref={ divImageRef }>
+
+                                            </div>
+                                        )
+                                    }
                                     
                                     <h1 className='title is-3'>{ request.user_data.name }</h1>
                                 </div>

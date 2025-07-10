@@ -34,7 +34,7 @@ const MyHelpRequests = () => {
     const [ modal_btt, setmodal_btt ] = useState(false);
     const [ modal_btt_2, setModal_btt_2 ] = useState(false);
     const [ title_color, setTitle_color ] = useState('#000');
-    const [ modal_errorType, setModal_errorType ] = useState(null);
+    const [ modal_errorType, setModal_errorType ] = useState('');
 
     // consts
     const { userId } = useContext(UserContext); // context
@@ -83,8 +83,8 @@ const MyHelpRequests = () => {
     };
 
     // modal btt events
-    const modal_events = (event) =>{
-        if(event === 'request delete'){
+    const modal_events = () =>{
+        if(modal_errorType === 'request delete'){
             deleteRequest_event();
         }
     };
@@ -199,6 +199,7 @@ const MyHelpRequests = () => {
                 display={ modal_display }
                 title_color={ title_color } 
                 onClose={ closeModal }
+                modalEvent={ modal_events }
             />
 
 
@@ -227,13 +228,21 @@ const MyHelpRequests = () => {
                             <div className='requests' key={request.id}>
                                 { /* REQUESTS */ }
                                 <div className='user_container_feed'>
-                                    <div className='user_image'
-                                    style={{ 
-                                        backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
-                                    }}>
+                                    {
+                                        request.profile_image ? (
+                                            <div className='user_image'
+                                            style={{ 
+                                                backgroundImage: `url(data:${request.profile_image.content_type};base64,${request.profile_image.image_data})`                                        
+                                            }}>
 
-                                    </div>
-                                    
+                                            </div>
+                                        ) : (
+                                            <div className='user_image'>
+
+                                            </div>
+                                        )
+                                    }
+
                                     <h1 className='title is-3'>{ request.user_data.name }</h1>
                                 </div>
                                 

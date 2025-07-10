@@ -1,6 +1,7 @@
 
 // data base
 const { UserModel, CampaignModel, OfferModel, RequestModel } = require('../Database/Relations');
+const mongoose = require('mongoose');
 const profileImage = require('../mongoDatabase/Collections/profileImages');
 const messagesModel = require('../mongoDatabase/Collections/Messages');
 const connection = require('../Database/Connection/connection');
@@ -410,6 +411,8 @@ class User{
                 });
             });
 
+            // delete user profile image
+            await profileImage.findOneAndDelete({ user_id: userId });
 
             // clear token
             await LogOut_service.logOut(res);
