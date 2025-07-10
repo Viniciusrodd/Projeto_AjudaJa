@@ -159,17 +159,18 @@ const EditRequests = () => {
 
             { /* Formulário */}
             <div className='form'>
-            {
-                loading && (
-                    <div className='loading-container'>
-                        <p>Carregando...</p>
-                    </div>
-                )
-            }
 
             <form onSubmit={ handleForm } className='user_panel_container'>
                 <h1 className='title is-1'>Edite seu pedido de ajuda</h1>
+                {
+                    loading && (
+                        <div className='loading-container'>
+                            <p>Carregando...</p>
+                        </div>
+                    )
+                }
                 <hr className='hr'/>
+                
 
                 <div className='container_input'>
                     <label className="label title is-5" id="label">Titulo: </label>

@@ -9,6 +9,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
 import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook
 
+// context
+import { LoadingContext } from '../../../context/loadingContext';
+
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 import Modal from '../../../components/Modal';
@@ -43,6 +46,9 @@ const Profiles = () => {
     const [ modal_btt, setmodal_btt ] = useState(false);
     const [ modal_btt_2, setModal_btt_2 ] = useState(false);
     const [ title_color, setTitle_color ] = useState('#000');
+
+    // context
+    const { loading } = useContext(LoadingContext);
     
     
     ////////////// functions
@@ -310,6 +316,14 @@ const Profiles = () => {
                 </button>   
 
                 {/* Profiles */}
+
+                {
+                    loading && (
+                        <div className='loading-container'>
+                            <p>Carregando...</p>
+                        </div>
+                    )
+                }
 
                 {
                     noProfiles && !searchedData && !noProfileFound && (

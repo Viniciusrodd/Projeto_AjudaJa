@@ -14,6 +14,7 @@ import { useEditUser, useDeleteUser } from '../../../services/UserServices';
 
 // context
 import { UserContext } from '../../../context/UserContext';
+import { LoadingContext } from '../../../context/loadingContext';
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -44,10 +45,14 @@ const AccountDetail = () => {
     const { userID } = useParams();
     const divImageRef = useRef(null);
     const navigate = useNavigate();
+
+    // context
     const { setUserName, setUserNameManuallySet, setIsLogged } = useContext(UserContext);
+    const { loading } = useContext(LoadingContext);
 
 
     ////////////// functions
+
     
     // scroll top at beginning
     useEffect(() =>{
@@ -287,8 +292,16 @@ const AccountDetail = () => {
             <div className='form'>
                 <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Detalhes de conta</h1>
-
                     <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
+
+                    {
+                        loading && (
+                            <div className='loading-container'>
+                                <p>Carregando...</p>
+                            </div>
+                        )
+                    }
+
                     <div className='div_imagem_perfil' ref={divImageRef}>
                         
                     </div>

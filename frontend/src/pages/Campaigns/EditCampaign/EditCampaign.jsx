@@ -6,6 +6,9 @@ import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCampaignData } from '../../../hooks/CampaignFetch/useCampaignData'; // custom hook
 
+// context
+import { LoadingContext } from '../../../context/loadingContext';
+
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 import Modal from '../../../components/Modal';
@@ -32,6 +35,9 @@ const EditCampaign = () => {
     // consts
     const navigate = useNavigate();
     const { campaignID } = useParams();
+
+    // context
+    const { loading } = useContext(LoadingContext);
 
 
     ////////////// functions
@@ -159,7 +165,6 @@ const EditCampaign = () => {
                 onClose={ closeModal }
             />
 
-
             { /* SIDEBAR */ }
             <SideBar />
             
@@ -167,6 +172,13 @@ const EditCampaign = () => {
             <div className='form'>
                 <form onSubmit={ editForm } className='user_panel_container'>
                     <h1 className='title is-1'>Edite sua campanha de ajuda</h1>
+                    {
+                        loading && (
+                            <div className='loading-container'>
+                                <p>Carregando...</p>
+                            </div>
+                        )
+                    }
                     <hr className='hr'/>
 
                     <div className='container_input'>

@@ -3,7 +3,7 @@
 import '../../../utils/FormsCss/FormsUtil.css';
 
 // hooks
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 
 // components
@@ -13,8 +13,11 @@ import Modal from '../../../components/Modal';
 // services
 import { postOffer } from '../../../services/OfferHelpServices';
 
-// hooks
+// custom hooks
 import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify';
+
+// context
+import { LoadingContext } from '../../../context/loadingContext';
 
 
 const OfferRequest = () => {
@@ -35,8 +38,12 @@ const OfferRequest = () => {
     const { requestID } = useParams();
     const navigate = useNavigate();
 
+    // context
+    const { loading } = useContext(LoadingContext);
+
 
     ////////////// functions
+
 
     // scroll top at beginning
     useEffect(() =>{
@@ -153,6 +160,13 @@ const OfferRequest = () => {
             <div className='form'>
                 <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Ofereça ajuda</h1>
+                    {
+                        loading && (
+                            <div className='loading-container'>
+                                <p>Carregando...</p>
+                            </div>
+                        )
+                    }
                     <hr className='hr'/>
 
                     <div className={`control textarea_container`}>

@@ -13,6 +13,7 @@ import Modal from '../../../components/Modal';
 
 // context
 import { UserContext } from '../../../context/UserContext';
+import { LoadingContext } from '../../../context/loadingContext';
 
 // services
 import { deleteOffer } from '../../../services/OfferHelpServices';
@@ -33,11 +34,15 @@ const MyOffers = () => {
     const [ modal_errorType, setModal_errorType ] = useState(null);
 
     // consts
-    const { userId } = useContext(UserContext); // context
     const navigate = useNavigate();
+    
+    // context
+    const { userId } = useContext(UserContext);
+    const { loading } = useContext(LoadingContext);
 
 
     ////////////// functions
+
 
     // scroll top at beginning
     useEffect(() =>{
@@ -156,6 +161,14 @@ const MyOffers = () => {
             { /* OFFERS CONTAINER */ }
             <div className='container_feed_2'>
                 <h1 className='title is-1'>Minhas ofertas de ajuda</h1>
+
+                {
+                    loading && (
+                        <div className='loading-container'>
+                            <p>Carregando...</p>
+                        </div>
+                    )
+                }
 
                 {
                     noPosts && (

@@ -18,6 +18,7 @@ import axios from 'axios';
 
 // context
 import { UserContext } from '../../../context/UserContext';
+import { LoadingContext } from '../../../context/loadingContext';
 
 // service
 import { deleteCampaign } from '../../../services/CampaignService';
@@ -42,12 +43,16 @@ const Campaigns = () => {
     const [ title_color, setTitle_color ] = useState('#000');
 
     // consts
-    const { userId } = useContext(UserContext);
     const navigate = useNavigate();
     const select_options = useRef(null);
 
+    // context
+    const { userId } = useContext(UserContext);
+    const { loading } = useContext(LoadingContext);
+
 
     ////////////// functions
+
 
     // scroll top at beginning
     useEffect(() =>{
@@ -266,6 +271,14 @@ const Campaigns = () => {
                 }}>
                     Limpar pesquisa...
                 </button>
+
+                {
+                    loading && (
+                        <div className='loading-container'>
+                            <p>Carregando...</p>
+                        </div>
+                    )
+                }
 
                 {/* CAMPAIGNS */}
 

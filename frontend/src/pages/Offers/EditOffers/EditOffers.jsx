@@ -7,6 +7,9 @@ import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custom hook
 
+// context
+import { LoadingContext } from '../../../context/loadingContext';
+
 // components
 import SideBar from '../../../components/SideBar/SideBar';
 import Modal from '../../../components/Modal';
@@ -31,6 +34,9 @@ const EditOffers = () => {
     // consts
     const { offerID } = useParams();
     const navigate = useNavigate();
+
+    // context
+    const { loading } = useContext(LoadingContext);
 
 
     ////////////// functions    
@@ -146,6 +152,13 @@ const EditOffers = () => {
             <div className='form'>
                 <form onSubmit={ editForm } className='user_panel_container'>
                     <h1 className='title is-1'>Edite sua oferta de ajuda</h1>
+                    {
+                        loading && (
+                            <div className='loading-container'>
+                                <p>Carregando...</p>
+                            </div>
+                        )
+                    }                    
                     <hr className='hr'/>
 
                     <div className={`control textarea_container`}>
