@@ -2,6 +2,7 @@
 // data base
 const { UserModel, CampaignModel, OfferModel, RequestModel } = require('../Database/Relations');
 const profileImage = require('../mongoDatabase/Collections/profileImages');
+const messagesModel = require('../mongoDatabase/Collections/Messages');
 const connection = require('../Database/Connection/connection');
 const { Op } = require('sequelize');
 
@@ -408,6 +409,7 @@ class User{
                     transaction: t
                 });
             });
+
 
             // clear token
             await LogOut_service.logOut(res);

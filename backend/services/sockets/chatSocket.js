@@ -3,6 +3,9 @@
 const MessageModel = require('../../mongoDatabase/Collections/Messages');
 const NotificationsModel = require('../../Database/models/NotificationsModel');
 
+// services
+const MessagesExpiresService = require('../../services/chatServices/expiresMessage');
+
 
 // chat
 const chatSocket = (io) =>{
@@ -20,6 +23,9 @@ const chatSocket = (io) =>{
             // messages mongo document
             const newMessage = new MessageModel({ from, to, content }); // model instance
             await newMessage.save();
+
+            // expired messages check
+            await MessagesExpiresService.expiresMessage(from, to);
 
             // notifications sql model
             await NotificationsModel.create({

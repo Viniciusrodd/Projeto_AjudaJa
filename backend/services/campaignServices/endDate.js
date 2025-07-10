@@ -21,7 +21,9 @@ class CampaignExpirationService{
                 return;
             };
 
+            console.log('---------------------------------------');
             console.log(`Campaigns deleted: ${expires_campaigns}`);
+            console.log('---------------------------------------');
         }
         catch(error){
             console.error('Internal error at expires a campaign', error);   

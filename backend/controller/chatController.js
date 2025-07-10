@@ -3,6 +3,9 @@
 const MessagesModel = require('../mongoDatabase/Collections/Messages');
 const NotificationModel = require('../Database/models/NotificationsModel');
 
+// services
+const MessagesExpiresService = require('../services/chatServices/expiresMessage');
+
 
 // controller
 class chatController{
@@ -18,6 +21,9 @@ class chatController{
         }
 
         try{
+            // expired messages check
+            await MessagesExpiresService.expiresMessage(loggedUserId, userId);
+
             const messages = await MessagesModel.find({
                 $or: [
                     { from: loggedUserId, to: userId },

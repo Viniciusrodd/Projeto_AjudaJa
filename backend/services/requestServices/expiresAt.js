@@ -38,9 +38,11 @@ class RequestExpirationService{
                         transaction: t
                     });
 
+                    console.log('---------------------------------------------');
                     console.log(`Expired requests found: ${expires_ids.length}`);
                     console.log('Requests deleted count: ',requestsDeleted);
                     console.log('Offers deleted count: ',offersDeleted);
+                    console.log('---------------------------------------------');
                 }else{
                     console.log('No expired requests found to delete.');
                 }

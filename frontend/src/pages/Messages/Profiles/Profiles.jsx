@@ -30,6 +30,7 @@ const Profiles = () => {
     const [ noProfiles, setNoProfiles ] = useState(false);
     const [ noProfileFound, setNoProfileFound ] = useState(false);
     const [ notificationList, setNotificationList ] = useState([]);
+    const [ messagesQuantity, setMessagesQuantity ] = useState();
 
     // consts
     const select_options = useRef(null);
@@ -248,14 +249,6 @@ const Profiles = () => {
         return notificationList.some(n => n.from_user_id === profileId && n.user_id === userDataLogged.id);
     };    
 
-    /*
-    useEffect(() =>{
-        if(notificationList.length > 0){
-            console.log(notificationList)
-        }
-    }, [notificationList])
-    */
-
     
     ////////////// jsx
 
@@ -340,7 +333,14 @@ const Profiles = () => {
                                 { hasNotificationFrom(profile.id) && (
                                     <div className='notification-container'>
                                         <img src="../../../images/notification.png"/>
-                                        <p>{ notificationList.length }</p>
+                                        <p>
+                                            { 
+                                                notificationList?.filter(n => 
+                                                    n.from_user_id === profile.id && 
+                                                    n.user_id === userDataLogged.id
+                                                ).length 
+                                            }
+                                        </p>
                                     </div>
                                 ) }
 
