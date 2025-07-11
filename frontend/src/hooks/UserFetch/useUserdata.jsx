@@ -60,6 +60,7 @@ export const useUserdata = (userID) => {
                 if(userDataLogged && userDataLogged.id){
                     const filtered = res.data.combined_data.filter((data) => data.id !== userDataLogged.id);
                     setAllUsersData(filtered);
+                    setLoading(false);
                 }
             }
             catch(error){

@@ -1,6 +1,6 @@
 
 // css
-import styles from './NavBar.module.css'
+import styles from './NavBar.module.css';
 
 // hooks
 import { Link } from 'react-router-dom';

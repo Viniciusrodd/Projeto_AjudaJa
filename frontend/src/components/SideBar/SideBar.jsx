@@ -215,6 +215,9 @@ const SideBar = () => {
                         )
                     }
                 </Link>
+                <li onClick={ logoutFunction }><i className="material-icons">logout</i> 
+                    Sair 
+                </li>
             </ul>
 
             <div className={ styles.div_btts }>
@@ -230,14 +233,6 @@ const SideBar = () => {
                     </button>
                 </Link>
             </div>
-
-            <ul className={ styles.sidebar_items }>
-                <li onClick={ logoutFunction }><i className="material-icons">logout</i> 
-                    Sair 
-                </li>
-                <li><i className="material-icons">settings</i> Configurações </li>
-                <li><i className="material-icons">help</i> Dúvidas sobre o site </li>
-            </ul>
         </aside>
     );
 };

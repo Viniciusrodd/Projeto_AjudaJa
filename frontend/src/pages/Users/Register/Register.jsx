@@ -1,6 +1,7 @@
 
 // css
 import '../../../utils/UsersCss/UsersUtil.css';
+import '../../../utils/UsersCss/UsersUtilMobile.css';
 
 // hooks
 import { Link } from 'react-router-dom';
@@ -41,6 +42,7 @@ const Register = () => {
 
 
     ////////////// functions
+
 
     // scroll top at beginning
     useEffect(() =>{

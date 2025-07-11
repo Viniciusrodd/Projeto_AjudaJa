@@ -1,6 +1,7 @@
 
 // css
 import '../../../utils/UsersCss/UsersUtil.css';
+import '../../../utils/UsersCss/UsersUtilMobile.css';
 
 // hooks
 import { useState, useRef, useEffect } from 'react';

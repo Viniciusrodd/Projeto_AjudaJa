@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+
+@media screen and (max-width: 767px){
+
+    .user_container{
+        min-height: 87vh;        
+        width: 100%;
+    }
+
+    .user_fields_container{
+        min-height: 68vh;
+        width: 70vw;
+        margin-top: 5%;
+
+        & button:hover{
+            transform: none;
+        }
+    }
+
+}
