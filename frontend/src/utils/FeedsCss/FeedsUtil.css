@@ -253,6 +253,12 @@ h1{
     }
 }
 
+.bttOffers.button {
+  margin: 50px 10px 0px 0px;
+  padding: 15px;
+  width: 13.5vw;
+}
+
 .relatedOffers_container{
     display: flex;
     flex-direction: column;

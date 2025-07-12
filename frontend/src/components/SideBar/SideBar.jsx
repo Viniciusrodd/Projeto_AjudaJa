@@ -12,12 +12,13 @@ import { useLogOut } from '../../services/UserServices';
 
 // context
 import { UserContext } from '../../context/UserContext';
+import { MenuContext } from '../../context/menuContext';
 
 
 const SideBar = () => {
     // states
     const [ redirectLogin, setRedirectLogin ] = useState(false);
-    const [ menu, setMenu ] = useState(false);
+    //const [ menu, setMenu ] = useState(false);
 
     // modal
     const [ modal_display, setModal_display ] = useState(false);
@@ -30,6 +31,7 @@ const SideBar = () => {
     // consts
     const navigate = useNavigate();
     const { setIsLogged } = useContext(UserContext); // context
+    const { menu, setMenu } = useContext(MenuContext); // context
     const location = useLocation();
 
 

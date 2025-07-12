@@ -20,6 +20,7 @@ import Modal from '../../components/Modal';
 // context
 import { UserContext } from '../../context/UserContext';
 import { LoadingContext } from '../../context/loadingContext';
+import { MenuContext } from '../../context/menuContext';
 
 // services
 import { statusChangeService } from '../../services/OfferHelpServices';
@@ -54,6 +55,7 @@ const Home = () => {
     // context
     const { setUserName, setIsLogged, setUserId } = useContext(UserContext);
     const { loading } = useContext(LoadingContext);
+    const { menu, setMenu } = useContext(MenuContext);
     
 
     ////////////// functions
@@ -302,12 +304,12 @@ const Home = () => {
 
 
             { /* FEED CONTAINER */ }
-            <div className='container_feed'>
+            <div className='container_feed' style={{ marginLeft: menu ? '30%' : '', width: menu ? '70vw' : '' }}>
                 
                 { /* FEED OPTIONS */ }
                 <div className='feed_options'>
                     <div className="select is-primary">
-                        <select style={{ width:'100%' }} className='is-hovered' 
+                        <select style={{ width: menu ? '100%' : '95%' }} className='is-hovered' 
                         onChange={(e) => handleFilterChange(e.target.value)} ref={ select_options }>
                             <option>Todos pedidos</option>
                             <option>De alta urgência</option>
@@ -445,8 +447,7 @@ const Home = () => {
 
                                 {
                                     relatedOffers.length > 0 && (
-                                        <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined'
-                                        style={{ margin: '50px 10px 0px 0px', padding:'15px', width:'13.5vw' }}>
+                                        <button onClick={ () => toggleOffers(request.id) } className='button is-primary is-outlined bttOffers'>
                                             { !isVisible ? ('Abrir ajudas oferecidas') : ('fechar ajudas oferecidas') }
                                         </button>
                                     )

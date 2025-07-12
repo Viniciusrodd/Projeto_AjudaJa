@@ -9,15 +9,20 @@ import '../node_modules/bulma/css/bulma.css';
 import { UserProvider } from './context/UserContext.jsx'
 // provider - LoadingContext
 import { LoadingProvider } from './context/loadingContext.jsx'
+// provider - MenuContext
+import { MenuProvider } from './context/menuContext.jsx'
+
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <LoadingProvider>
-            <UserProvider>
-                <BrowserRouter>
-                    <App />
-                </BrowserRouter>
-            </UserProvider>
-        </LoadingProvider>
+        <MenuProvider>
+            <LoadingProvider>
+                <UserProvider>
+                    <BrowserRouter>
+                        <App />
+                    </BrowserRouter>
+                </UserProvider>
+            </LoadingProvider>
+        </MenuProvider>
     </StrictMode>,
 )

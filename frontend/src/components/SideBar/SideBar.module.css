@@ -75,7 +75,7 @@
 
     .menu{
         display: block;
-        margin-bottom: 15px;
+        margin: 5px 0px 15px 10px;
         transition: transform 0.2s;
     }
     .menu:active{

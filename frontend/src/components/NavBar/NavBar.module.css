@@ -103,6 +103,8 @@ a{
     .nav_bar{
         position: static;
         z-index: none;        
+        height: 10vh;
+        margin-bottom: 5%;
     }
 
     .nav_bar_container{
