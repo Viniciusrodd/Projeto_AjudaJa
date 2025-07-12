@@ -1,6 +1,7 @@
 
 // css
 import '../../utils/FeedsCss/FeedsUtil.css';
+import '../../utils/FeedsCss/FeedsUtilMobile.css';
 
 // libs
 import axios from 'axios';

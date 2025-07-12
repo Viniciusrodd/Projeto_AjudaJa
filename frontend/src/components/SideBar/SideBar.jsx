@@ -17,6 +17,7 @@ import { UserContext } from '../../context/UserContext';
 const SideBar = () => {
     // states
     const [ redirectLogin, setRedirectLogin ] = useState(false);
+    const [ menu, setMenu ] = useState(false);
 
     // modal
     const [ modal_display, setModal_display ] = useState(false);
@@ -105,6 +106,11 @@ const SideBar = () => {
         }
     };
 
+    // menu button
+    const menuBtt = () =>{
+        setMenu(!menu);
+    }
+
 
     ////////////// jsx
 
@@ -149,7 +155,11 @@ const SideBar = () => {
                 </div>
             </div>
 
-            <ul className={ styles.sidebar_items }>
+            <p className={ styles.menu } onClick={ menuBtt }>
+                <i className={`${styles.menu} material-icons`}>menu</i>
+            </p>
+
+            <ul className={`${ styles.sidebar_items } ${ menu ? styles.show : '' }`}>
                 <Link to='/'>
                     {
                         location.pathname === '/' ? (
@@ -220,7 +230,7 @@ const SideBar = () => {
                 </li>
             </ul>
 
-            <div className={ styles.div_btts }>
+            <div className={`${styles.div_btts} ${menu ? styles.show : ''}`}>
                 <Link to='/pedidoDeAjuda'>
                     <button className="button is-primary is-outlined">
                         Criar pedido de ajuda
