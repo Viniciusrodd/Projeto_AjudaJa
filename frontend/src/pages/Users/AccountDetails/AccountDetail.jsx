@@ -1,7 +1,9 @@
 
 // css
 import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/FormsCss/FormsUtilMobile.css';
 import '../../../utils/UsersCss/UsersUtil.css';
+import '../../../utils/UsersCss/UsersUtilMobile.css';
 
 
 // hooks
@@ -15,6 +17,7 @@ import { useEditUser, useDeleteUser } from '../../../services/UserServices';
 // context
 import { UserContext } from '../../../context/UserContext';
 import { LoadingContext } from '../../../context/loadingContext';
+import { MenuContext } from '../../../context/menuContext';
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -49,6 +52,7 @@ const AccountDetail = () => {
     // context
     const { setUserName, setUserNameManuallySet, setIsLogged } = useContext(UserContext);
     const { loading } = useContext(LoadingContext);
+    const { menu } = useContext(MenuContext);
 
 
     ////////////// functions
@@ -289,7 +293,7 @@ const AccountDetail = () => {
 
 
             { /* Formulário */}
-            <div className='form'>
+            <div className='form' style={{ width: menu ? '95vw' : '75vw' }}>
                 <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Detalhes de conta</h1>
                     <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>
@@ -307,9 +311,9 @@ const AccountDetail = () => {
                     </div>
                     {/* Formulário de upload de imagem */}
                     <input type="file" name="image" accept="image/*" className='input_user' 
-                    style={{ marginBottom:'30px' }} onChange={ uploadImage }/>
+                    style={{ marginBottom:'30px', width: menu ? '40%' : '50%' }} onChange={ uploadImage }/>
 
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
                     <h1 className="title is-3">Seus dados</h1>
 
                     <div className='container_input'>
@@ -351,7 +355,7 @@ const AccountDetail = () => {
                         </div>
                     </div>
 
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
                     <h1 className="title is-3">Endereço</h1>
 
                     <div className='container_input'>
@@ -375,7 +379,7 @@ const AccountDetail = () => {
                         onChange={ (e) => setUserFields({...userFields, zip_code: e.target.value}) } />
                     </div>
 
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
                     <button className="button is-primary is-outlined">
                         Editar
                     </button>

@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+
+@media screen and (max-width: 767px){
+
+    .hr_formsUtil{
+        width: 50%;
+    }
+
+    .form{
+        width: 75vw;
+        margin-top: 0%;
+        margin-left: 12%;
+    }
+
+    .user_panel_container{
+
+        & .container_input{
+            width: 50%;
+
+            & input{
+                width: 75%;
+            }
+        }
+    }
+
+}
