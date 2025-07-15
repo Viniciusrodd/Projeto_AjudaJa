@@ -1,6 +1,7 @@
 
 // css
-import '../../../utils/FeedsCss/FeedsUtil.css'
+import '../../../utils/FeedsCss/FeedsUtil.css';
+import '../../../utils/FeedsCss/FeedsUtilMobile.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -15,6 +16,7 @@ import Modal from '../../../components/Modal';
 // context
 import { UserContext } from '../../../context/UserContext';
 import { LoadingContext } from '../../../context/loadingContext';
+import { MenuContext } from '../../../context/menuContext';
 
 // services
 import { deleteRequest } from '../../../services/RequestHelpServices';
@@ -43,6 +45,7 @@ const MyHelpRequests = () => {
     // contexts
     const { userId } = useContext(UserContext);
     const { loading } = useContext(LoadingContext);
+    const { menu } = useContext(MenuContext);
 
 
     ////////////// functions
@@ -213,7 +216,7 @@ const MyHelpRequests = () => {
 
 
             { /* FEED CONTAINER */ }
-            <div className='container_feed_2'>    
+            <div className='container_feed_2' style={{ marginLeft: menu ? '30%' : '', width: menu ? '70vw' : '' }}>    
                 { /* FEED PUBLICATIONS */ }
                 <h1 className='title is-1'>Meus pedidos de ajuda</h1>
                 
