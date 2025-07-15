@@ -1,6 +1,7 @@
 
 // css
 import '../../../utils/FeedsCss/FeedsUtil.css';
+import '../../../utils/FeedsCss/FeedsUtilMobile.css';
 import './Profiles.css';
 
 // hooks
@@ -11,6 +12,7 @@ import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; /
 
 // context
 import { LoadingContext } from '../../../context/loadingContext';
+import { MenuContext } from '../../../context/menuContext';
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -49,7 +51,8 @@ const Profiles = () => {
 
     // context
     const { loading } = useContext(LoadingContext);
-    
+    const { menu } = useContext(MenuContext);
+
     
     ////////////// functions
 
@@ -278,8 +281,8 @@ const Profiles = () => {
 
 
             { /* FEED CONTAINER */ }
-            <div className='campaigns'>            
-                <h2 className='title is-2' style={{ marginBottom: '40px' }}>
+            <div className='campaigns' style={{ marginLeft: menu ? '30%' : '', width: menu ? '70vw' : '' }}>            
+                <h2 className='title is-2' style={{ marginBottom: '40px', textAlign:'center' }}>
                     Perfis disponíveis para mensagem
                 </h2>
 
@@ -294,10 +297,10 @@ const Profiles = () => {
                         </select>
                     </div>
 
-                    <div className='searchInput_container_campaign' style={{ width:'80%' }}>
+                    <div className='searchInput_container_campaign'>
                         <input className='input is-primary' type="text" name="userName" 
                         placeholder='Pesquise pelo nome do perfil' value={ search }
-                        autoComplete='off' onChange={ (e) => setSearch(e.target.value) } />
+                        autoComplete='off' onChange={ (e) => setSearch(e.target.value) }/>
                         
                         <button className="button is-primary is-outlined" style={{ height:'40px' ,width:'40px' }}>
                             <i className="material-icons" id='person'>search</i>

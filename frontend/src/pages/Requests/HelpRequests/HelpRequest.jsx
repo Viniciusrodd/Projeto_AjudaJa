@@ -1,6 +1,7 @@
 
 // css
 import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/FormsCss/FormsUtilMobile.css';
 import '../../../utils/FeedsCss/expiresAtUtil.css';
 
 // components
@@ -16,7 +17,7 @@ import { postRequest } from '../../../services/RequestHelpServices';
 
 // context
 import { UserContext } from '../../../context/UserContext';
-
+import { MenuContext } from '../../../context/menuContext';
 
 
 const HelpRequest = () => {
@@ -35,9 +36,12 @@ const HelpRequest = () => {
     const [ title_color, setTitle_color ] = useState('#000');
     
     // consts
-    const { userId } = useContext(UserContext);
     const navigate = useNavigate();
     
+    // contexts
+    const { userId } = useContext(UserContext);
+    const { menu } = useContext(MenuContext);
+
 
     ////////////// functions
 
@@ -178,11 +182,11 @@ const HelpRequest = () => {
             <SideBar />
 
             { /* formulário */ }
-            <div className='form'>
+            <div className='form' style={{ width: menu ? '95vw' : '75vw' }}>
                 <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Pedido de ajuda</h1>
 
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
                     <h4 className="subtitle is-4">Por favor, preencha: </h4>
 
                     <div className='container_input'>
@@ -235,7 +239,7 @@ const HelpRequest = () => {
                         </div>
                     </div>                    
 
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
 
                     <button className="button is-primary is-dark">
                         Publicar
@@ -243,7 +247,7 @@ const HelpRequest = () => {
                 </form>
             </div>
 
-            <div className='expiresAt_container'>
+            <div className='expiresAt_container' style={{ marginLeft: menu ? '46%' : '' }}>
                 <h1 className='h1_expires'>Expiração de pedido: </h1>
                 <h2 className='h2_expires'>Urgência Alta: <strong>2 dias</strong></h2>
                 <h2 className='h2_expires'>Urgência Média: <strong>5 dias</strong></h2>

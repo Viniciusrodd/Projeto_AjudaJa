@@ -293,7 +293,7 @@ const AccountDetail = () => {
 
 
             { /* Formulário */}
-            <div className='form' style={{ width: menu ? '95vw' : '75vw' }}>
+            <div className='form' style={{ width: menu ? '95vw' : '' }}>
                 <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Detalhes de conta</h1>
                     <h1 className='subtitle is-4' style={{ margin:'0px' }}>Edite sua foto de perfil</h1>

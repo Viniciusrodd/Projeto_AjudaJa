@@ -7,6 +7,10 @@
         width: 50%;
     }
 
+    .forms_container{
+        flex-direction: column;
+    }
+
     .form{
         width: 75vw;
         margin-top: 0%;
@@ -16,7 +20,7 @@
     .user_panel_container{
 
         & .container_input{
-            width: 50%;
+            width: 55%;
 
             & input{
                 width: 75%;
