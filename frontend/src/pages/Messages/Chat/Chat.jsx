@@ -1,12 +1,15 @@
 
 // css
 import './Chat.css';
+import './ChatMobile.css';
 import '../../../utils/FeedsCss/FeedsUtil.css';
+import '../../../utils/FeedsCss/FeedsUtilMobile.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useUserdata } from '../../../hooks/UserFetch/useUserdata'; // custom hook
+import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify'; // custom hook 
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -17,7 +20,7 @@ import socket from '../../../services/socket';
 import { messagesBetweenUsers } from '../../../services/MessagesService';
 
 // context
-import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify';
+import { MenuContext } from '../../../context/menuContext';
 
 
 const Chat = () => {
@@ -28,12 +31,7 @@ const Chat = () => {
     const [ imageField, setImageField ] = useState({ image_data: null, content_type: '' });
     const [ messages, setMessages ] = useState([]);
     const [ messageText, setMessageText ] = useState('');
-
-    // consts
-    const { userId } = useParams();
-    const divImageRef = useRef(null);
-    const messagesEndRef = useRef(null);
-
+    
     // modal
     const [ modal_display, setModal_display ] = useState(false);
     const [ modal_title, setModal_title ] = useState(null);
@@ -42,7 +40,15 @@ const Chat = () => {
     const [ modal_btt_2, setModal_btt_2 ] = useState(false);
     const [ title_color, setTitle_color ] = useState('#000');
     
+    // consts
+    const { userId } = useParams();
+    const divImageRef = useRef(null);
+    const messagesEndRef = useRef(null);
+
+    // context
+    const { menu } = useContext(MenuContext);
     
+
     ////////////// functions
 
 
@@ -216,7 +222,7 @@ const Chat = () => {
             <SideBar />
 
 
-            <div className='container_feed_2'>
+            <div className='container_feed_2' style={{ marginLeft: menu ? '30%' : '', width: menu ? '70vw' : '' }}>
 
                 <div className='chat'>
                     <div className='header_image'>

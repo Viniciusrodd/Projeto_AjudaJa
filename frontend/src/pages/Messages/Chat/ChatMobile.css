@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+
+@media screen and (max-width: 767px){
+
+    .chat{
+        height: 65vh;
+
+        & .header_image{
+            height: 10vh;            
+        }
+
+        & .footer_image{
+            height: 10vh;
+        }
+    }
+    
+}
