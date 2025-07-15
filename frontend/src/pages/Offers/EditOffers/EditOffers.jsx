@@ -1,6 +1,7 @@
 
 // css
 import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/FormsCss/FormsUtilMobile.css';
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -9,6 +10,7 @@ import { useOfferData } from '../../../hooks/OffersFetch/useOfferData'; // custo
 
 // context
 import { LoadingContext } from '../../../context/loadingContext';
+import { MenuContext } from '../../../context/menuContext';
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -37,6 +39,7 @@ const EditOffers = () => {
 
     // context
     const { loading } = useContext(LoadingContext);
+    const { menu } = useContext(MenuContext);
 
 
     ////////////// functions    
@@ -149,9 +152,9 @@ const EditOffers = () => {
          
 
             { /* Formulário */}
-            <div className='form'>
+            <div className='form' style={{ width: menu ? '95vw' : '75vw' }}>
                 <form onSubmit={ editForm } className='user_panel_container'>
-                    <h1 className='title is-1'>Edite sua oferta de ajuda</h1>
+                    <h2 className='title is-2'>Edite sua oferta de ajuda</h2>
                     {
                         loading && (
                             <div className='loading-container'>
@@ -159,7 +162,7 @@ const EditOffers = () => {
                             </div>
                         )
                     }                    
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
 
                     <div className={`control textarea_container`}>
                         <label className="label title is-5" id="label">Descrição de ajuda: </label>
@@ -169,7 +172,7 @@ const EditOffers = () => {
                         </textarea>
                     </div>
 
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
                     <button className="button is-primary is-dark">
                         Editar ajuda
                     </button>          

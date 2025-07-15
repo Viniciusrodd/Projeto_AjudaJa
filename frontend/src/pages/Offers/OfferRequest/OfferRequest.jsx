@@ -1,6 +1,7 @@
 
 // styles
 import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/FormsCss/FormsUtilMobile.css';
 
 // hooks
 import { useRef, useState, useEffect, useContext } from 'react';
@@ -18,6 +19,7 @@ import { useTokenVerify } from '../../../hooks/UserMiddleware/useTokenVerify';
 
 // context
 import { LoadingContext } from '../../../context/loadingContext';
+import { MenuContext } from '../../../context/menuContext';
 
 
 const OfferRequest = () => {
@@ -40,6 +42,7 @@ const OfferRequest = () => {
 
     // context
     const { loading } = useContext(LoadingContext);
+    const { menu } = useContext(MenuContext);
 
 
     ////////////// functions
@@ -157,7 +160,7 @@ const OfferRequest = () => {
 
 
             { /* page */ }
-            <div className='form'>
+            <div className='form' style={{ width: menu ? '95vw' : '75vw' }}>
                 <form onSubmit={ handleForm } className='user_panel_container'>
                     <h1 className='title is-1'>Ofereça ajuda</h1>
                     {
@@ -167,7 +170,7 @@ const OfferRequest = () => {
                             </div>
                         )
                     }
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
 
                     <div className={`control textarea_container`}>
                         <label className="label title is-5" id="label">Descrição de ajuda: </label>
@@ -178,7 +181,7 @@ const OfferRequest = () => {
                         </textarea>
                     </div>
 
-                    <hr className='hr'/>
+                    <hr className='hr_formsUtil'/>
                     <button className="button is-primary is-dark">
                         Ajudar
                     </button>          

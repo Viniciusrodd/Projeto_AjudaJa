@@ -1,6 +1,7 @@
 
 // css
 import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/FormsCss/FormsUtilMobile.css';
 import '../../../utils/FeedsCss/expiresAtUtil.css'
 
 // hooks
@@ -10,6 +11,7 @@ import { useRequestData } from '../../../hooks/RequestsFetch/useRequestData'; //
 
 // context
 import { LoadingContext } from '../../../context/loadingContext';
+import { MenuContext } from '../../../context/menuContext';
 
 // components
 import SideBar from '../../../components/SideBar/SideBar';
@@ -40,6 +42,7 @@ const EditRequests = () => {
 
     // context
     const { loading } = useContext(LoadingContext);
+    const { menu } = useContext(MenuContext);
 
 
     ////////////// functions
@@ -158,10 +161,10 @@ const EditRequests = () => {
 
 
             { /* Formulário */}
-            <div className='form'>
+            <div className='form' style={{ width: menu ? '95vw' : '75vw' }}>
 
             <form onSubmit={ handleForm } className='user_panel_container'>
-                <h1 className='title is-1'>Edite seu pedido de ajuda</h1>
+                <h2 className='title is-2'>Edite seu pedido de ajuda</h2>
                 {
                     loading && (
                         <div className='loading-container'>
@@ -169,7 +172,7 @@ const EditRequests = () => {
                         </div>
                     )
                 }
-                <hr className='hr'/>
+                <hr className='hr_formsUtil'/>
                 
 
                 <div className='container_input'>
@@ -231,14 +234,14 @@ const EditRequests = () => {
                     </div>
                 </div>
 
-                <hr className='hr'/>
+                <hr className='hr_formsUtil'/>
                 <button className="button is-primary is-dark">
                     Editar
                 </button>
             </form>
             </div>
 
-            <div className='expiresAt_container'>
+            <div className='expiresAt_container' style={{ marginLeft: menu ? '46%' : '' }}>
                 <h1 className='h1_expires'>Expiração de pedido: </h1>
                 <h2 className='h2_expires'>Urgência Alta: <strong>2 dias</strong></h2>
                 <h2 className='h2_expires'>Urgência Média: <strong>5 dias</strong></h2>

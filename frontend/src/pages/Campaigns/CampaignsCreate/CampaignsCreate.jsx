@@ -1,7 +1,9 @@
 
 // css
 import '../../../utils/FormsCss/FormsUtil.css';
+import '../../../utils/FormsCss/FormsUtilMobile.css';
 import '../../../utils/FeedsCss/FeedsUtil.css';
+import '../../../utils/FeedsCss/FeedsUtilMobile.css';
 import '../../../utils/modal.css';
 
 // hooks
@@ -14,6 +16,7 @@ import Modal from '../../../components/Modal';
 
 // context
 import { UserContext } from '../../../context/UserContext';
+import { MenuContext } from '../../../context/menuContext';
 
 // services
 import { createCampaign } from '../../../services/CampaignService';
@@ -37,7 +40,10 @@ const CampaignsCreate = () => {
 
     // consts
     const navigate = useNavigate();
+    
+    // contexts
     const { userId } = useContext(UserContext);
+    const { menu } = useContext(MenuContext);
 
 
     ////////////// functions
@@ -184,10 +190,10 @@ const CampaignsCreate = () => {
             <SideBar />
 
             { /* FEED CONTAINER */ }
-            <div className='form'>
+            <div className='form' style={{ width: menu ? '95vw' : '75vw' }}>
                 <form onSubmit={ handleForm } className='user_panel_container'>
-                    <h1 className='title is-1'>Criação de campanha</h1>
-                    <hr className='hr' />
+                    <h2 className='title is-2'>Criação de campanha</h2>
+                    <hr className='hr_formsUtil' />
 
                     <h4 className="subtitle is-4">Por favor, preencha: </h4>
 
@@ -223,7 +229,7 @@ const CampaignsCreate = () => {
                         value={ fieldsValues.end_date } onChange={(e) => setFieldsValue({...fieldsValues, end_date: e.target.value})}/>
                     </div>
 
-                    <hr className='hr' />
+                    <hr className='hr_formsUtil' />
 
                     <button className="button is-primary is-dark">
                         Publicar
