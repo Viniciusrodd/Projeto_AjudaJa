@@ -1,6 +1,7 @@
 
 // css
 import '../../../utils/FeedsCss/FeedsUtil.css'
+import '../../../utils/FeedsCss/FeedsUtilMobile.css'
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -19,6 +20,7 @@ import axios from 'axios';
 // context
 import { UserContext } from '../../../context/UserContext';
 import { LoadingContext } from '../../../context/loadingContext';
+import { MenuContext } from '../../../context/menuContext';
 
 // service
 import { deleteCampaign } from '../../../services/CampaignService';
@@ -49,6 +51,7 @@ const Campaigns = () => {
     // context
     const { userId } = useContext(UserContext);
     const { loading } = useContext(LoadingContext);
+    const { menu } = useContext(MenuContext);
 
 
     ////////////// functions
@@ -239,14 +242,14 @@ const Campaigns = () => {
             <SideBar />
 
             { /* FEED CONTAINER */ }
-            <div className='campaigns'>
+            <div className='campaigns' style={{ marginLeft: menu ? '30%' : '', width: menu ? '70vw' : '' }}>
                 <h1 className='title is-1'>Campanhas</h1>
 
                 { /* CAMAPAIGN SEARCH OPTION */ }
                 <form onSubmit={ search_form } className='search_container_campaign'>
                     <div className="select is-primary">
                         <select onChange={(e) => handleFilterChange(e.target.value)} 
-                        style={{ width:'100%' }} className='is-hovered' ref={ select_options }>
+                        style={{ width: '100%' }} className='is-hovered' ref={ select_options }>
                             <option>Todas Campanhas</option>
                             <option>Minhas Campanhas</option>
                         </select>

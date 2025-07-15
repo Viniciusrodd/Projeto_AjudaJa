@@ -1,6 +1,7 @@
 
 // css
 import '../../../utils/FeedsCss/FeedsUtil.css'
+import '../../../utils/FeedsCss/FeedsUtilMobile.css'
 
 // hooks
 import { useEffect, useState, useRef, useContext } from 'react';
@@ -14,6 +15,7 @@ import Modal from '../../../components/Modal';
 // context
 import { UserContext } from '../../../context/UserContext';
 import { LoadingContext } from '../../../context/loadingContext';
+import { MenuContext } from '../../../context/menuContext';
 
 // services
 import { deleteOffer } from '../../../services/OfferHelpServices';
@@ -39,6 +41,7 @@ const MyOffers = () => {
     // context
     const { userId } = useContext(UserContext);
     const { loading } = useContext(LoadingContext);
+    const { menu } = useContext(MenuContext);
 
 
     ////////////// functions
@@ -159,7 +162,7 @@ const MyOffers = () => {
 
 
             { /* OFFERS CONTAINER */ }
-            <div className='container_feed_2'>
+            <div className='container_feed_2' style={{ marginLeft: menu ? '30%' : '', width: menu ? '70vw' : '' }}>
                 <h1 className='title is-1'>Minhas ofertas de ajuda</h1>
 
                 {
